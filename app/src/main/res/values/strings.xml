@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Birds of Feather</string>
+
+    <string-array name="Year">
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+    </string-array>
+
+    <string-array name="Quarter">
+        <item>Spring</item>
+        <item>Summer</item>
+        <item>Fall</item>
+        <item>Winter</item>
+    </string-array>
+
 </resources>

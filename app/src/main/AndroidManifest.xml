@@ -10,13 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BirdsOfFeather">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
+            android:name=".AddClassActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|adjustResize">
+
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+
         </activity>
     </application>
 
