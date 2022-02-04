@@ -4,12 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.birdsoffeather.model.IPerson;
+import com.example.birdsoffeather.model.db.AppDatabase;
+import com.example.birdsoffeather.model.db.Courses;
 
 import org.w3c.dom.Text;
 
@@ -20,9 +25,15 @@ import java.util.Locale;
 public class AddClassActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private String selectedYear, selectedQuarter, subject, course;
-    private List<Class> emptyClasses = new ArrayList<Class>();
+    //private List<Class> emptyClasses = new ArrayList<Class>();
     private List<Class> enteredClasses = new ArrayList<Class>();
     private ClassViewAdapter adapter;
+    private AppDatabase db;
+    private IPerson person;
+    public Class toClass(String data){
+        String[] splitStr = data.split(" ");
+        return new Class(splitStr[0],splitStr[1],splitStr[2],splitStr[3]);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +41,15 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_add_class);
         Spinner yearSpinner = (Spinner) findViewById(R.id.YearDropDown);
         Spinner quarterSpinner = (Spinner) findViewById(R.id.QuarterDropDown);
-
+        Intent intent = getIntent();
+        int personId = intent.getIntExtra( "person_id",0);
+        db = AppDatabase.singleton(this);
+        person = db.personsWithCoursesDao().get(personId);
+        List<Courses> courses = db.coursesDao().gerForPerson(personId);
+        List<Class> emptyClasses = new ArrayList<Class>();
+        for(Courses temp: courses){
+            emptyClasses.add(toClass(temp.course));
+        }
         ArrayAdapter<CharSequence> yearAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Year, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> quarterAdapter = ArrayAdapter.createFromResource(this,
@@ -44,7 +63,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         quarterSpinner.setOnItemSelectedListener(this);
 
         RecyclerView addedClasses = (RecyclerView) findViewById(R.id.classesRecyclerView);
-        adapter = new ClassViewAdapter(emptyClasses, (emptyClasses)-> {
+        adapter = new ClassViewAdapter(emptyClasses, (emptyClass)-> {
         });
         addedClasses.setAdapter(adapter);
         addedClasses.setLayoutManager(new LinearLayoutManager(this));
@@ -65,11 +84,16 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void addClassOnClicked(View view) {
+        int newNodeId = db.coursesDao().count()+1;
+        //int personId = person.getId();
         TextView subjectView = findViewById(R.id.editSubject);
         TextView courseView = findViewById(R.id.editCourse);
         subject = subjectView.getText().toString().toUpperCase(Locale.ROOT);
         course = courseView.getText().toString();
         Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
+        String classInfo = newClass.toData();
+        Courses newCourse = new Courses(newNodeId,0, classInfo);
+        db.coursesDao().insert(newCourse);
         enteredClasses.add(newClass);
         adapter.addClass(newClass);
         courseView.setText("");
@@ -90,5 +114,9 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         public String getQuarter() { return quarter; }
         public String getSubject() { return subject; }
         public String getCourse() { return course; }
+
+        public String toData() {
+            return this.year + " " + this.quarter + " " + this.subject + " " + this.course;
+        }
     }
 }

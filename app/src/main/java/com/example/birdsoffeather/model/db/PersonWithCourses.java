@@ -14,8 +14,13 @@ public class PersonWithCourses implements IPerson{
     @Relation(parentColumn = "id",
             entityColumn = "person_id",
             entity = Courses.class,
-            projection = {"text"})
+            projection = {"course"})
     public List<String> Courses;
+
+    @Override
+    public int getId() {
+        return this.person.personId;
+    }
 
     @Override
     public String getName() {

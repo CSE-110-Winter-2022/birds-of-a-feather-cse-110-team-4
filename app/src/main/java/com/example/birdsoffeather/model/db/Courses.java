@@ -3,7 +3,6 @@ package com.example.birdsoffeather.model.db;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 @Entity(tableName = "classes")
 public class Courses {
     @PrimaryKey
