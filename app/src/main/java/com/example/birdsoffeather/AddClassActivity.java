@@ -1,6 +1,8 @@
 package com.example.birdsoffeather;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 public class AddClassActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public String selectedYear, selectedQuarter, subject, course;
+    private String selectedYear, selectedQuarter, subject, course;
+    private List<Class> emptyClasses = new ArrayList<Class>();
+    private List<Class> enteredClasses = new ArrayList<Class>();
+    private ClassViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,13 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         quarterSpinner.setAdapter(quarterAdapter);
         yearSpinner.setOnItemSelectedListener(this);
         quarterSpinner.setOnItemSelectedListener(this);
+
+        RecyclerView addedClasses = (RecyclerView) findViewById(R.id.classesRecyclerView);
+        adapter = new ClassViewAdapter(emptyClasses, (emptyClasses)-> {
+        });
+        addedClasses.setAdapter(adapter);
+        addedClasses.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View view,
@@ -39,15 +57,38 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
             selectedYear = (String) parent.getItemAtPosition(pos);
         if(parent.getId() == R.id.QuarterDropDown)
             selectedQuarter = (String) parent.getItemAtPosition(pos);
-        //next few lines for testing purposes
-        TextView t1 = findViewById(R.id.textView);
-        t1.setText(selectedYear);
-        TextView t2 = findViewById(R.id.textView3);
-        t2.setText(selectedQuarter);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void addClassOnClicked(View view) {
+        TextView subjectView = findViewById(R.id.editSubject);
+        TextView courseView = findViewById(R.id.editCourse);
+        subject = subjectView.getText().toString().toUpperCase(Locale.ROOT);
+        course = courseView.getText().toString();
+        Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
+        enteredClasses.add(newClass);
+        adapter.addClass(newClass);
+        courseView.setText("");
+    }
+
+
+    public class Class {
+        public String year, quarter, subject, course;
+
+        public Class(String yr, String qt, String sj, String cour) {
+            year = yr;
+            quarter = qt;
+            subject = sj;
+            course = cour;
+        }
+
+        public String getYear() { return year; }
+        public String getQuarter() { return quarter; }
+        public String getSubject() { return subject; }
+        public String getCourse() { return course; }
     }
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64sp"
+    android:layout_marginLeft="0sp"
+    android:layout_marginRight="0sp">
+
+    <TextView
+        android:id="@+id/year_row_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:height="24sp"
+        android:lineHeight="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/quarter_row_txt"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="year" />
+
+    <TextView
+        android:id="@+id/quarter_row_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:height="24sp"
+        android:lineHeight="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="quarter" />
+
+    <TextView
+        android:id="@+id/subject_row_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:height="24sp"
+        android:lineHeight="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/year_row_txt"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="subject" />
+
+    <TextView
+        android:id="@+id/course_row_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:height="24sp"
+        android:lineHeight="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/subject_row_txt"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="course" />
+
+    <Button
+        android:id="@+id/removeClassButton"
+        android:layout_width="49dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="16dp"
+        android:text="X"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
