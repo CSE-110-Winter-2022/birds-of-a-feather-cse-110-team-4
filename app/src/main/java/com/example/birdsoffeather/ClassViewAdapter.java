@@ -29,6 +29,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
+        System.out.print("Test Change");
         LayoutInflater inflater = LayoutInflater.from(context);
         View classesView = inflater.inflate(R.layout.classes_row,parent,false);
         ViewHolder viewHolder = new ViewHolder(classesView, this::removeClass, onClassRemoved);
