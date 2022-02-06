@@ -10,10 +10,12 @@
     </string-array>
 
     <string-array name="Quarter">
-        <item>Spring</item>
-        <item>Summer</item>
-        <item>Fall</item>
-        <item>Winter</item>
+        <item>FA</item>
+        <item>WI</item>
+        <item>SP</item>
+        <item>SS1</item>
+        <item>SS2</item>
+        <item>SSS</item>
     </string-array>
 
 </resources>

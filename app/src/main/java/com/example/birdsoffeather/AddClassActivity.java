@@ -26,7 +26,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
 
     private String selectedYear, selectedQuarter, subject, course;
     //private List<Class> emptyClasses = new ArrayList<Class>();
-    private List<Class> enteredClasses = new ArrayList<Class>();
+    //private List<Class> enteredClasses = new ArrayList<Class>();
     private ClassViewAdapter adapter;
     private AppDatabase db;
     private IPerson person;
@@ -39,31 +39,35 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class);
-        Spinner yearSpinner = (Spinner) findViewById(R.id.YearDropDown);
-        Spinner quarterSpinner = (Spinner) findViewById(R.id.QuarterDropDown);
+
         Intent intent = getIntent();
         int personId = intent.getIntExtra( "person_id",0);
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
         List<Courses> courses = db.coursesDao().gerForPerson(personId);
-        List<Class> emptyClasses = new ArrayList<Class>();
-        for(Courses temp: courses){
-            emptyClasses.add(toClass(temp.course));
-        }
+        //List<Class> emptyClasses = new ArrayList<Class>();
+        //for(Courses temp: courses){
+        //    emptyClasses.add(toClass(temp.course));
+        //}
+
+        //Set up Spinner(Dropdowns)
+        Spinner yearSpinner = (Spinner) findViewById(R.id.YearDropDown);
+        Spinner quarterSpinner = (Spinner) findViewById(R.id.QuarterDropDown);
         ArrayAdapter<CharSequence> yearAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Year, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> quarterAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Quarter, android.R.layout.simple_spinner_item);
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quarterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         yearSpinner.setAdapter(yearAdapter);
         quarterSpinner.setAdapter(quarterAdapter);
         yearSpinner.setOnItemSelectedListener(this);
         quarterSpinner.setOnItemSelectedListener(this);
 
-        RecyclerView addedClasses = (RecyclerView) findViewById(R.id.classesRecyclerView);
-        adapter = new ClassViewAdapter(emptyClasses, (emptyClass)-> {
+
+        RecyclerView addedClasses = findViewById(R.id.classesRecyclerView);
+        adapter = new ClassViewAdapter(courses, (course)-> {
+            db.coursesDao().delete(course);
         });
         addedClasses.setAdapter(adapter);
         addedClasses.setLayoutManager(new LinearLayoutManager(this));
@@ -94,8 +98,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         String classInfo = newClass.toData();
         Courses newCourse = new Courses(newNodeId,0, classInfo);
         db.coursesDao().insert(newCourse);
-        enteredClasses.add(newClass);
-        adapter.addClass(newClass);
+        adapter.addClass(newCourse);
         courseView.setText("");
     }
 
