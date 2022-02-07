@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -25,24 +26,14 @@ public class AddClassActivityTest {
     public ActivityScenarioRule rule =
             new ActivityScenarioRule<AddClassActivity>(AddClassActivity.class);
 
-    @Before
+    @Test
     public void testPageTextUI() {
         ActivityScenario scenario = rule.getScenario();
+        scenario.moveToState(Lifecycle.State.CREATED);
         scenario.onActivity(activity -> {
             TextView title = (TextView)  activity.findViewById(R.id.textView2);
             assertEquals("Add Classes", title.getText());
         });
-    }
-
-    @Test
-    public void testInitialListSize() {
-        ActivityScenario scenario = rule.getScenario();
-        scenario.onActivity(activity -> {
-            RecyclerView courseList = (RecyclerView) activity.findViewById(R.id.classesRecyclerView);
-            int size = courseList.getAdapter().getItemCount();
-            assertEquals(0, size);
-        });
-
     }
 
 //    @Test
