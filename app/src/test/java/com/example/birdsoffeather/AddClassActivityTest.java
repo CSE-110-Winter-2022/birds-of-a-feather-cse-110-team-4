@@ -1,5 +1,7 @@
 package com.example.birdsoffeather;
 
+import static org.junit.Assert.assertEquals;
+
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -18,7 +20,7 @@ public class AddClassActivityTest {
     public void test1() {
         ActivityScenario scenario = rule.getScenario();
         scenario.onActivity(activity -> {
-
+            assertEquals(2, 2);
         });
     }
 }
