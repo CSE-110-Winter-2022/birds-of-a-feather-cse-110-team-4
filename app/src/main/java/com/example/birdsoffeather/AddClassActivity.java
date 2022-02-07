@@ -35,7 +35,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         return new Class(splitStr[0],splitStr[1],splitStr[2],splitStr[3]);
     }
 
-    //some comment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
