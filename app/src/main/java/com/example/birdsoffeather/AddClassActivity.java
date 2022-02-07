@@ -65,6 +65,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         yearSpinner.setOnItemSelectedListener(this);
         quarterSpinner.setOnItemSelectedListener(this);
 
+        //some comment
 
         RecyclerView addedClasses = findViewById(R.id.classesRecyclerView);
         adapter = new ClassViewAdapter(courses, (course)-> {
