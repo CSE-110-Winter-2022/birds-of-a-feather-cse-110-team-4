@@ -25,7 +25,7 @@ public class AddClassActivityTest {
     public ActivityScenarioRule rule =
             new ActivityScenarioRule<AddClassActivity>(AddClassActivity.class);
 
-    @Test
+    @Before
     public void testPageTextUI() {
         ActivityScenario scenario = rule.getScenario();
         scenario.onActivity(activity -> {
@@ -35,13 +35,24 @@ public class AddClassActivityTest {
     }
 
     @Test
-    public void testInitialState() {
+    public void testInitialListSize() {
         ActivityScenario scenario = rule.getScenario();
         scenario.onActivity(activity -> {
-            EditText editSubject = (EditText)  activity.findViewById(R.id.editSubject);
-            assertEquals("", editSubject.getText().toString());
-            EditText editCourse = (EditText)  activity.findViewById(R.id.editCourse);
-            assertEquals("", editCourse.getText().toString());
+            RecyclerView courseList = (RecyclerView) activity.findViewById(R.id.classesRecyclerView);
+            int size = courseList.getAdapter().getItemCount();
+            assertEquals(0, size);
         });
+
     }
+
+//    @Test
+//    public void testInitialState() {
+//        ActivityScenario scenario = rule.getScenario();
+//        scenario.onActivity(activity -> {
+//            EditText editSubject = (EditText)  activity.findViewById(R.id.editSubject);
+//            assertEquals("", editSubject.getText().toString());
+//            EditText editCourse = (EditText)  activity.findViewById(R.id.editCourse);
+//            assertEquals("", editCourse.getText().toString());
+//        });
+//    }
 }
