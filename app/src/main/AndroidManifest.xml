@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BirdsOfFeather">
         <activity
+            android:name=".studentInfo"
+            android:exported="false" />
+        <activity
             android:name=".searchingActivity"
             android:exported="false" />
         <activity
