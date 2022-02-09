@@ -102,6 +102,11 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         courseView.setText("");
     }
 
+    public void doneonClick(View view) {
+        Intent intent = new Intent(this, searchingActivity.class);
+        startActivity(intent);
+    }
+
 
     public class Class {
         public String year, quarter, subject, course;
