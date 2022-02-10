@@ -21,4 +21,9 @@ public class searchingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddClassActivity.class);
         startActivity(intent);
     }
+
+    public void goToMockOnClick(View view) {
+        Intent intent = new Intent(this, MockCSVActivity.class);
+        startActivity(intent);
+    }
 }
