@@ -67,6 +67,7 @@ public class MockCSVActivity extends AppCompatActivity {
                     db.coursesDao().insert(newCourse);
                     newCourseId++;
                 }
+                infoView.setText("");
             } else {
                 Toast.makeText(this, "No Matching Courses!",Toast.LENGTH_SHORT).show();
             }

@@ -6,13 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
@@ -90,24 +88,18 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void addClassOnClicked(View view) {
-        int newNodeId = db.coursesDao().count()+1;
-        //int personId = person.getId();
+        int newNodeId = db.coursesDao().count() + 1;
+        int personId = person.getId();
         TextView subjectView = findViewById(R.id.editSubject);
         TextView courseView = findViewById(R.id.editCourse);
-        subject = subjectView.getText().toString();
-                //.toUpperCase(Locale.ROOT);
+        subject = subjectView.getText().toString().toUpperCase(Locale.ROOT);
         course = courseView.getText().toString();
-        if(!TextUtils.isEmpty(subject) && !TextUtils.isEmpty(course)) {
-            Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
-            String classInfo = newClass.toData();
-            Courses newCourse = new Courses(newNodeId,0, classInfo);
-            db.coursesDao().insert(newCourse);
-            adapter.addClass(newCourse);
-            courseView.setText("");
-        } else {
-            Toast.makeText(this, "No Empty Fields!",Toast.LENGTH_SHORT).show();
-        }
-
+        Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
+        String classInfo = newClass.toData();
+        Courses newCourse = new Courses(newNodeId,personId, classInfo);
+        db.coursesDao().insert(newCourse);
+        adapter.addClass(newCourse);
+        courseView.setText("");
     }
 
     public void doneonClick(View view) {
@@ -116,7 +108,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     }
 
 
-    public static class Class {
+    public class Class {
         public String year, quarter, subject, course;
 
         public Class(String yr, String qt, String sj, String cour) {

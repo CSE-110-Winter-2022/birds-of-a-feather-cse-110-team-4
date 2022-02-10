@@ -22,7 +22,7 @@ public class searchingActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToMockOnClicked(View view) {
+    public void goToMockOnClick(View view) {
         Intent intent = new Intent(this, MockCSVActivity.class);
         startActivity(intent);
     }
