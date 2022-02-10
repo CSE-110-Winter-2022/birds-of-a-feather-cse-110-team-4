@@ -17,4 +17,14 @@ public class Person {
 
     @ColumnInfo(name = "headshot")
     public String imageURL;
+
+    public Person(int id, String name, String url) {
+        this.personId = id;
+        this.name = name;
+        this.imageURL = url;
+    }
+
+    public Person() {
+        super();
+    }
 }
