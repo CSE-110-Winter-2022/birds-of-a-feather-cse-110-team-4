@@ -39,7 +39,6 @@ public class MockCSVActivity extends AppCompatActivity {
                 courses.add(newCourse);
             }
 
-
             //for testing
             TextView nView = findViewById(R.id.name);
             TextView uView = findViewById(R.id.url);
