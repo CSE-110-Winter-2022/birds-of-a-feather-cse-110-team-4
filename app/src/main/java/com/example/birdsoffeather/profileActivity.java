@@ -14,7 +14,7 @@ import com.example.birdsoffeather.model.db.AppDatabase;
 public class profileActivity extends AppCompatActivity {
     private AppDatabase db;
     private IPerson person;
-    private int personId = 1;
+    private int personId = 0;
     private  String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

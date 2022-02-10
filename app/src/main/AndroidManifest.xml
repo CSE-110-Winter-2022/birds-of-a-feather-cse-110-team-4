@@ -17,6 +17,10 @@
             android:exported="false" />
         <activity
             android:name=".AddClassActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity
+            android:name=".MockCSVActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
