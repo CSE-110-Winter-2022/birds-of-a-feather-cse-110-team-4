@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nameText"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profileActivity">
+
+    <EditText
+        android:id="@+id/image_url_input"
+        android:layout_width="282dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:hint="Image URL"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <ImageView
+        android:id="@+id/profile_picture_view"
+        android:layout_width="222dp"
+        android:layout_height="214dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.321"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="121dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="87dp"
+        android:onClick="SubmitonClick"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Savebutton"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="277dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="68dp"
+        android:ems="10"
+        android:hint="Enter your name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_url_input" />
+
+    <Button
+        android:id="@+id/Savebutton"
+        android:layout_width="121dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="87dp"
+        android:text="save"
+        android:onClick="saveonClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,18 +90,23 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void addClassOnClicked(View view) {
-        int newNodeId = db.coursesDao().count()+1;
-        //int personId = person.getId();
+        int newNodeId = db.coursesDao().count() + 1;
+        int personId = person.getId();
         TextView subjectView = findViewById(R.id.editSubject);
         TextView courseView = findViewById(R.id.editCourse);
         subject = subjectView.getText().toString().toUpperCase(Locale.ROOT);
         course = courseView.getText().toString();
         Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
         String classInfo = newClass.toData();
-        Courses newCourse = new Courses(newNodeId,0, classInfo);
+        Courses newCourse = new Courses(newNodeId,personId, classInfo);
         db.coursesDao().insert(newCourse);
         adapter.addClass(newCourse);
         courseView.setText("");
+    }
+
+    public void doneonClick(View view) {
+        Intent intent = new Intent(this, searchingActivity.class);
+        startActivity(intent);
     }
 
 
