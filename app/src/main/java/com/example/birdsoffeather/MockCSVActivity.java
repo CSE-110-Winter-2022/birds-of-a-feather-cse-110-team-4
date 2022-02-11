@@ -2,6 +2,7 @@ package com.example.birdsoffeather;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,6 +25,11 @@ public class MockCSVActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock_csvactivity);
+    }
+
+    public void onBackClicked(View view) {
+        Intent intent = new Intent(this, searchingActivity.class);
+        startActivity(intent);
     }
 
     //When clicked button, get student information from csv, and add that student to db
