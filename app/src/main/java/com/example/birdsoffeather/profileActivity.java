@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
+import com.example.birdsoffeather.model.db.Person;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,8 +27,8 @@ public class profileActivity extends AppCompatActivity {
     private IPerson person;
     private int personId = 0;
     private  String name;
-    private Handler handler;
-    private ProgressDialog progressDialog;
+    ImageView i;
+    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,25 @@ public class profileActivity extends AppCompatActivity {
         name = person.getName();
         TextView nameView = findViewById(R.id.editTextTextPersonName);
         nameView.setText(name);
+        String URL = person.getURL();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    i = (ImageView)findViewById(R.id.profile_picture_view);
+                    bitmap = BitmapFactory.decodeStream((InputStream)new URL(URL).getContent());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            i.setImageBitmap(bitmap);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     public void SubmitonClick(View view) {
@@ -48,20 +68,17 @@ public class profileActivity extends AppCompatActivity {
     public void saveonClick(View view) {
         TextView urlView = findViewById(R.id.image_url_input);
         String url = urlView.getText().toString();
-        ImageView i = (ImageView)findViewById(R.id.profile_picture_view);
+        i = (ImageView)findViewById(R.id.profile_picture_view);
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ImageView i = (ImageView)findViewById(R.id.profile_picture_view);
-                    Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(url).getContent());
+                    i = (ImageView)findViewById(R.id.profile_picture_view);
+                    bitmap = BitmapFactory.decodeStream((InputStream)new URL(url).getContent());
                     runOnUiThread(new Runnable() {
-
                         @Override
                         public void run() {
-
                             i.setImageBitmap(bitmap);
-
                         }
                     });
                 } catch (IOException e) {
@@ -69,6 +86,8 @@ public class profileActivity extends AppCompatActivity {
                 }
             }
         });
+        Person newPerson = new Person(0,name,url);
+        db.personsWithCoursesDao().update(newPerson);
     }
 
 }
