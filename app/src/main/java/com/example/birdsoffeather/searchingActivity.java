@@ -16,6 +16,9 @@ import java.util.Arrays;
 
 public class searchingActivity extends AppCompatActivity {
     protected RecyclerView personRecyclerView;
+    protected RecyclerView.LayoutManager personLayoutManager;
+    protected PeopleViewAdaper peopleViewAdaper;
+
     protected IPerson[] testData = {
             new PersonWithCourses(new Person(101, "Charles", "123"), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
             new PersonWithCourses(new Person(102, "Stephan", "123"), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
