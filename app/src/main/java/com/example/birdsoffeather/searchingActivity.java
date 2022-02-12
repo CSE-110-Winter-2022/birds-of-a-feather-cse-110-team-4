@@ -14,16 +14,19 @@ import com.example.birdsoffeather.model.db.PersonWithCourses;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class searchingActivity extends AppCompatActivity {
+    private final String EXURL = "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0";
     protected RecyclerView personRecyclerView;
     protected RecyclerView.LayoutManager personLayoutManager;
     protected PeopleViewAdapter peopleViewAdapter;
 
-    protected IPerson[] testData = {
-            new PersonWithCourses(new Person(101, "Charles", "123"), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
-            new PersonWithCourses(new Person(102, "Stephan", "123"), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
-    };
+    protected List<PersonWithCourses> testData = new ArrayList<PersonWithCourses>(Arrays.asList(
+            new PersonWithCourses(new Person(0, "Arif", EXURL), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
+            new PersonWithCourses(new Person(1, "Stephan", EXURL), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
+            new PersonWithCourses(new Person(2, "Charles", EXURL), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110")))
+    ));
 
     //TODO: List to store fetch students
 
@@ -34,17 +37,19 @@ public class searchingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_searching);
         setTitle("Searching");
 
-        RecyclerView searchRecyclerView = findViewById(R.id.search_recycler_view);
+        personRecyclerView = findViewById(R.id.search_recycler_view);
+
         personLayoutManager = new LinearLayoutManager(this);
-        searchRecyclerView.setLayoutManager(personLayoutManager);
+        personRecyclerView.setLayoutManager(personLayoutManager);
+
+        peopleViewAdapter = new PeopleViewAdapter(testData);
 
 
     }
 
     public void searchonClick(View view) {
-        RecyclerView searchRecyclerView = findViewById(R.id.search_recycler_view);
-        peopleViewAdapter = new PeopleViewAdapter(testData);
-        searchRecyclerView.setAdapter(peopleViewAdapter);
+        personRecyclerView.setAdapter(peopleViewAdapter);
+
     }
 
     public void backonClick(View view) {

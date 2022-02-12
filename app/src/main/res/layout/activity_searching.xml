@@ -49,10 +49,10 @@
         android:id="@+id/search_recycler_view"
         android:layout_width="364dp"
         android:layout_height="536dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="72dp"
+        android:clipToPadding="false"
+        android:padding="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.682" />
+        app:layout_constraintTop_toTopOf="@id/gobackButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

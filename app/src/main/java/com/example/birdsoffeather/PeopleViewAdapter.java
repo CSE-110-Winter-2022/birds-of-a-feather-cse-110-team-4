@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +25,9 @@ import java.net.URL;
 import java.util.List;
 
 public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.ViewHolder> {
-//    private final List<? extends IPerson> people;
-    private final IPerson[] people;
+    private final List<PersonWithCourses> people;
 
-//    public PeopleViewAdapter(List<PersonWithCourses> people) {
-//        super();
-//        this.people = people;
-//    }
-
-    public PeopleViewAdapter(IPerson[] people) {
+    public PeopleViewAdapter(List<PersonWithCourses> people) {
         super();
         this.people = people;
     }
@@ -38,6 +35,7 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
     @NonNull
     @Override
     public PeopleViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
         View view =
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.people_row, parent, false);
         return new ViewHolder(view);
@@ -45,12 +43,12 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull PeopleViewAdapter.ViewHolder holder, int position) {
-        holder.setPerson(people[position]);
+        holder.setPerson(people.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return this.people.length;
+        return this.people.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder
@@ -64,7 +62,7 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
         ViewHolder(View itemView) {
             super(itemView);
             this.personNameView = itemView.findViewById(R.id.person_row_name);
-            this.personAvatarView = itemView.findViewById(R.id.person_row_image);
+            this.personAvatarView = itemView.findViewById(R.id.person_row_avatar);
             this.personNumClasses = itemView.findViewById(R.id.person_row_num);
 
             itemView.setOnClickListener(this);
@@ -73,12 +71,26 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
         public void setPerson(IPerson person) {
             this.person = person;
             this.personNameView.setText(person.getName());
-            this.personNumClasses.setText(person.getCourses().size());  // all classes, not in common for now. Fix later
-            try {
-                this.personAvatarView.setImageBitmap(BitmapFactory.decodeStream((InputStream)new URL(person.getURL()).getContent()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            this.personNumClasses.setText(String.valueOf(person.getCourses().size()));  // all classes, not in common for now. Fix later
+
+
+
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        ImageView i = itemView.findViewById(R.id.person_row_avatar);
+                        Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(person.getURL()).getContent());
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            public void run() {
+                                i.setImageBitmap(bitmap);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
         }
 
