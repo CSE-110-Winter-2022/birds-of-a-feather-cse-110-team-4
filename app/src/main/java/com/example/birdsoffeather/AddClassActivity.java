@@ -35,6 +35,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         return new Class(splitStr[0],splitStr[1],splitStr[2],splitStr[3]);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         yearSpinner.setOnItemSelectedListener(this);
         quarterSpinner.setOnItemSelectedListener(this);
 
+        //some comment
 
         RecyclerView addedClasses = findViewById(R.id.classesRecyclerView);
         adapter = new ClassViewAdapter(courses, (course)-> {
