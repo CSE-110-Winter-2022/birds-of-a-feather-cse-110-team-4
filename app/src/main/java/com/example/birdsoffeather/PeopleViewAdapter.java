@@ -17,9 +17,15 @@ import com.example.birdsoffeather.model.db.PersonWithCourses;
 import java.util.List;
 
 public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.ViewHolder> {
-    private final List<? extends IPerson> people;
+//    private final List<? extends IPerson> people;
+    private final IPerson[] people;
 
-    public PeopleViewAdapter(List<PersonWithCourses> people) {
+//    public PeopleViewAdapter(List<PersonWithCourses> people) {
+//        super();
+//        this.people = people;
+//    }
+
+    public PeopleViewAdapter(IPerson[] people) {
         super();
         this.people = people;
     }
@@ -34,12 +40,12 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull PeopleViewAdapter.ViewHolder holder, int position) {
-
+        holder.setPerson(people[position]);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return this.people.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder
