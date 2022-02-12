@@ -8,12 +8,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.birdsoffeather.model.IPerson;
+import com.example.birdsoffeather.model.CSVReader;
 import com.example.birdsoffeather.model.db.AppDatabase;
 import com.example.birdsoffeather.model.db.Courses;
 import com.example.birdsoffeather.model.db.Person;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +35,11 @@ public class MockCSVActivity extends AppCompatActivity {
         String info = infoView.getText().toString();
         if(!TextUtils.isEmpty(info)) {
             //format csv input and retrieve relevant information
-            String[] lines = info.split(System.getProperty("line.separator"));
-            name = lines[0].split(",")[0];
-            url = lines[1].split(",")[0];
-            for(int i = 2; i < lines.length; i++) {
-                String[] c = lines[i].split(",");
-                String newCourse = c[0]+" "+c[1]+" "+c[2]+" "+c[3];
+            List<String> student = CSVReader.ReadCSV(info);
+            name = student.get(0);
+            url = student.get(1);
+            for(int i = 2; i < student.size(); i++) {
+                String newCourse = student.get(i);
                 courses.add(newCourse);
             }
             //get user's courses for comparing
