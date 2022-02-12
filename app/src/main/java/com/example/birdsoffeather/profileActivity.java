@@ -27,18 +27,23 @@ public class profileActivity extends AppCompatActivity {
     private IPerson person;
     private int personId = 0;
     private  String name;
+    private TextView nameView;
     ImageView i;
     Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        //initialize database and get user's information from database when the page is created
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
         name = person.getName();
-        TextView nameView = findViewById(R.id.editTextTextPersonName);
+        nameView = findViewById(R.id.editTextTextPersonName);
         nameView.setText(name);
         String URL = person.getURL();
+
+        //use Async function to let loading from URL runs on the background
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -61,14 +66,21 @@ public class profileActivity extends AppCompatActivity {
 
     public void SubmitonClick(View view) {
         Intent intent = new Intent(this, AddClassActivity.class);
+        //passing the person_id of the user into next page
         intent.putExtra("person_id", personId);
         startActivity(intent);
     }
 
     public void saveonClick(View view) {
+        //get URL from textView
         TextView urlView = findViewById(R.id.image_url_input);
         String url = urlView.getText().toString();
+        //get image from imageView
         i = (ImageView)findViewById(R.id.profile_picture_view);
+        //get name from textView
+        name = nameView.getText().toString();
+
+        //use Async function to let loading from URL runs on the background
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -86,6 +98,8 @@ public class profileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Update information
         Person newPerson = new Person(0,name,url);
         db.personsWithCoursesDao().update(newPerson);
     }

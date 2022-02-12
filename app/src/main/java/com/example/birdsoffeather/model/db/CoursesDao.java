@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import java.util.List;
 
+//data interaction for Courses
 @Dao
 public interface CoursesDao {
     @Transaction

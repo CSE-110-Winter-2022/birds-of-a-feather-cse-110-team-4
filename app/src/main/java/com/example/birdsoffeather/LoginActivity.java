@@ -16,6 +16,7 @@ public class LoginActivity extends AppCompatActivity {
     private IPerson person2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //initialize database and user's information at login page
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         db = AppDatabase.singleton(this);

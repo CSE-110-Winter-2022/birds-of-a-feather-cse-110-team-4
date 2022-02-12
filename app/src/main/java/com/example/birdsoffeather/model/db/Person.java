@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
+//data structure for Person in database
 @Entity(tableName = "persons")
 public class Person {
 
