@@ -22,6 +22,7 @@
         android:id="@+id/studentName"
         android:layout_width="174dp"
         android:layout_height="30dp"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

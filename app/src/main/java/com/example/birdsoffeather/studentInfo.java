@@ -21,7 +21,7 @@ import java.util.List;
 public class studentInfo extends AppCompatActivity {
     private AppDatabase db;
     private IPerson person;
-    private int personId = 0;
+    private int personId;
     private  String name;
     private List course;
     private String imageURL;
@@ -30,6 +30,10 @@ public class studentInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_info);
+        Intent intent = getIntent();
+        personId = intent.getIntExtra( "Person_id",1);
+        db = AppDatabase.singleton(this);
+        person = db.personsWithCoursesDao().get(personId);
 
         //Getting data from data base (db)
         db = AppDatabase.singleton(this);
@@ -39,8 +43,9 @@ public class studentInfo extends AppCompatActivity {
         imageURL = person.getURL();
         TextView nameView = findViewById(R.id.studentName);
         nameView.setText(name);//Set name for user
-        TextView courseView = findViewById(R.id.studentName);
-        courseView.setText(course.toString());
+        //TextView courseView = findViewById(R.id.course);
+        //courseView.setText(course.toString());
+
 
         ImageView i = (ImageView) findViewById(R.id.profile_picture_view);
 

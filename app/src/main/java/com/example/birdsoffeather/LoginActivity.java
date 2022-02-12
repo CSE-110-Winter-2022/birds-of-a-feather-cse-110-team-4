@@ -35,4 +35,10 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, profileActivity.class);
         startActivity(intent);
     }
+
+    public void testOnclick(View view) {
+        Intent intent = new Intent(this, studentInfo.class);
+        intent.putExtra("Person_id", 0);
+        startActivity(intent);
+    }
 }
