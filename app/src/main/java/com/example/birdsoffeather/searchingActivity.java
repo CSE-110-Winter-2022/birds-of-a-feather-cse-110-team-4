@@ -38,7 +38,7 @@ public class searchingActivity extends AppCompatActivity {
             }
 
         };
-        this.messageListener = new FakedMessageListener(realListener, 3, "Hello world");
+        this.messageListener = new FakedMessageListener(realListener, "Hello world");
 
     }
 
