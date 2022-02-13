@@ -18,6 +18,9 @@ public interface PersonWithCoursesDao {
     @Query("SELECT * FROM persons WHERE id = :id")
     PersonWithCourses get(int id);
 
+    @Query("SELECT COUNT(*) from persons")
+    int count();
+
     @Insert
     void insert(Person person);
 
