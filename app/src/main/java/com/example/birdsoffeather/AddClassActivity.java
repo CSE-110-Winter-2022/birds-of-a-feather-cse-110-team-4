@@ -77,7 +77,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
+                                int pos, long id) {
         if(parent.getId() == R.id.YearDropDown)
             selectedYear = (String) parent.getItemAtPosition(pos);
         if(parent.getId() == R.id.QuarterDropDown)
