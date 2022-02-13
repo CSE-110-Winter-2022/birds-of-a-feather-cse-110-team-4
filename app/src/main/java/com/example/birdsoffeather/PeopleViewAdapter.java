@@ -32,6 +32,8 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
         this.people = people;
     }
 
+
+
     @NonNull
     @Override
     public PeopleViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,10 +70,12 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
             itemView.setOnClickListener(this);
         }
 
+
+
         public void setPerson(IPerson person) {
             this.person = person;
             this.personNameView.setText(person.getName());
-            this.personNumClasses.setText(String.valueOf(person.getCourses().size()));  // all classes, not in common for now. Fix later
+            this.personNumClasses.setText(String.valueOf((person.getCourses().size())));  // all classes, not in common for now. Fix later
 
 
 
