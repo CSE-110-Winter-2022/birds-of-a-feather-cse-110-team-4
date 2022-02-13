@@ -18,6 +18,9 @@
             android:name=".PersonDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".studentInfo"
+            android:exported="false" />
+        <activity
             android:name=".searchingActivity"
             android:exported="false" />
         <activity

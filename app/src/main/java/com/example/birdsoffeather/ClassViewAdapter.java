@@ -20,10 +20,12 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
 
     private List<Courses> classes;
     private final Consumer<Courses> onClassRemoved;
+    private Boolean deleteEnable;
 
-    public ClassViewAdapter(List<Courses> classes, Consumer<Courses> onClassRemoved) {
+    public ClassViewAdapter(Boolean deleteEnable,List <Courses> classes, Consumer<Courses> onClassRemoved) {
         this.classes = classes;
         this.onClassRemoved = onClassRemoved;
+        this.deleteEnable = deleteEnable;
     }
 
     @NonNull
@@ -32,7 +34,13 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View classesView = inflater.inflate(R.layout.classes_row,parent,false);
-        ViewHolder viewHolder = new ViewHolder(classesView, this::removeClass, onClassRemoved);
+        ViewHolder viewHolder;
+        if(deleteEnable) {
+            viewHolder = new ViewHolder(classesView, this::removeClass, onClassRemoved);
+        }
+        else {
+            viewHolder = new ViewHolder(classesView);
+        }
         return viewHolder;
     }
 
@@ -82,6 +90,15 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
                 removeClass.accept(this.getAdapterPosition());
                 onClassRemoved.accept(courses);
             });
+        }
+        public ViewHolder(View itemView) {
+            super(itemView);
+            year = (TextView) itemView.findViewById(R.id.year_row_txt);
+            quarter = (TextView) itemView.findViewById(R.id.quarter_row_txt);
+            subject = (TextView) itemView.findViewById(R.id.subject_row_txt);
+            course = (TextView) itemView.findViewById(R.id.course_row_txt);
+            Button deleteButton = (Button)itemView.findViewById(R.id.removeClassButton);
+            deleteButton.setVisibility(itemView.INVISIBLE);
         }
 
         public void setCourses(Courses courses) {

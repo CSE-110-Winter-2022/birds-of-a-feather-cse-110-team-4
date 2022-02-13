@@ -68,7 +68,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         //some comment
 
         RecyclerView addedClasses = findViewById(R.id.classesRecyclerView);
-        adapter = new ClassViewAdapter(courses, (course)-> {
+        adapter = new ClassViewAdapter(true,courses, (course)-> {
             db.coursesDao().delete(course);
         });
         addedClasses.setAdapter(adapter);
