@@ -31,7 +31,7 @@ public class studentInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_info);
         Intent intent = getIntent();
-        personId = intent.getIntExtra( "Person_id",1);
+        personId = intent.getIntExtra( "person_id",1);
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
 
