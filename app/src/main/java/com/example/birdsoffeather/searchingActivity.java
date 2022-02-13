@@ -27,10 +27,7 @@ public class searchingActivity extends AppCompatActivity {
             new PersonWithCourses(new Person(102, "Stephan", "123"), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
     };
 
-    List<PersonWithCourses>
     //TODO: List to store fetch students
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         //TODO: create database
         super.onCreate(savedInstanceState);
