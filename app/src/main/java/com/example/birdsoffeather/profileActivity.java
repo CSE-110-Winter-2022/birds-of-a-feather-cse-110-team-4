@@ -68,6 +68,8 @@ public class profileActivity extends AppCompatActivity {
     public void saveonClick(View view) {
         TextView urlView = findViewById(R.id.image_url_input);
         String url = urlView.getText().toString();
+        TextView nameView = findViewById(R.id.editTextTextPersonName);
+        name = nameView.getText().toString();
         i = (ImageView)findViewById(R.id.profile_picture_view);
         AsyncTask.execute(new Runnable() {
             @Override
