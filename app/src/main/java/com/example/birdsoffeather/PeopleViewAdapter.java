@@ -1,9 +1,13 @@
 package com.example.birdsoffeather;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,30 +60,39 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        private final TextView personNameView;
-        private final ImageView personAvatarView;
-        private final TextView personNumClasses;
+        private TextView personNameView;
+        private ImageView personAvatarView;
+        private TextView personNumClasses;
         private IPerson person;
 
         ViewHolder(View itemView) {
             super(itemView);
-            this.personNameView = itemView.findViewById(R.id.person_row_name);
+            this.personNameView = (TextView) itemView.findViewById(R.id.person_row_name);
             this.personAvatarView = itemView.findViewById(R.id.person_row_image);
-            this.personNumClasses = itemView.findViewById(R.id.person_row_num);
-
+            this.personNumClasses = (TextView) itemView.findViewById(R.id.person_row_num);
             itemView.setOnClickListener(this);
         }
 
         public void setPerson(IPerson person) {
             this.person = person;
             this.personNameView.setText(person.getName());
-            this.personNumClasses.setText(person.getCourses().size());  // all classes, not in common for now. Fix later
-            try {
-                this.personAvatarView.setImageBitmap(BitmapFactory.decodeStream((InputStream)new URL(person.getURL()).getContent()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            this.personNumClasses.setText("0");  // all classes, not in common for now. Fix later
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        ImageView i = itemView.findViewById(R.id.person_row_image);
+                        Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(person.getURL()).getContent());
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            public void run() {
+                                i.setImageBitmap(bitmap);
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         @Override
