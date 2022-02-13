@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.birdsoffeather.model.IPerson;
+import com.example.birdsoffeather.model.db.AppDatabase;
 import com.example.birdsoffeather.model.db.Person;
 import com.example.birdsoffeather.model.db.PersonWithCourses;
 
@@ -47,8 +48,11 @@ public class searchingActivity extends AppCompatActivity {
         //TODO: create database
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
-
         setTitle("Searching");
+
+        AppDatabase db = AppDatabase.singleton(this);
+        List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
+        studentList.remove(0);
 
         personRecyclerView = findViewById(R.id.search_recycler_view);
 
@@ -56,14 +60,14 @@ public class searchingActivity extends AppCompatActivity {
         personRecyclerView.setLayoutManager(personLayoutManager);
 
         // sorting list of students in order of common classes
-        Collections.sort(testData, new Comparator<PersonWithCourses>() {
+        Collections.sort(studentList, new Comparator<PersonWithCourses>() {
             @Override
             public int compare(PersonWithCourses p1, PersonWithCourses p2) {
                 return p2.getCourses().size() - p1.getCourses().size();
             }
         });
 
-        peopleViewAdapter = new PeopleViewAdapter(testData);
+        peopleViewAdapter = new PeopleViewAdapter(studentList);
 
     }
 
