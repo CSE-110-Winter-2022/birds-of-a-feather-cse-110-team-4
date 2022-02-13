@@ -43,8 +43,8 @@ public class studentInfo extends AppCompatActivity {
         imageURL = person.getURL();
         TextView nameView = findViewById(R.id.studentName);
         nameView.setText(name);//Set name for user
-        //TextView courseView = findViewById(R.id.course);
-        //courseView.setText(course.toString());
+        TextView courseView = findViewById(R.id.studentClassList);
+        courseView.setText(course.toString());
 
 
         ImageView i = (ImageView) findViewById(R.id.profile_picture_view);

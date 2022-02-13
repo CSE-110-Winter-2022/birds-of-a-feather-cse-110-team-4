@@ -31,7 +31,7 @@
         app:layout_constraintVertical_bias="0.251" />
 
     <TextView
-        android:id="@+id/studenClasses"
+        android:id="@+id/studentClassList"
         android:layout_width="352dp"
         android:layout_height="386dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +59,7 @@
         android:layout_width="83dp"
         android:layout_height="20dp"
         android:text="List of class:"
-        app:layout_constraintBottom_toTopOf="@+id/studenClasses"
+        app:layout_constraintBottom_toTopOf="@+id/studentClassList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/studentName"
