@@ -1,11 +1,13 @@
 package com.example.birdsoffeather;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.birdsoffeather.model.IPerson;
@@ -17,6 +19,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import com.example.birdsoffeather.model.FakedMessageListener;
+import com.google.android.gms.nearby.messages.Message;
+import com.google.android.gms.nearby.messages.MessageListener;
+
 
 public class searchingActivity extends AppCompatActivity {
     private final String EXURL = "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0";
@@ -32,11 +39,15 @@ public class searchingActivity extends AppCompatActivity {
 
     //TODO: List to store fetch students
 
+    private static final String TAG = "Lab5-Nearby";
+    private MessageListener messageListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //TODO: create database
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
+
         setTitle("Searching");
 
         personRecyclerView = findViewById(R.id.search_recycler_view);
@@ -54,12 +65,24 @@ public class searchingActivity extends AppCompatActivity {
 
         peopleViewAdapter = new PeopleViewAdapter(testData);
 
-
     }
 
 
     public void searchonClick(View view) {
         personRecyclerView.setAdapter(peopleViewAdapter);
+        MessageListener realListener = new MessageListener() {
+            @Override
+            public void onFound(@NonNull Message message) {
+                Log.d(TAG, "found message: " + new String(message.getContent()));
+            }
+
+            @Override
+            public void onLost(@NonNull Message message) {
+                Log.d(TAG, "Lost messages: " + new String(message.getContent()));
+            }
+
+        };
+        this.messageListener = new FakedMessageListener(realListener, "Hello world");
 
     }
 
