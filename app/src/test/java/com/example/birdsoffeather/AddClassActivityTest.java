@@ -26,6 +26,7 @@ public class AddClassActivityTest {
     public ActivityScenarioRule rule =
             new ActivityScenarioRule<AddClassActivity>(AddClassActivity.class);
 
+
     @Test
     public void testPageTextUI() {
         ActivityScenario scenario = rule.getScenario();

@@ -17,6 +17,15 @@ public class PersonWithCourses implements IPerson{
             projection = {"course"})
     public List<String> Courses;
 
+    public PersonWithCourses() {
+
+    }
+    //Constructor for the test, may remove later
+    public PersonWithCourses(Person person, List<String> Courses) {
+        this.person = person;
+        this.Courses= Courses;
+    }
+
     @Override
     public int getId() {
         return this.person.personId;

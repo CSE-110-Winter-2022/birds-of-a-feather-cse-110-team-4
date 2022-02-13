@@ -1,46 +1,55 @@
 package com.example.birdsoffeather;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.example.birdsoffeather.model.FakedMessageListener;
-import com.google.android.gms.nearby.messages.Message;
-import com.google.android.gms.nearby.messages.MessageListener;
+import com.example.birdsoffeather.model.IPerson;
+import com.example.birdsoffeather.model.db.AppDatabase;
+import com.example.birdsoffeather.model.db.Person;
+import com.example.birdsoffeather.model.db.PersonWithCourses;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class searchingActivity extends AppCompatActivity {
+    protected RecyclerView personRecyclerView;
+    protected RecyclerView.LayoutManager personLayoutManager;
+    protected PeopleViewAdapter peopleViewAdapter;
+    private AppDatabase db;
+    protected IPerson[] testData = {
+            new PersonWithCourses(new Person(101, "Charles", "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0"), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
+            new PersonWithCourses(new Person(102, "Stephan", "123"), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
+    };
 
-    private static final String TAG = "Lab5-Nearby";
-    private MessageListener messageListener;
+    List<PersonWithCourses>
+    //TODO: List to store fetch students
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //TODO: create database
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
+        setTitle("Searching");
 
-
-    }
-
-    public void searchonClick(View view) {
-        MessageListener realListener = new MessageListener() {
-            @Override
-            public void onFound(@NonNull Message message) {
-                Log.d(TAG, "found message: " + new String(message.getContent()));
-            }
-
-            @Override
-            public void onLost(@NonNull Message message) {
-                Log.d(TAG, "Lost messages: " + new String(message.getContent()));
-            }
-
-        };
-        this.messageListener = new FakedMessageListener(realListener, "Hello world");
+        RecyclerView searchRecyclerView = findViewById(R.id.search_recycler_view);
+        personLayoutManager = new LinearLayoutManager(this);
+        searchRecyclerView.setLayoutManager(personLayoutManager);
+        peopleViewAdapter = new PeopleViewAdapter(testData);
+        searchRecyclerView.setAdapter(peopleViewAdapter);
 
     }
+
+    /*public void searchonClick(View view) {
+        RecyclerView searchRecyclerView = findViewById(R.id.search_recycler_view);
+        peopleViewAdapter = new PeopleViewAdapter(testData);
+        searchRecyclerView.setAdapter(peopleViewAdapter);
+    }*/
 
     public void backonClick(View view) {
         Intent intent = new Intent(this, AddClassActivity.class);
