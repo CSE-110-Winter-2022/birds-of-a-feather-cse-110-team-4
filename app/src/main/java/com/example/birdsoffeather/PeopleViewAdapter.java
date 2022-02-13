@@ -101,7 +101,7 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
         @Override
         public void onClick(View view) {
             Context context = view.getContext();
-            Intent intent = new Intent(context, PersonDetailActivity.class);
+            Intent intent = new Intent(context, studentInfo.class);
             intent.putExtra("person_id", this.person.getId());
             context.startActivity(intent);
         }
