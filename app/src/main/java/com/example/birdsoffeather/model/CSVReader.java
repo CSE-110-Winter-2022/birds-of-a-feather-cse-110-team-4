@@ -8,6 +8,9 @@ public class CSVReader {
     //Reads csv for a student, store info in returned list, pos 0: name, pos 1: url, pos 2-end: courses
     public static List<String> ReadCSV(String csv) {
         List<String> student = new ArrayList<>();
+        if(csv.length() == 0) {
+            return student;
+        }
         String[] lines = csv.split("\n");
         String name = lines[0].split(",")[0];
         String url = lines[1].split(",")[0];
