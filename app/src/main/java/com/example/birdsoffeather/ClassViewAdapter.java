@@ -50,6 +50,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
         Courses currClass = classes.get(position);
         String[] splitStr = currClass.course.split(" ");
 
+        //set the ViewHolder according to the courses we get
         if(splitStr.length == 4) {
             TextView yrTextView = holder.year;
             yrTextView.setText(splitStr[0]);
@@ -60,7 +61,6 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             TextView courTextView = holder.course;
             courTextView.setText(splitStr[3]);
         }
-
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView year, quarter, subject, course;
         private Courses courses;
-
+        //ViewHolder with delete button
         public ViewHolder(View itemView, Consumer<Integer> removeClass,Consumer<Courses> onClassRemoved) {
             super(itemView);
             year = (TextView) itemView.findViewById(R.id.year_row_txt);
@@ -94,6 +94,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
                 onClassRemoved.accept(courses);
             });
         }
+        //ViewHolder without delete button
         public ViewHolder(View itemView) {
             super(itemView);
             year = (TextView) itemView.findViewById(R.id.year_row_txt);

@@ -32,12 +32,6 @@ public class searchingActivity extends AppCompatActivity {
     protected RecyclerView.LayoutManager personLayoutManager;
     protected PeopleViewAdapter peopleViewAdapter;
 
-    protected List<PersonWithCourses> testData = new ArrayList<PersonWithCourses>(Arrays.asList(
-            new PersonWithCourses(new Person(100, "Arif", EXURL), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110", "CSE 123"))),
-            new PersonWithCourses(new Person(101, "Stephan", EXURL), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110"))),
-            new PersonWithCourses(new Person(102, "Charles", EXURL), new ArrayList<String>(Arrays.asList("CSE 111", "CSE 110")))
-    ));
-
     //TODO: List to store fetch students
 
     private static final String TAG = "Lab5-Nearby";
@@ -50,6 +44,7 @@ public class searchingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_searching);
         setTitle("Searching");
 
+        //initialize local database
         AppDatabase db = AppDatabase.singleton(this);
         List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
         studentList.remove(0);
@@ -71,7 +66,7 @@ public class searchingActivity extends AppCompatActivity {
 
     }
 
-
+    //search the nearby student who has taken same classes with the user
     public void searchonClick(View view) {
         personRecyclerView.setAdapter(peopleViewAdapter);
         MessageListener realListener = new MessageListener() {
@@ -91,12 +86,13 @@ public class searchingActivity extends AppCompatActivity {
     }
 
 
-
+    //Go Back
     public void backonClick(View view) {
         Intent intent = new Intent(this, AddClassActivity.class);
         startActivity(intent);
     }
 
+    //Go to the Mock
     public void goToMockOnClick(View view) {
         Intent intent = new Intent(this, MockCSVActivity.class);
         startActivity(intent);

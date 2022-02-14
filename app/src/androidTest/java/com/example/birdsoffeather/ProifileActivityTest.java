@@ -3,6 +3,8 @@ package com.example.birdsoffeather;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -16,7 +18,6 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
-//import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -29,13 +30,13 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AddClassEmptyEntryTest {
+public class ProifileActivityTest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void addClassEmptyEntryTest() {
+    public void proifileActivityTest() {
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.loginButton), withText("LOGIN"),
                         childAtPosition(
@@ -46,38 +47,56 @@ public class AddClassEmptyEntryTest {
                         isDisplayed()));
         materialButton.perform(click());
 
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.nextButton), withText("Next"),
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.editTextTextPersonName), withText("Daniel Luther"),
                         childAtPosition(
                                 allOf(withId(R.id.nameText),
                                         childAtPosition(
                                                 withId(android.R.id.content),
                                                 0)),
-                                2),
+                                3),
                         isDisplayed()));
-        materialButton2.perform(click());
+        appCompatEditText.perform(replaceText("Han Zhao"));
 
-        ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.AddClassButton), withText("Add Class"),
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.editTextTextPersonName), withText("Han Zhao"),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                7),
+                                allOf(withId(R.id.nameText),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                3),
                         isDisplayed()));
-        materialButton3.perform(click());
+        appCompatEditText2.perform(closeSoftKeyboard());
 
         ViewInteraction editText = onView(
-                allOf(withId(R.id.editSubject), withText("Subject"),
-                        withParent(withParent(withId(android.R.id.content))),
+                allOf(withId(R.id.editTextTextPersonName), withText("Han Zhao"),
+                        withParent(allOf(withId(R.id.nameText),
+                                withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        //editText.check(matches(withText("")));
+        editText.check(matches(withText("Han Zhao")));
 
-        ViewInteraction editText2 = onView(
-                allOf(withId(R.id.editCourse), withText("Number"),
-                        withParent(withParent(withId(android.R.id.content))),
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.image_url_input),
+                        childAtPosition(
+                                allOf(withId(R.id.nameText),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                0),
                         isDisplayed()));
-        //editText2.check(matches(withText("")));
+        appCompatEditText3.perform(replaceText("https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0"), closeSoftKeyboard());
+
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(R.id.Savebutton), withText("save"),
+                        childAtPosition(
+                                allOf(withId(R.id.nameText),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                4),
+                        isDisplayed()));
+        materialButton2.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

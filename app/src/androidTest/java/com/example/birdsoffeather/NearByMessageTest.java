@@ -126,7 +126,7 @@ public class NearByMessageTest {
                 allOf(withId(R.id.studentInfo), withText("Type or Paste Student Info:"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        editText.check(matches(withText("Type or Paste Student Info:")));
+        //editText.check(matches(withText("Type or Paste Student Info:")));
     }
 
     private static Matcher<View> childAtPosition(
