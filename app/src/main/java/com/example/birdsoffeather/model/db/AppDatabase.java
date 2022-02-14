@@ -22,5 +22,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract PersonWithCoursesDao personsWithCoursesDao();
 
+    public static AppDatabase useTestSingleton(Context context) {
+        singletonInstance = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
+                .allowMainThreadQueries()
+                .build();
+        return singletonInstance;
+    }
     public abstract CoursesDao coursesDao();
 }
