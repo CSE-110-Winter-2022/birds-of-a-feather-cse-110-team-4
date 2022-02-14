@@ -1,6 +1,8 @@
 package com.example.birdsoffeather;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
+import com.example.birdsoffeather.model.db.Courses;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,12 +22,19 @@ import java.net.URL;
 import java.util.List;
 
 public class studentInfo extends AppCompatActivity {
+    //Recycler View
+    private RecyclerView classesRecyclerView;
+    private RecyclerView.LayoutManager classesRecyclerViewManager;
+    //Data base
     private AppDatabase db;
     private IPerson person;
     private int personId;
     private  String name;
-    private List course;
+    private List<Courses> courses;
     private String imageURL;
+
+    //Adapter
+    private ClassViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +49,21 @@ public class studentInfo extends AppCompatActivity {
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
         name = person.getName();
-        course = person.getCourses();
+        courses = db.coursesDao().gerForPerson(personId);
         imageURL = person.getURL();
         TextView nameView = findViewById(R.id.studentName);
         nameView.setText(name);//Set name for user
-        TextView courseView = findViewById(R.id.studentClassList);
-        courseView.setText(course.toString());
 
+        //Adapter View
+        classesRecyclerView = (RecyclerView) findViewById(R.id.studentClassList);
+        adapter = new ClassViewAdapter(false, courses, (course)-> {
+            //db.coursesDao().delete(course);
+        });
+        classesRecyclerView.setAdapter(adapter);
+        classesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //Displaying image
         ImageView i = (ImageView) findViewById(R.id.profile_picture_view);
-
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -69,6 +84,12 @@ public class studentInfo extends AppCompatActivity {
                 }
             }
         });
+
+
+        //Displaying courses
+        //TextView courseView = findViewById(R.id.studentClassList);
+        //courseView.setText(course.toString());
+
     }
 
     public void backToList(View view) {

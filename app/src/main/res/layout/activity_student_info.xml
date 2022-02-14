@@ -25,45 +25,48 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.251" />
-
-    <TextView
-        android:id="@+id/studentClassList"
-        android:layout_width="352dp"
-        android:layout_height="386dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studentName"
-        app:layout_constraintVertical_bias="0.345" />
+        app:layout_constraintVertical_bias="0.285" />
 
     <Button
         android:id="@+id/backToListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:onClick="backToList"
         android:text="BACK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studenClasses"
-        app:layout_constraintVertical_bias="0.514" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/listOfClassTitle"
         android:layout_width="83dp"
         android:layout_height="20dp"
+        android:layout_marginTop="12dp"
         android:text="List of class:"
-        app:layout_constraintBottom_toTopOf="@+id/studentClassList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studentName"
-        app:layout_constraintVertical_bias="0.714" />
+        app:layout_constraintTop_toBottomOf="@+id/studentName" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/studentClassList"
+        android:layout_width="198dp"
+        android:layout_height="244dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="41dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/backToListButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listOfClassTitle"
+        app:layout_constraintVertical_bias="0.638" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

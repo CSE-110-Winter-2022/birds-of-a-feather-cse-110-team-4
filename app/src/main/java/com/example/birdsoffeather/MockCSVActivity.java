@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,10 +36,17 @@ public class MockCSVActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mock_csvactivity);
     }
 
+
+    public void onBackClicked(View view) {
+        Intent intent = new Intent(this, searchingActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
-        Nearby.getMessagesClient(this).subscribe(messageListener);
+        Nearby.getMessagesClient(this).subscribe(messageListener);   // something crashes here
+
     }
 
     //When clicked button, get student information from csv, and add that student to db
