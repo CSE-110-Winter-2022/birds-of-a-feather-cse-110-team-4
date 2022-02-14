@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //Go to profile class
     public void LoginButtonClick(View view) {
         Intent intent = new Intent(this, profileActivity.class);
         startActivity(intent);

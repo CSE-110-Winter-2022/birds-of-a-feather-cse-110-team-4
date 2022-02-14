@@ -66,7 +66,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         yearSpinner.setOnItemSelectedListener(this);
         quarterSpinner.setOnItemSelectedListener(this);
 
-        //some comment
+        //Show classes
 
         RecyclerView addedClasses = findViewById(R.id.classesRecyclerView);
         adapter = new ClassViewAdapter(true,courses, (course)-> {
@@ -77,8 +77,9 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    //Store selected year and quarter
     public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
+                                int pos, long id) {
         if(parent.getId() == R.id.YearDropDown)
             selectedYear = (String) parent.getItemAtPosition(pos);
         if(parent.getId() == R.id.QuarterDropDown)
@@ -90,6 +91,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    //Add class to database
     public void addClassOnClicked(View view) {
         int newNodeId = db.coursesDao().count() + 1;
         int personId = person.getId();
@@ -110,6 +112,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         }
     }
 
+    //Go to search bof page
     public void doneonClick(View view) {
         Intent intent = new Intent(this, searchingActivity.class);
         startActivity(intent);
@@ -131,6 +134,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         public String getSubject() { return subject; }
         public String getCourse() { return course; }
 
+        //Return formatted class
         public String toData() {
             return this.year + " " + this.quarter + " " + this.subject + " " + this.course;
         }
