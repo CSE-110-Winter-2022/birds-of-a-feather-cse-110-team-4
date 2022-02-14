@@ -29,6 +29,7 @@ import java.io.IOException;
 @RunWith(AndroidJUnit4.class)
 public class AddClassActivityTest {
     private AppDatabase db;
+
     @Before
     public void createDb() {
         Context context = ApplicationProvider.getApplicationContext();
@@ -55,44 +56,9 @@ public class AddClassActivityTest {
         ActivityScenario scenario = rule.getScenario();
         scenario.moveToState(Lifecycle.State.CREATED);
         scenario.onActivity(activity -> {
-            TextView title = (TextView)  activity.findViewById(R.id.textView2);
+            TextView title = (TextView) activity.findViewById(R.id.textView2);
             assertEquals("Add Classes", title.getText());
         });
     }
-
-    @Test
-    public void testDropDownSelected() {
-        ActivityScenario scenario = rule.getScenario();
-        scenario.moveToState(Lifecycle.State.CREATED);
-        scenario.onActivity(activity -> {
-            Spinner yearSpinner = (Spinner) activity.findViewById(R.id.YearDropDown);
-            assertEquals("2018", (String) yearSpinner.getItemAtPosition(0));
-            assertEquals("2019", (String) yearSpinner.getItemAtPosition(1));
-        });
-    }
-
-    @Test
-    public void testAddClassClicked() {
-        ActivityScenario scenario = rule.getScenario();
-        scenario.moveToState(Lifecycle.State.CREATED);
-        scenario.onActivity(activity -> {
-
-            Spinner yearSpinner = (Spinner) activity.findViewById(R.id.YearDropDown);
-            assertEquals("2018", (String) yearSpinner.getItemAtPosition(0));
-            assertEquals("2019", (String) yearSpinner.getItemAtPosition(1));
-        });
-    }
-
-    }
-
-//    @Test
-//    public void testInitialState() {
-//        ActivityScenario scenario = rule.getScenario();
-//        scenario.onActivity(activity -> {
-//            EditText editSubject = (EditText)  activity.findViewById(R.id.editSubject);
-//            assertEquals("", editSubject.getText().toString());
-//            EditText editCourse = (EditText)  activity.findViewById(R.id.editCourse);
-//            assertEquals("", editCourse.getText().toString());
-//        });
-//    }
+}
 
