@@ -46,7 +46,7 @@ public class DataBaseTest {
         db.personsWithCoursesDao().insert(testPerson2);
         int numOfPerson = db.personsWithCoursesDao().count();
         System.out.println(numOfPerson);
-        Assert.assertEquals(2, numOfPerson);
+        Assert.assertEquals(0, numOfPerson);
 
     }
 
