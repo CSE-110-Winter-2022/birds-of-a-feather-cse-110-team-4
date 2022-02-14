@@ -15,6 +15,7 @@ public class Courses {
     @ColumnInfo(name = "course")
     public String course;
 
+
     public Courses(int classId, int personId, String course){
         this.classId = classId;
         this.personId = personId;
