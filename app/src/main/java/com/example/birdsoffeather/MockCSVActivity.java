@@ -42,13 +42,6 @@ public class MockCSVActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Nearby.getMessagesClient(this).subscribe(messageListener);   // something crashes here
-
-    }
-
     //When clicked button, get student information from csv, and add that student to db
     public void onAddStudentClicked(View view) {
         String name, url;
@@ -127,8 +120,5 @@ public class MockCSVActivity extends AppCompatActivity {
                 matches.add(str);
             }
         }
-    }
-
-    public void onGoToBoFClicked(View view) {
     }
 }
