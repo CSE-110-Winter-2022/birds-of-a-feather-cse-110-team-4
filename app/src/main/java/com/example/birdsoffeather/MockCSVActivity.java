@@ -45,7 +45,7 @@ public class MockCSVActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Nearby.getMessagesClient(this).subscribe(messageListener);   // something crashes here
+        //Nearby.getMessagesClient(this).subscribe(messageListener);   // something crashes here
 
     }
 

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
@@ -94,14 +95,19 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         int personId = person.getId();
         TextView subjectView = findViewById(R.id.editSubject);
         TextView courseView = findViewById(R.id.editCourse);
-        subject = subjectView.getText().toString().toUpperCase(Locale.ROOT);
-        course = courseView.getText().toString();
-        Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
-        String classInfo = newClass.toData();
-        Courses newCourse = new Courses(newNodeId,personId, classInfo);
-        db.coursesDao().insert(newCourse);
-        adapter.addClass(newCourse);
-        courseView.setText("");
+        if(subjectView.length() == 0 || courseView.length() == 0)
+        {
+            Toast.makeText(this, "No Empty Entries!",Toast.LENGTH_SHORT).show();
+        } else {
+            subject = subjectView.getText().toString().toUpperCase(Locale.ROOT);
+            course = courseView.getText().toString();
+            Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
+            String classInfo = newClass.toData();
+            Courses newCourse = new Courses(newNodeId,personId, classInfo);
+            db.coursesDao().insert(newCourse);
+            adapter.addClass(newCourse);
+            courseView.setText("");
+        }
     }
 
     public void doneonClick(View view) {

@@ -33,12 +33,14 @@ public class profileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        //get local data base
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
         name = person.getName();
         TextView nameView = findViewById(R.id.editTextTextPersonName);
         nameView.setText(name);
         String URL = person.getURL();
+        //Use Async function to set the image of user
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -58,16 +60,18 @@ public class profileActivity extends AppCompatActivity {
         });
 
     }
-
+    //go to next page
     public void SubmitonClick(View view) {
         Intent intent = new Intent(this, AddClassActivity.class);
         intent.putExtra("person_id", personId);
         startActivity(intent);
     }
-
+    //update local database
     public void saveonClick(View view) {
         TextView urlView = findViewById(R.id.image_url_input);
         String url = urlView.getText().toString();
+        TextView nameView = findViewById(R.id.editTextTextPersonName);
+        name = nameView.getText().toString();
         i = (ImageView)findViewById(R.id.profile_picture_view);
         AsyncTask.execute(new Runnable() {
             @Override

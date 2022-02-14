@@ -57,7 +57,6 @@ public class studentInfo extends AppCompatActivity {
         //Adapter View
         classesRecyclerView = (RecyclerView) findViewById(R.id.studentClassList);
         adapter = new ClassViewAdapter(false, courses, (course)-> {
-            //db.coursesDao().delete(course);
         });
         classesRecyclerView.setAdapter(adapter);
         classesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -84,11 +83,6 @@ public class studentInfo extends AppCompatActivity {
                 }
             }
         });
-
-
-        //Displaying courses
-        //TextView courseView = findViewById(R.id.studentClassList);
-        //courseView.setText(course.toString());
 
     }
 

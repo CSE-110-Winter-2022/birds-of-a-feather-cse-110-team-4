@@ -14,9 +14,7 @@
         <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
             android:value="AIzaSyCJUUOyyeQZWNKuDMyH9svH2FyQ6O0E2cM"/>
-        <activity
-            android:name=".PersonDetailActivity"
-            android:exported="false" />
+
         <activity
             android:name=".studentInfo"
             android:exported="false" />
@@ -43,9 +41,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
