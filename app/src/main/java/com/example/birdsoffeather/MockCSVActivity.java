@@ -36,17 +36,10 @@ public class MockCSVActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mock_csvactivity);
     }
 
-
+    //Go back to search BOF page
     public void onBackClicked(View view) {
         Intent intent = new Intent(this, searchingActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //Nearby.getMessagesClient(this).subscribe(messageListener);   // something crashes here
-
     }
 
     //When clicked button, get student information from csv, and add that student to db

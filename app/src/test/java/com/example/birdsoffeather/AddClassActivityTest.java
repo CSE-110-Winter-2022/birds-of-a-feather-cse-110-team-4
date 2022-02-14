@@ -50,26 +50,6 @@ public class AddClassActivityTest {
             new ActivityScenarioRule<AddClassActivity>(AddClassActivity.class);
 
 
-    @Test
-    public void testPageTextUI() {
-        ActivityScenario scenario = rule.getScenario();
-        scenario.moveToState(Lifecycle.State.CREATED);
-        scenario.onActivity(activity -> {
-            TextView title = (TextView)  activity.findViewById(R.id.textView2);
-            assertEquals("Add Classes", title.getText());
-        });
-    }
-
-    @Test
-    public void testDropDownSelected() {
-        ActivityScenario scenario = rule.getScenario();
-        scenario.moveToState(Lifecycle.State.CREATED);
-        scenario.onActivity(activity -> {
-            Spinner yearSpinner = (Spinner) activity.findViewById(R.id.YearDropDown);
-            assertEquals("2018", (String) yearSpinner.getItemAtPosition(0));
-            assertEquals("2019", (String) yearSpinner.getItemAtPosition(1));
-        });
-    }
 
     @Test
     public void testAddClassClicked() {
