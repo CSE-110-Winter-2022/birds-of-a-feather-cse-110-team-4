@@ -50,14 +50,17 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
         Courses currClass = classes.get(position);
         String[] splitStr = currClass.course.split(" ");
 
-        TextView yrTextView = holder.year;
-        yrTextView.setText(splitStr[0]);
-        TextView qtTextView = holder.quarter;
-        qtTextView.setText(splitStr[1]);
-        TextView sjTextView = holder.subject;
-        sjTextView.setText(splitStr[2]);
-        TextView courTextView = holder.course;
-        courTextView.setText(splitStr[3]);
+        if(splitStr.length == 4) {
+            TextView yrTextView = holder.year;
+            yrTextView.setText(splitStr[0]);
+            TextView qtTextView = holder.quarter;
+            qtTextView.setText(splitStr[1]);
+            TextView sjTextView = holder.subject;
+            sjTextView.setText(splitStr[2]);
+            TextView courTextView = holder.course;
+            courTextView.setText(splitStr[3]);
+        }
+
     }
 
     @Override
