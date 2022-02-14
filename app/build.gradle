@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
     def room_version = "2.4.1"
 
     // newly added, remove if anything breaks
