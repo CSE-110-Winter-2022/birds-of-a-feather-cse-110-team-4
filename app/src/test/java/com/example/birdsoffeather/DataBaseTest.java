@@ -92,5 +92,21 @@ public class DataBaseTest {
         Assert.assertEquals(3,numbOfCourses);
 
     }
-
+    @Test
+    public  void updataPerson() throws Exception{
+        Person testPerson1 = new Person(0,"Test Name 1",
+                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
+                        "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
+                        "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
+                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0");
+        db.personsWithCoursesDao().insert(testPerson1);
+        Assert.assertEquals("Test Name 1",db.personsWithCoursesDao().get(0).getName());
+        Person newPerson = new Person(0,"Han",
+                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
+                        "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
+                        "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
+                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0");
+        db.personsWithCoursesDao().update(newPerson);
+        Assert.assertEquals("Han",db.personsWithCoursesDao().get(0).getName());
+    }
 }

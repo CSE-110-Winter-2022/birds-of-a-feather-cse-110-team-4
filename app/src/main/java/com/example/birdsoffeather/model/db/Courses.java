@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 @Entity(tableName = "classes")
+
+//data structure for courses in database
 public class Courses {
     @PrimaryKey
     @ColumnInfo(name = "id")
