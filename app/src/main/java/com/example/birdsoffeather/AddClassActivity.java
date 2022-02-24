@@ -25,7 +25,7 @@ import java.util.Locale;
 
 public class AddClassActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private String selectedYear, selectedQuarter, subject, course;
+    private String selectedYear, selectedQuarter,selectedSize, subject, course;
     //private List<Class> emptyClasses = new ArrayList<Class>();
     //private List<Class> enteredClasses = new ArrayList<Class>();
     private ClassViewAdapter adapter;
@@ -55,16 +55,22 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         //Set up Spinner(Dropdowns)
         Spinner yearSpinner = (Spinner) findViewById(R.id.YearDropDown);
         Spinner quarterSpinner = (Spinner) findViewById(R.id.QuarterDropDown);
+        Spinner sizeSpinner = (Spinner) findViewById(R.id.ClassSizeDropDown);
         ArrayAdapter<CharSequence> yearAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Year, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> quarterAdapter = ArrayAdapter.createFromResource(this,
                 R.array.Quarter, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> sizeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.Class_Size, android.R.layout.simple_spinner_item);
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quarterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(yearAdapter);
         quarterSpinner.setAdapter(quarterAdapter);
+        sizeSpinner.setAdapter(sizeAdapter);
         yearSpinner.setOnItemSelectedListener(this);
         quarterSpinner.setOnItemSelectedListener(this);
+        sizeSpinner.setOnItemSelectedListener(this);
 
         //Show classes
 
@@ -84,6 +90,9 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
             selectedYear = (String) parent.getItemAtPosition(pos);
         if(parent.getId() == R.id.QuarterDropDown)
             selectedQuarter = (String) parent.getItemAtPosition(pos);
+        if(parent.getId() == R.id.ClassSizeDropDown) {
+            selectedSize = (String) parent.getItemAtPosition(pos);
+        }
     }
 
     @Override
