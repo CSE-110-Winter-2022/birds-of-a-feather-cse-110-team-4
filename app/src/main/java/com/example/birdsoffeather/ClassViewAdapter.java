@@ -33,7 +33,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View classesView = inflater.inflate(R.layout.classes_row,parent,false);
+        View classesView = inflater.inflate(R.layout.classes_row, parent,false);
         ViewHolder viewHolder;
         if(deleteEnable) {
             viewHolder = new ViewHolder(classesView, this::removeClass, onClassRemoved);
@@ -51,7 +51,8 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
         String[] splitStr = currClass.course.split(" ");
 
         //set the ViewHolder according to the courses we get
-        if(splitStr.length == 4) {
+        if(splitStr.length != 0) {
+            System.out.println("In setting Text");
             TextView yrTextView = holder.year;
             yrTextView.setText(splitStr[0]);
             TextView qtTextView = holder.quarter;
@@ -60,6 +61,9 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             sjTextView.setText(splitStr[2]);
             TextView courTextView = holder.course;
             courTextView.setText(splitStr[3]);
+            TextView szTextView = holder.size;
+            System.out.println(splitStr[4].substring(0, 1));
+            szTextView.setText(splitStr[4].substring(0, 1));
         }
     }
 
@@ -80,7 +84,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView year, quarter, subject, course;
+        private TextView year, quarter, subject, course, size;
         private Courses courses;
         //ViewHolder with delete button
         public ViewHolder(View itemView, Consumer<Integer> removeClass,Consumer<Courses> onClassRemoved) {
@@ -88,7 +92,8 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             year = (TextView) itemView.findViewById(R.id.year_row_txt);
             quarter = (TextView) itemView.findViewById(R.id.quarter_row_txt);
             subject = (TextView) itemView.findViewById(R.id.subject_row_txt);
-            course = (TextView) itemView.findViewById(R.id.course_row_txt);
+            course  = (TextView) itemView.findViewById(R.id.course_row_txt);
+            size    = (TextView) itemView.findViewById(R.id.size_row_txt);
             itemView.findViewById(R.id.removeClassButton).setOnClickListener((view) -> {
                 removeClass.accept(this.getAdapterPosition());
                 onClassRemoved.accept(courses);
@@ -101,6 +106,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             quarter = (TextView) itemView.findViewById(R.id.quarter_row_txt);
             subject = (TextView) itemView.findViewById(R.id.subject_row_txt);
             course = (TextView) itemView.findViewById(R.id.course_row_txt);
+            size    = (TextView) itemView.findViewById(R.id.size_row_txt);
             Button deleteButton = (Button)itemView.findViewById(R.id.removeClassButton);
             deleteButton.setVisibility(itemView.INVISIBLE);
         }
