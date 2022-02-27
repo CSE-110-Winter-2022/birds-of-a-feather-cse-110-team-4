@@ -57,7 +57,7 @@
         android:layout_width="198dp"
         android:layout_height="244dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="22dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="41dp"
         android:textAlignment="center"
@@ -65,8 +65,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listOfClassTitle"
-        app:layout_constraintVertical_bias="0.638" />
+        app:layout_constraintTop_toBottomOf="@+id/waveButton" />
+
+    <Button
+        android:id="@+id/waveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="159dp"
+        android:onClick="waveonClick"
+        android:text="Wave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listOfClassTitle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

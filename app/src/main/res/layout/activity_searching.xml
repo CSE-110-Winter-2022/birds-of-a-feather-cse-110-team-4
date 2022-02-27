@@ -37,7 +37,7 @@
         android:layout_width="127dp"
         android:layout_height="54dp"
         android:onClick="goToMockOnClick"
-        android:text="Mock with text"
+        android:text="Mock with students"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.852"

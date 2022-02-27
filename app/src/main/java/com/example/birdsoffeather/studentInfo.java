@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.birdsoffeather.model.IPerson;
@@ -88,5 +89,11 @@ public class studentInfo extends AppCompatActivity {
 
     public void backToList(View view) {
         finish();
+    }
+
+    public void waveonClick(View view) {
+        Button wave = findViewById(R.id.waveButton);
+        wave.setText("waved");
+        wave.setEnabled(false);
     }
 }

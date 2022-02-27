@@ -9,14 +9,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
-import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
-import com.example.birdsoffeather.model.db.Person;
 import com.example.birdsoffeather.model.db.PersonWithCourses;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -97,4 +94,5 @@ public class searchingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MockCSVActivity.class);
         startActivity(intent);
     }
+
 }

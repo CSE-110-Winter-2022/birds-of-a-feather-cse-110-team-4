@@ -59,6 +59,7 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
         private final TextView personNameView;
         private final ImageView personAvatarView;
         private final TextView personNumClasses;
+        private final TextView waving;
         private IPerson person;
 
         ViewHolder(View itemView) {
@@ -66,7 +67,7 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
             this.personNameView = itemView.findViewById(R.id.person_row_name);
             this.personAvatarView = itemView.findViewById(R.id.person_row_avatar);
             this.personNumClasses = itemView.findViewById(R.id.person_row_num);
-
+            this.waving = itemView.findViewById(R.id.waving_text);
             itemView.setOnClickListener(this);
         }
 
@@ -77,7 +78,7 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
             this.person = person;
             this.personNameView.setText(person.getName());
             this.personNumClasses.setText(String.valueOf((person.getCourses().size())));  // all classes, not in common for now. Fix later
-
+            this.waving.setText("waving");
             // set profile pic in recycle
             AsyncTask.execute(new Runnable() {
                 @Override
@@ -105,5 +106,6 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
             intent.putExtra("person_id", this.person.getId());
             context.startActivity(intent);
         }
+
     }
 }
