@@ -33,7 +33,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     private IPerson person;
     public Class toClass(String data){
         String[] splitStr = data.split(" ");
-        return new Class(splitStr[0],splitStr[1],splitStr[2],splitStr[3]);
+        return new Class(splitStr[0],splitStr[1],splitStr[2],splitStr[3], splitStr[4]);
     }
 
 
@@ -75,7 +75,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         //Show classes
 
         RecyclerView addedClasses = findViewById(R.id.classesRecyclerView);
-        adapter = new ClassViewAdapter(true,courses, (course)-> {
+        adapter = new ClassViewAdapter(true, courses, (course)-> {
             db.coursesDao().delete(course);
         });
         addedClasses.setAdapter(adapter);
@@ -83,7 +83,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-    //Store selected year and quarter
+    //Store selected year, quarter and size
     public void onItemSelected(AdapterView<?> parent, View view,
                                 int pos, long id) {
         if(parent.getId() == R.id.YearDropDown)
@@ -112,8 +112,9 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         } else {
             subject = subjectView.getText().toString().toUpperCase(Locale.ROOT);
             course = courseView.getText().toString();
-            Class newClass = new Class(selectedYear, selectedQuarter, subject, course);
+            Class newClass = new Class( selectedYear, selectedQuarter, subject, course, selectedSize);
             String classInfo = newClass.toData();
+            System.out.println(classInfo);
             Courses newCourse = new Courses(newNodeId,personId, classInfo);
             db.coursesDao().insert(newCourse);
             adapter.addClass(newCourse);
@@ -129,23 +130,26 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
 
 
     public class Class {
-        public String year, quarter, subject, course;
+        public String year, quarter, subject, course, size;
 
-        public Class(String yr, String qt, String sj, String cour) {
+        public Class(String yr, String qt, String sj, String cour, String sz) {
             year = yr;
             quarter = qt;
             subject = sj;
             course = cour;
+            size = sz;
         }
 
         public String getYear() { return year; }
         public String getQuarter() { return quarter; }
         public String getSubject() { return subject; }
         public String getCourse() { return course; }
+        public String getSize() { return size; }
 
         //Return formatted class
         public String toData() {
-            return this.year + " " + this.quarter + " " + this.subject + " " + this.course;
+            return this.year + " " + this.quarter + " " +
+                    this.subject + " " + this.course + " " + this.size;
         }
     }
 }
