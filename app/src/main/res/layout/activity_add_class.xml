@@ -30,11 +30,11 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         android:text="Add Classes"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,8 +62,8 @@
         android:id="@+id/editSubject"
         android:layout_width="141dp"
         android:layout_height="40dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Subject"
         android:inputType="textPersonName"
@@ -74,8 +74,8 @@
         android:id="@+id/editCourse"
         android:layout_width="141dp"
         android:layout_height="40dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Number"
         android:inputType="textPersonName"
@@ -86,22 +86,22 @@
         android:id="@+id/AddClassButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Add Class"
+        android:layout_marginTop="11dp"
         android:onClick="addClassOnClicked"
+        android:text="Add Class"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editSubject" />
+        app:layout_constraintTop_toBottomOf="@+id/ClassSizeDropDown" />
 
     <Button
         android:id="@+id/DoneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="29dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="16dp"
         android:onClick="doneonClick"
         android:text="Done with Adding Classes"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -117,9 +117,10 @@
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/DoneButton"
         app:layout_constraintEnd_toEndOf="@+id/editCourse"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editSubject"
         app:layout_constraintTop_toBottomOf="@+id/AddClassButton">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,9 +130,28 @@
                 android:id="@+id/classesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <Spinner
+        android:id="@+id/ClassSizeDropDown"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/YearDropDown"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/QuarterDropDown"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Class Size"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/editSubject" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
