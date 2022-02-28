@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,19 +31,24 @@ public class studentInfo extends AppCompatActivity {
     private AppDatabase db;
     private IPerson person;
     private int personId;
+    private int ownerId;
     private  String name;
     private List<Courses> courses;
     private String imageURL;
+    private boolean mocking;
 
     //Adapter
     private ClassViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button mockWave = findViewById(R.id.mockwave);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_info);
         Intent intent = getIntent();
         personId = intent.getIntExtra( "person_id",1);
+        ownerId = intent.getIntExtra("owner_id",0);
+        mocking = intent.getBooleanExtra("mocking", false);
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
 
@@ -54,14 +60,12 @@ public class studentInfo extends AppCompatActivity {
         imageURL = person.getURL();
         TextView nameView = findViewById(R.id.studentName);
         nameView.setText(name);//Set name for user
-
         //Adapter View
         classesRecyclerView = (RecyclerView) findViewById(R.id.studentClassList);
         adapter = new ClassViewAdapter(false, courses, (course)-> {
         });
         classesRecyclerView.setAdapter(adapter);
         classesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         //Displaying image
         ImageView i = (ImageView) findViewById(R.id.profile_picture_view);
         AsyncTask.execute(new Runnable() {
@@ -95,5 +99,15 @@ public class studentInfo extends AppCompatActivity {
         Button wave = findViewById(R.id.waveButton);
         wave.setText("waved");
         wave.setEnabled(false);
+    }
+
+    public void mockWaveOnClick(View view) {
+        if(personId != 0) {
+            Context context = view.getContext();
+            Intent intent = new Intent(context, studentInfo.class);
+            intent.putExtra("person_id", 0);
+            intent.putExtra("owner_id", personId);
+            context.startActivity(intent);
+        }
     }
 }

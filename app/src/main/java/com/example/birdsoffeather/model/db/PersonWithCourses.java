@@ -36,6 +36,7 @@ public class PersonWithCourses implements IPerson{
         return this.person.name;
     }
 
+    @Override
     public String getURL() {
         return  this.person.imageURL;
     }

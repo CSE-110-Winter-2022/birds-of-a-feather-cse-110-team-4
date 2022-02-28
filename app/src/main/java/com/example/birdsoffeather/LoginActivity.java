@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
             db.personsWithCoursesDao().insert(newPerson1);
         }
         if(person2 == null) {
-            Person newPerson2 = new Person(1, "Daniel Luther", "");
+            Person newPerson2 = new Person(1, "John", "");
             db.personsWithCoursesDao().insert(newPerson2);
         }
     }
