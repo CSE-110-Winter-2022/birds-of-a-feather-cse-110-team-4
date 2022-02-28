@@ -18,7 +18,7 @@ public class CSVReader {
         student.add(url);
         for(int i = 2; i < lines.length; i++) {
             String[] c = lines[i].split(",");
-            String newCourse = c[0]+" "+c[1]+" "+c[2]+" "+c[3];
+            String newCourse = c[0]+" "+c[1]+" "+c[2]+" "+c[3]+" "+c[4];
             student.add(newCourse);
         }
         return student;

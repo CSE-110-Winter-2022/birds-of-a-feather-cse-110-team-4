@@ -62,7 +62,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             TextView courTextView = holder.course;
             courTextView.setText(splitStr[3]);
             TextView szTextView = holder.size;
-            System.out.println(splitStr[4].substring(0, 1));
+            //System.out.println(splitStr[4].substring(0, 1));
             szTextView.setText(splitStr[4].substring(0, 1));
         }
     }

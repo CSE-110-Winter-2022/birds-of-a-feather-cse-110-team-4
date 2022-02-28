@@ -116,6 +116,8 @@ public class MockCSVActivity extends AppCompatActivity {
     //Compare my course and the entered student's course, store matching course in matches
     private void compareCourses(List<String> c1, List<String> c2, List<String> matches) {
         for(String str: c2) {
+            System.out.println(str);
+            System.out.println(c1.get(0));
             if(c1.contains(str)) {
                 matches.add(str);
             }
