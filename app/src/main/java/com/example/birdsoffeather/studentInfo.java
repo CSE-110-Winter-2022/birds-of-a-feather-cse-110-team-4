@@ -1,5 +1,6 @@
 package com.example.birdsoffeather;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,9 +15,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.birdsoffeather.model.FakedMessageListener;
 import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
 import com.example.birdsoffeather.model.db.Courses;
+import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.messages.Message;
+import com.google.android.gms.nearby.messages.MessageListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,12 +36,15 @@ public class studentInfo extends AppCompatActivity {
     //Data base
     private AppDatabase db;
     private IPerson person;
+    private IPerson sender;
     private int personId;
     private int ownerId;
     private  String name;
     private List<Courses> courses;
     private String imageURL;
     private boolean mocking;
+    private static String found;
+    private MessageListener messageListener;
 
     //Adapter
     private ClassViewAdapter adapter;
@@ -51,7 +60,7 @@ public class studentInfo extends AppCompatActivity {
         mocking = intent.getBooleanExtra("mocking", false);
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
-
+        sender = db.personsWithCoursesDao().get(ownerId);
         //Getting data from data base (db)
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
@@ -99,6 +108,21 @@ public class studentInfo extends AppCompatActivity {
         Button wave = findViewById(R.id.waveButton);
         wave.setText("waved");
         wave.setEnabled(false);
+        if(personId == 0){
+            MessageListener realListener = new MessageListener() {
+                @Override
+                public void onFound(@NonNull Message message) {
+                    studentInfo.found = new String(message.getContent());
+                }
+
+                @Override
+                public void onLost(@NonNull Message message) {
+                }
+
+            };
+            this.messageListener = new FakedMessageListener(realListener,sender.getName() +"," +person.getName());
+            Nearby.getMessagesClient(this).subscribe(messageListener);
+        }
     }
 
     public void mockWaveOnClick(View view) {
