@@ -92,7 +92,7 @@ public class MockCSVActivity extends AppCompatActivity {
                 if (matches.size() > 0) {
                     //add person to db
                     int nextID = db.personsWithCoursesDao().getAll().size();
-                    Person newStudent = new Person(nextID, name, url);
+                    Person newStudent = new Person(nextID, name, url, false, false);
                     db.personsWithCoursesDao().insert(newStudent);
 
                     //add matching classes to db

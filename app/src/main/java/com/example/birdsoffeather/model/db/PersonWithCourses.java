@@ -36,6 +36,7 @@ public class PersonWithCourses implements IPerson{
         return this.person.name;
     }
 
+    @Override
     public String getURL() {
         return  this.person.imageURL;
     }
@@ -44,4 +45,10 @@ public class PersonWithCourses implements IPerson{
     public  List<String> getCourses(){
         return this.Courses;
     }
+
+    @Override
+    public boolean getWaveTo(){return this.person.waveTo;}
+
+    @Override
+    public boolean getWaveFrom(){return this.person.waveFrom;}
 }

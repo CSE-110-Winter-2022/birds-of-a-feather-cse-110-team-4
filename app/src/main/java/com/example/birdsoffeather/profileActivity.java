@@ -90,7 +90,7 @@ public class profileActivity extends AppCompatActivity {
                 }
             }
         });
-        Person newPerson = new Person(0,name,url);
+        Person newPerson = new Person(0,name,url, false, false);
         db.personsWithCoursesDao().update(newPerson);
     }
 
