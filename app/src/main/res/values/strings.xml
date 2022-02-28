@@ -19,7 +19,7 @@
     </string-array>
 
     <string-array name="Class_Size">
-        <item>Tiny (&lt;40)</item>
+        <item>Tiny (1-40)</item>
         <item>Small (40-75)</item>
         <item>Medium (75-150)</item>
         <item>Large (150-250)</item>
