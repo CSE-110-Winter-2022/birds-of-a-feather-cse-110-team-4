@@ -65,21 +65,11 @@ public class searchingActivity extends AppCompatActivity {
 
     //search the nearby student who has taken same classes with the user
     public void searchonClick(View view) {
+        AppDatabase db = AppDatabase.singleton(this);
+        List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
+        studentList.remove(0);
+        peopleViewAdapter = new PeopleViewAdapter(studentList);
         personRecyclerView.setAdapter(peopleViewAdapter);
-        MessageListener realListener = new MessageListener() {
-            @Override
-            public void onFound(@NonNull Message message) {
-                Log.d(TAG, "found message: " + new String(message.getContent()));
-            }
-
-            @Override
-            public void onLost(@NonNull Message message) {
-                Log.d(TAG, "Lost messages: " + new String(message.getContent()));
-            }
-
-        };
-        this.messageListener = new FakedMessageListener(realListener, "Hello world");
-
     }
 
 

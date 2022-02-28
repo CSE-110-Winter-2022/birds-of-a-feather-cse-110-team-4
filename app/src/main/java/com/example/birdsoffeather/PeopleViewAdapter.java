@@ -80,6 +80,12 @@ public class PeopleViewAdapter extends RecyclerView.Adapter<PeopleViewAdapter.Vi
             this.personNumClasses.setText(String.valueOf((person.getCourses().size())));  // all classes, not in common for now. Fix later
             this.waving.setText("waving");
             // set profile pic in recycle
+            if(person.getWaveFrom()){
+                waving.setVisibility(View.VISIBLE);
+            }
+            else{
+                waving.setVisibility(View.INVISIBLE);
+            }
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {

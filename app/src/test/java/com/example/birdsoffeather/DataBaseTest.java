@@ -46,12 +46,12 @@ public class DataBaseTest {
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
-                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0");
+                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false);
         Person testPerson2 = new Person(1,"Test Name 2",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSM" +
                         "Oy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKI" +
                         "PqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGl" +
-                        "LLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0");
+                        "LLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false);
         db.personsWithCoursesDao().insert(testPerson1);
         db.personsWithCoursesDao().insert(testPerson2);
         int numOfPerson = db.personsWithCoursesDao().count();
@@ -98,14 +98,14 @@ public class DataBaseTest {
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
-                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0");
+                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false);
         db.personsWithCoursesDao().insert(testPerson1);
         Assert.assertEquals("Test Name 1",db.personsWithCoursesDao().get(0).getName());
         Person newPerson = new Person(0,"Han",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
-                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0");
+                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false);
         db.personsWithCoursesDao().update(newPerson);
         Assert.assertEquals("Han",db.personsWithCoursesDao().get(0).getName());
     }

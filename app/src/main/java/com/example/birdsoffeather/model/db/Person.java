@@ -18,9 +18,17 @@ public class Person {
     @ColumnInfo(name = "headshot")
     public String imageURL;
 
-    public Person(int personId, String name, String imageURL){
+    @ColumnInfo(name = "waveto")
+    public boolean waveTo;
+
+    @ColumnInfo(name = "wavefrom")
+    public boolean waveFrom;
+
+    public Person(int personId, String name, String imageURL, boolean waveTo, boolean waveFrom){
         this.personId = personId;
         this.name = name;
         this.imageURL = imageURL;
+        this.waveTo =  waveTo;
+        this.waveFrom = waveFrom;
     }
 }

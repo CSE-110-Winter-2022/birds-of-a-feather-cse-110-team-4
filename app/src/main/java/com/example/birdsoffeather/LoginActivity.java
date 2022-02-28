@@ -24,12 +24,16 @@ public class LoginActivity extends AppCompatActivity {
         person2 = db.personsWithCoursesDao().get(1);
         //Insert an user into database if the user log in our app first time
         if(person1 == null) {
-            Person newPerson1 = new Person(0, "Daniel Luther", "");
+            Person newPerson1 = new Person(0, "Daniel Luther", "", false, false);
             db.personsWithCoursesDao().insert(newPerson1);
         }
         if(person2 == null) {
-            Person newPerson2 = new Person(1, "John", "");
+            Person newPerson2 = new Person(1, "John", "", false, false);
             db.personsWithCoursesDao().insert(newPerson2);
+        }
+        else {
+            Person newPerson2 = new Person(1, "John", "", false, false);
+            db.personsWithCoursesDao().update(newPerson2);
         }
     }
 

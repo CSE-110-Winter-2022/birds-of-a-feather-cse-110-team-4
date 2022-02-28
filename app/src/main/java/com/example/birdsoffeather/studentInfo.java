@@ -15,11 +15,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.birdsoffeather.model.FakedMessageListener;
 import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
 import com.example.birdsoffeather.model.db.Courses;
+import com.example.birdsoffeather.model.db.Person;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
@@ -105,33 +107,46 @@ public class studentInfo extends AppCompatActivity {
     }
 
     public void waveonClick(View view) {
+        MessageListener realListener = new MessageListener() {
+            @Override
+            public void onFound(@NonNull Message message) {
+                found = new String(message.getContent());
+            }
+
+            @Override
+            public void onLost(@NonNull Message message) {
+            }
+
+        };
+        String info = db.personsWithCoursesDao().get(0).getName()+","+name;
+        this.messageListener = new FakedMessageListener(realListener, info);
+        Nearby.getMessagesClient(this).subscribe(messageListener);
         Button wave = findViewById(R.id.waveButton);
         wave.setText("waved");
         wave.setEnabled(false);
-        if(personId == 0){
-            MessageListener realListener = new MessageListener() {
-                @Override
-                public void onFound(@NonNull Message message) {
-                    studentInfo.found = new String(message.getContent());
-                }
-
-                @Override
-                public void onLost(@NonNull Message message) {
-                }
-
-            };
-            this.messageListener = new FakedMessageListener(realListener,sender.getName() +"," +person.getName());
-            Nearby.getMessagesClient(this).subscribe(messageListener);
-        }
+        Toast.makeText(this, "Waved to"+name+"!", Toast.LENGTH_SHORT).show();
     }
 
     public void mockWaveOnClick(View view) {
-        if(personId != 0) {
-            Context context = view.getContext();
-            Intent intent = new Intent(context, studentInfo.class);
-            intent.putExtra("person_id", 0);
-            intent.putExtra("owner_id", personId);
-            context.startActivity(intent);
-        }
+        MessageListener realListener = new MessageListener() {
+            @Override
+            public void onFound(@NonNull Message message) {
+                found = new String(message.getContent());
+            }
+
+            @Override
+            public void onLost(@NonNull Message message) {
+            }
+
+        };
+        String info = name+","+db.personsWithCoursesDao().get(0).getName();
+        this.messageListener = new FakedMessageListener(realListener, info);
+        Nearby.getMessagesClient(this).subscribe(messageListener);
+        Button wave = findViewById(R.id.mockwave);
+        wave.setText("mocked");
+        wave.setEnabled(false);
+        Toast.makeText(this, "Waved from "+name+"!", Toast.LENGTH_SHORT).show();
+        Person newPerson = new Person(personId, name, imageURL, person.getWaveTo(), true);
+        db.personsWithCoursesDao().update(newPerson);
     }
 }
