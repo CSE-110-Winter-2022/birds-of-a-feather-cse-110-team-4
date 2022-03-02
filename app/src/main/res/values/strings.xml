@@ -27,4 +27,9 @@
         <item>Gigantic (400+)</item>
     </string-array>
 
+    <string-array name="Sorting_Options">
+        <item>Prioritize Recent</item>
+        <item>Prioritize Small Classes</item>
+    </string-array>
+
 </resources>

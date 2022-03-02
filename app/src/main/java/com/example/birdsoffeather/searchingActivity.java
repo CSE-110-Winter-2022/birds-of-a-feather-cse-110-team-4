@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.birdsoffeather.model.db.AppDatabase;
@@ -51,16 +53,27 @@ public class searchingActivity extends AppCompatActivity {
         personLayoutManager = new LinearLayoutManager(this);
         personRecyclerView.setLayoutManager(personLayoutManager);
 
+        Spinner spinnerView = (Spinner) findViewById(R.id.sortingSpinner);
+        ArrayAdapter<CharSequence> sortOptionsAdapter = ArrayAdapter.createFromResource(this,
+                R.array.Sorting_Options, android.R.layout.simple_spinner_item);
+        sortOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerView.setAdapter(sortOptionsAdapter);
+        String itemOption = (String) spinnerView.getItemAtPosition(0);
+
         // sorting list of students in order of common classes
         Collections.sort(studentList, new Comparator<PersonWithCourses>() {
             @Override
             public int compare(PersonWithCourses p1, PersonWithCourses p2) {
+
                 return p2.getCourses().size() - p1.getCourses().size();
             }
+
+
+
+
         });
 
         peopleViewAdapter = new PeopleViewAdapter(studentList);
-
     }
 
     //search the nearby student who has taken same classes with the user
