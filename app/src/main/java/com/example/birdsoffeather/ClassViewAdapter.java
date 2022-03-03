@@ -93,11 +93,14 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             subject = (TextView) itemView.findViewById(R.id.subject_row_txt);
             course  = (TextView) itemView.findViewById(R.id.course_row_txt);
             size    = (TextView) itemView.findViewById(R.id.size_row_txt);
-            itemView.findViewById(R.id.removeClassButton).setOnClickListener((view) -> {
+            itemView.findViewById(R.id.removeClassButton);
+            itemView.setOnClickListener((view) -> {
                 removeClass.accept(this.getAdapterPosition());
                 onClassRemoved.accept(courses);
+
             });
         }
+
         //ViewHolder without delete button
         public ViewHolder(View itemView) {
             super(itemView);

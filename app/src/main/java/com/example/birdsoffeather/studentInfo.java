@@ -146,7 +146,7 @@ public class studentInfo extends AppCompatActivity {
         wave.setText("mocked");
         wave.setEnabled(false);
         Toast.makeText(this, "Waved from "+name+"!", Toast.LENGTH_SHORT).show();
-        Person newPerson = new Person(personId, name, imageURL, person.getWaveTo(), true);
+        Person newPerson = new Person(personId, name, imageURL, person.getWaveTo(), true, person.getFavStatus());
         db.personsWithCoursesDao().update(newPerson);
     }
 }
