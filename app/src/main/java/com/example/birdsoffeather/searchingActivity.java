@@ -59,7 +59,7 @@ public class searchingActivity extends AppCompatActivity {
             }
         });
 
-        peopleViewAdapter = new PeopleViewAdapter(studentList);
+        peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
 
     }
 
@@ -68,7 +68,7 @@ public class searchingActivity extends AppCompatActivity {
         AppDatabase db = AppDatabase.singleton(this);
         List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
         studentList.remove(0);
-        peopleViewAdapter = new PeopleViewAdapter(studentList);
+        peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
         personRecyclerView.setAdapter(peopleViewAdapter);
     }
 
