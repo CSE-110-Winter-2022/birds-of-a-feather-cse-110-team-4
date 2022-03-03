@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.birdsoffeather.model.db.AppDatabase;
@@ -28,6 +29,8 @@ public class searchingActivity extends AppCompatActivity {
     protected RecyclerView personRecyclerView;
     protected RecyclerView.LayoutManager personLayoutManager;
     protected PeopleViewAdapter peopleViewAdapter;
+
+    protected boolean btnStatus = true;
 
     //TODO: List to store fetch students
 
@@ -65,11 +68,25 @@ public class searchingActivity extends AppCompatActivity {
 
     //search the nearby student who has taken same classes with the user
     public void searchonClick(View view) {
-        AppDatabase db = AppDatabase.singleton(this);
-        List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
-        peopleViewAdapter = new PeopleViewAdapter(studentList);
-        personRecyclerView.setAdapter(peopleViewAdapter);
+        Button btn = findViewById(R.id.searchButton);
+        //when the btn when status is start
+        if(btnStatus) {
+            btnStatus = !btnStatus;
+            btn.setText("Stop");
+            AppDatabase db = AppDatabase.singleton(this);
+            List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
+            studentList.remove(0);
+            peopleViewAdapter = new PeopleViewAdapter(studentList);
+            personRecyclerView.setAdapter(peopleViewAdapter);
+        }
+
+        //when the btn when status is start
+        else {
+            btnStatus = !btnStatus;
+            btn.setText("Start");
+            //pop up window & save session
+        }
+
     }
 
 
