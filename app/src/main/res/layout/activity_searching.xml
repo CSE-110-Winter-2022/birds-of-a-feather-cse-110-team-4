@@ -7,19 +7,6 @@
     tools:context=".searchingActivity">
 
     <Button
-        android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="searchonClick"
-        android:text="search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.099" />
-
-    <Button
         android:id="@+id/gobackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +17,20 @@
         app:layout_constraintHorizontal_bias="0.383"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.099" />
+        app:layout_constraintVertical_bias="0.061" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="searchonClick"
+        android:text="search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.061" />
 
     <Button
         android:id="@+id/MockButton"
@@ -43,16 +43,30 @@
         app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.062" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler_view"
         android:layout_width="364dp"
         android:layout_height="536dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="120dp"
         android:clipToPadding="false"
         android:padding="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/gobackButton" />
+
+    <Spinner
+        android:id="@+id/sortingSpinner"
+        android:layout_width="359dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="19dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/search_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MockButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
