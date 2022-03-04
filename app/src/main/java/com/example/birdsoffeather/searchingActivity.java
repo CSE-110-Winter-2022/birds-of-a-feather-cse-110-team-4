@@ -5,10 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +36,10 @@ public class searchingActivity extends AppCompatActivity {
     protected RecyclerView personRecyclerView;
     protected RecyclerView.LayoutManager personLayoutManager;
     protected PeopleViewAdapter peopleViewAdapter;
+    final Context context = this;
+    private EditText userSessionInput;
+
+    protected boolean btnStatus = true;
 
     //TODO: List to store fetch students
 
@@ -152,11 +162,66 @@ public class searchingActivity extends AppCompatActivity {
 
     //search the nearby student who has taken same classes with the user
     public void searchonClick(View view) {
-        AppDatabase db = AppDatabase.singleton(this);
-        List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
-        peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
-        personRecyclerView.setAdapter(peopleViewAdapter);
+        Button btn = findViewById(R.id.searchButton);
+        //when the btn when status is start
+        if(btnStatus) {
+            btnStatus = !btnStatus;
+            btn.setText("Stop");
+            AppDatabase db = AppDatabase.singleton(this);
+            List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
+            studentList.remove(0);
+            peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
+            personRecyclerView.setAdapter(peopleViewAdapter);
+        }
+
+        //when the btn when status is start
+        else {
+            btnStatus = !btnStatus;
+            btn.setText("Start");
+            //pop up window & save session
+
+            // get prompts.xml view
+            LayoutInflater li = LayoutInflater.from(context);
+            View promptsView = li.inflate(R.layout.addsession_dialog, null);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    context);
+
+            // set prompts.xml to alertdialog builder
+            alertDialogBuilder.setView(promptsView);
+
+            final EditText userInput = (EditText) promptsView
+                    .findViewById(R.id.dialogUserInput);
+
+            // set dialog message
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Save",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // get user input and set it to result
+                                    // edit text
+//                                    userSessionInput.setText(userInput.getText());
+
+                                    //for the test
+                                    dialog.cancel();
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+
+
+        }
     }
 
 
