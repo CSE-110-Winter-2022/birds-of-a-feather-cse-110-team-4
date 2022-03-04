@@ -3,16 +3,59 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.18072916666666666" />
         <entry key="..\:/Users/18585/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_add_class.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/18585/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_mock_csvactivity.xml" value="0.33" />
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/activity_add_class.xml" value="0.48867753623188404" />
         <entry key="app/src/main/res/layout/activity_searching.xml" value="0.25271739130434784" />
         <entry key="app/src/main/res/layout/activity_student_info.xml" value="0.3375" />
         <entry key="app/src/main/res/layout/addsession_dialog.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/classes_row.xml" value="0.42527173913043476" />
         <entry key="app/src/main/res/layout/people_row.xml" value="0.3375" />
+=======
+        <entry key="..\:/Users/zhan2/birds-of-a-feather-cse-110-team-4-new/app/src/main/res/layout/activity_person_detail.xml" value="0.23125" />
+        <entry key="..\:/Users/zhan2/birds-of-a-feather-cse-110-team-4-new/app/src/main/res/layout/activity_searching.xml" value="0.16041666666666668" />
+        <entry key="..\:/Users/zhan2/birds-of-a-feather-cse-110-team-4-new/app/src/main/res/layout/activity_student_info.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/zhan2/birds-of-a-feather-cse-110-team-4-new/app/src/main/res/layout/people_row.xml" value="0.6" />
+        <entry key="app/src/main/res/layout/activity_add_class.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/activity_searching.xml" value="0.3589319864908853" />
+        <entry key="..\:/Users/18585/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_add_class.xml" value="0.31197916666666664" />
+        <entry key="..\:/Users/18585/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_main.xml" value="0.3265625" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/drawable/ic_star_black_shape_of_favourite_interface_symbol_svgrepo_com.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/drawable/ic_star_filled.xml" value="0.21666666666666667" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/drawable/ic_star_unfilled.xml" value="0.21666666666666667" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/drawable/rounded_shape.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/drawable/star.xml" value="0.33" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_add_class.xml" value="0.2453125" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_main.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_person_detail.xml" value="0.328125" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_profile.xml" value="0.328125" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_searching.xml" value="0.25" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/classes_row.xml" value="0.190625" />
+        <entry key="..\:/Users/arifd/AndroidStudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/people_row.xml" value="0.5" />
+        <entry key="..\:/Users/phngu/StudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.346875" />
+        <entry key="..\:/Users/phngu/StudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/drawable/ic_launcher_background.xml" value="0.346875" />
+        <entry key="..\:/Users/phngu/StudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_add_class.xml" value="0.2078804347826087" />
+        <entry key="..\:/Users/phngu/StudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/phngu/StudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_main.xml" value="0.2078804347826087" />
+        <entry key="..\:/Users/phngu/StudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_profile.xml" value="0.15096251266464034" />
+        <entry key="..\:/Users/phngu/StudioProjects/birds-of-a-feather-cse-110-team-4/app/src/main/res/layout/activity_student_info.xml" value="0.15307971014492755" />
+>>>>>>> main
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.31197916666666664" />
+      </ProjectState>
+    </option>
+  </component>
 </project>

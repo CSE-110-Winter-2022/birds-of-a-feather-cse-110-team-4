@@ -51,4 +51,7 @@ public class PersonWithCourses implements IPerson{
 
     @Override
     public boolean getWaveFrom(){return this.person.waveFrom;}
+
+    @Override
+    public boolean getFavStatus(){return this.person.favorite;}
 }

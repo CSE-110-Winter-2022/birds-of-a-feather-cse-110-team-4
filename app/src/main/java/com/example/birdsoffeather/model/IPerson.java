@@ -9,4 +9,5 @@ public interface IPerson {
     public List<String> getCourses();
     public boolean getWaveTo();
     public boolean getWaveFrom();
+    public boolean getFavStatus();
 }
