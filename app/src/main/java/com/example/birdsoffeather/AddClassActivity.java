@@ -151,5 +151,6 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
             return this.year + " " + this.quarter + " " +
                     this.subject + " " + this.course + " " + this.size;
         }
+
     }
 }

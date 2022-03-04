@@ -28,8 +28,8 @@
     </string-array>
 
     <string-array name="Sorting_Options">
-        <item>Prioritize Recent</item>
         <item>Prioritize Small Classes</item>
+        <item>Prioritize Recent</item>
     </string-array>
 
 </resources>
