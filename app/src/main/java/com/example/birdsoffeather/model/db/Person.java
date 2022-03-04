@@ -24,11 +24,15 @@ public class Person {
     @ColumnInfo(name = "wavefrom")
     public boolean waveFrom;
 
-    public Person(int personId, String name, String imageURL, boolean waveTo, boolean waveFrom){
+    @ColumnInfo(name = "favorite")
+    public boolean favorite;
+
+    public Person(int personId, String name, String imageURL, boolean waveTo, boolean waveFrom, boolean favorite){
         this.personId = personId;
         this.name = name;
         this.imageURL = imageURL;
         this.waveTo =  waveTo;
         this.waveFrom = waveFrom;
+        this.favorite = favorite;
     }
 }

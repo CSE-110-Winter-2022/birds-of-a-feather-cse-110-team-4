@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.birdsoffeather.model.db.AppDatabase;
@@ -61,17 +63,102 @@ public class searchingActivity extends AppCompatActivity {
         personLayoutManager = new LinearLayoutManager(this);
         personRecyclerView.setLayoutManager(personLayoutManager);
 
+        Spinner spinnerView = (Spinner) findViewById(R.id.sortingSpinner);
+        ArrayAdapter<CharSequence> sortOptionsAdapter = ArrayAdapter.createFromResource(this,
+                R.array.Sorting_Options, android.R.layout.simple_spinner_item);
+        sortOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerView.setAdapter(sortOptionsAdapter);
+        String spinnerOption = (String) spinnerView.getItemAtPosition(0);
+
         // sorting list of students in order of common classes
         Collections.sort(studentList, new Comparator<PersonWithCourses>() {
             @Override
             public int compare(PersonWithCourses p1, PersonWithCourses p2) {
+                if (spinnerOption.equals("Prioritize Recent")) {
+                    return sizePriorityScore(p1) > sizePriorityScore(p2) ? -1 : 1;
+                } else if (spinnerOption.equals("Prioritize Small Classes")) {
+                    return recentPriorityScore(p1) > recentPriorityScore(p2) ? -1 : 1;
+                }
                 return p2.getCourses().size() - p1.getCourses().size();
             }
         });
 
-        peopleViewAdapter = new PeopleViewAdapter(studentList);
 
+        peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
     }
+
+    public float recentPriorityScore(PersonWithCourses person) {
+        float score = 0;
+        for (int i =0; i < person.getCourses().size(); i++) {
+            String course = person.getCourses().get(i);
+            String[] courseDetails = courseDetails(course);
+
+            // Grab Relevant Class Details
+            int year = Integer.parseInt(courseDetails[0]);
+            int quarterOffset = 0;
+            if (courseDetails[1].equals("FA")) {
+                quarterOffset = -3;
+            } else if (courseDetails[1].equals("SS1") || courseDetails[1].equals("SS2") || courseDetails[1].equals("SSS")) {
+                quarterOffset = -2;
+            } else if (courseDetails[1].equals("SP")) {
+                quarterOffset = -1;
+            } else if (courseDetails[1].equals("WI")) {
+                quarterOffset = 0;
+            }
+
+            // Assuming this is for WI 2022
+            int yearDif = 2022 - year;
+            int age = yearDif * 4 + quarterOffset;
+
+            if (age == 0) {
+                score = 5;
+            } else if (age == 1) {
+                score = 4;
+            } else if (age == 2) {
+                score = 3;
+            } else if (age == 3) {
+                score = 2;
+            } else if (age >= 4) {
+                score = 1;
+            }
+        }
+        return score;
+    }
+
+    public float sizePriorityScore(PersonWithCourses person) {
+        float score = 0;
+        for (int i =0; i < person.getCourses().size(); i++) {
+            String course = person.getCourses().get(i);
+            String[] courseDetails = courseDetails(course);
+
+            // Grab Relevant Class Details
+            String size = courseDetails[4];
+
+            // Calculate weight
+            if (size.equals("Tiny")) {
+                score += 1;
+            } else if (size.equals("Small")) {
+                score += .33;
+            } else if (size.equals("Medium")) {
+                score += .18;
+            } else if (size.equals("Large")) {
+                score += .1;
+            } else if (size.equals("Huge")) {
+                size += .06;
+            } else if (size.equals("Gigantic")) {
+                score += .03;
+            }
+        }
+
+        return score;
+    }
+
+    public String[] courseDetails(String course) {
+        String[] splitStr = course.split(" ");
+        return splitStr;
+    }
+
+
 
     //search the nearby student who has taken same classes with the user
     public void searchonClick(View view) {
@@ -135,7 +222,11 @@ public class searchingActivity extends AppCompatActivity {
 
 
         }
-
+        AppDatabase db = AppDatabase.singleton(this);
+        List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
+        studentList.remove(0);
+        peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
+        personRecyclerView.setAdapter(peopleViewAdapter);
     }
 
 
