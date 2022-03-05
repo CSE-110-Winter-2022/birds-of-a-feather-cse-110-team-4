@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
@@ -31,7 +32,7 @@ import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 
 
-public class searchingActivity extends AppCompatActivity {
+public class searchingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private final String EXURL = "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0";
     protected RecyclerView personRecyclerView;
     protected RecyclerView.LayoutManager personLayoutManager;
@@ -45,6 +46,7 @@ public class searchingActivity extends AppCompatActivity {
 
     private static final String TAG = "Lab5-Nearby";
     private MessageListener messageListener;
+    private List<PersonWithCourses> studentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class searchingActivity extends AppCompatActivity {
 
         //initialize local database
         AppDatabase db = AppDatabase.singleton(this);
-        List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
+        studentList = db.personsWithCoursesDao().getAll();
         studentList.remove(0);
 
         personRecyclerView = findViewById(R.id.search_recycler_view);
@@ -69,21 +71,19 @@ public class searchingActivity extends AppCompatActivity {
         sortOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerView.setAdapter(sortOptionsAdapter);
         String spinnerOption = (String) spinnerView.getItemAtPosition(0);
+        spinnerView.setOnItemSelectedListener(this);
 
         // sorting list of students in order of common classes
         Collections.sort(studentList, new Comparator<PersonWithCourses>() {
             @Override
             public int compare(PersonWithCourses p1, PersonWithCourses p2) {
-                if (spinnerOption.equals("Prioritize Recent")) {
-                    return sizePriorityScore(p1) > sizePriorityScore(p2) ? -1 : 1;
-                } else if (spinnerOption.equals("Prioritize Small Classes")) {
-                    return recentPriorityScore(p1) > recentPriorityScore(p2) ? -1 : 1;
-                }
                 return p2.getCourses().size() - p1.getCourses().size();
             }
         });
 
-
+        for(PersonWithCourses p : studentList) {
+            System.out.println(p.getName());
+        }
         peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
     }
 
@@ -151,6 +151,35 @@ public class searchingActivity extends AppCompatActivity {
         }
 
         return score;
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        System.out.println("clicked");
+        if(parent.getId() == R.id.sortingSpinner) {
+            Collections.sort(studentList, new Comparator<PersonWithCourses>() {
+                @Override
+                public int compare(PersonWithCourses p1, PersonWithCourses p2) {
+                    String option = (String) parent.getItemAtPosition(pos);
+                    if (option.equals("Prioritize Recent")) {
+                        return sizePriorityScore(p1) > sizePriorityScore(p2) ? -1 : 1;
+                    } else if (option.equals("Prioritize Small Classes")) {
+                        return recentPriorityScore(p1) > recentPriorityScore(p2) ? -1 : 1;
+                    }
+                    return p2.getCourses().size() - p1.getCourses().size();
+                }
+            });
+        }
+        AppDatabase db = AppDatabase.singleton(this);
+        for(PersonWithCourses p : studentList) {
+            System.out.println(p.getName());
+        }
+        peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 
     public String[] courseDetails(String course) {
