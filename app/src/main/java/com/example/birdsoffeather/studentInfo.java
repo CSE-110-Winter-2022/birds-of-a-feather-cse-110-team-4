@@ -61,7 +61,6 @@ public class studentInfo extends AppCompatActivity {
         ownerId = intent.getIntExtra("owner_id",0);
         mocking = intent.getBooleanExtra("mocking", false);
         db = AppDatabase.singleton(this);
-        person = db.personsWithCoursesDao().get(personId);
         sender = db.personsWithCoursesDao().get(ownerId);
         //Getting data from data base (db)
         db = AppDatabase.singleton(this);
@@ -118,7 +117,7 @@ public class studentInfo extends AppCompatActivity {
             }
 
         };
-        String info = db.personsWithCoursesDao().get(0).getName()+","+name;
+        String info = "wave\n" + name + "\n" + db.personsWithCoursesDao().get(0).getName();
         this.messageListener = new FakedMessageListener(realListener, info);
         Nearby.getMessagesClient(this).subscribe(messageListener);
         Button wave = findViewById(R.id.waveButton);
