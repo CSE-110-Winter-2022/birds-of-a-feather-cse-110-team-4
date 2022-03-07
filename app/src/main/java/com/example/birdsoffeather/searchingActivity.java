@@ -54,6 +54,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private MessageListener messageListener;
     private List<PersonWithCourses> studentList;
     private String myInfoStr;
+    private Message msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         }
         peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
         myInfoStr = createMyInfoStr();
+        msg = new Message(myInfoStr.getBytes());
     }
 
     //Creates the string of current user's info, to be sent to other users via nearby msg
@@ -308,18 +310,26 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
                 @Override
                 public void onLost(@NonNull Message message) {
+                    Log.d(TAG, "lost message");
                 }
 
             };
-            this.messageListener = new MsgListener(realListener, 5, myInfoStr);
+            this.messageListener = realListener;
+            //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
+            Nearby.getMessagesClient(this).publish(msg);
+            Log.d(TAG, "My info published");
             Nearby.getMessagesClient(this).subscribe(messageListener);
+            Log.d(TAG, "Message listener subscribed");
         }
         //when the btn when status is start
         else {
             btnStatus = !btnStatus;
             btn.setText("Start");
             //unsubscribe msg listener
+            Nearby.getMessagesClient(this).unpublish(msg);
+            Log.d(TAG, "My info unpublished");
             Nearby.getMessagesClient(this).unsubscribe(messageListener);
+            Log.d(TAG, "Message listener unsubscribed");
             //pop up window & save session
 
             // get prompts.xml view

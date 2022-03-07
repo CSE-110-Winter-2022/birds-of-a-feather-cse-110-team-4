@@ -56,10 +56,12 @@ public class MockCSVActivity extends AppCompatActivity {
             @Override
             public void onFound(@NonNull Message message) {
                 MockCSVActivity.found = new String(message.getContent());
+                Log.d(TAG, "Message found" + message);
             }
 
             @Override
             public void onLost(@NonNull Message message) {
+                Log.d(TAG, "Message Lost");
             }
 
         };
@@ -67,6 +69,7 @@ public class MockCSVActivity extends AppCompatActivity {
 
             this.messageListener = new FakedMessageListener(realListener, info);
             Nearby.getMessagesClient(this).subscribe(messageListener);
+            Log.d(TAG, "Message Listener subscribed");
 
             //format csv input and retrieve relevant information
             if(!TextUtils.isEmpty(found)) {
