@@ -7,17 +7,17 @@
     tools:context=".searchingActivity">
 
     <Button
-        android:id="@+id/gobackButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="backonClick"
-        android:text="Back"
+        android:id="@+id/MockButton"
+        android:layout_width="127dp"
+        android:layout_height="54dp"
+        android:onClick="goToMockOnClick"
+        android:text="Mock with students"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.383"
+        app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.007" />
 
     <Button
         android:id="@+id/searchButton"
@@ -27,23 +27,23 @@
         android:text="search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.007" />
 
     <Button
-        android:id="@+id/MockButton"
-        android:layout_width="127dp"
-        android:layout_height="54dp"
-        android:onClick="goToMockOnClick"
-        android:text="Mock with students"
+        android:id="@+id/gobackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="backonClick"
+        android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintHorizontal_bias="0.408"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062" />
+        app:layout_constraintVertical_bias="0.007" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler_view"
@@ -69,4 +69,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MockButton" />
+
+    <ToggleButton
+        android:id="@+id/visibilityToggle"
+        android:layout_width="77dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/MockButton"
+        app:layout_constraintStart_toEndOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="Allow Other Users to Find me?"
+        app:layout_constraintBottom_toBottomOf="@+id/visibilityToggle"
+        app:layout_constraintStart_toStartOf="@+id/searchButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
