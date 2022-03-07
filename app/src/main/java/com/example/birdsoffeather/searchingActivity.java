@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,10 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.birdsoffeather.model.CSVReader;
 import com.example.birdsoffeather.model.MsgListener;
@@ -55,6 +58,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private List<PersonWithCourses> studentList;
     private String myInfoStr;
     private Message msg;
+    private boolean accessibility = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,23 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_searching);
         setTitle("Searching");
 
+        //Initialize accessibility toggle
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.visibilityToggle);
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    accessibility = true;
+                    Activity host = (Activity) findViewById(R.id.visibilityToggle).getContext();
+                    Button b = findViewById(R.id.searchButton);
+                    if(host != null && b.getText() == "Stop") {
+                        Nearby.getMessagesClient(host).publish(msg);
+                        Log.d(TAG, "My info published");
+                    }
+                } else {
+                    accessibility = false;
+                }
+            }
+        });
         //initialize local database
         AppDatabase db = AppDatabase.singleton(this);
         studentList = db.personsWithCoursesDao().getAll();
@@ -316,7 +337,8 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             };
             this.messageListener = realListener;
             //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
-            Nearby.getMessagesClient(this).publish(msg);
+            if(accessibility)
+                Nearby.getMessagesClient(this).publish(msg);
             Log.d(TAG, "My info published");
             Nearby.getMessagesClient(this).subscribe(messageListener);
             Log.d(TAG, "Message listener subscribed");
