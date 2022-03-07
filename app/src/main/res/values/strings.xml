@@ -28,6 +28,7 @@
     </string-array>
 
     <string-array name="Sorting_Options">
+        <item>Default</item>
         <item>Prioritize Small Classes</item>
         <item>Prioritize Recent</item>
     </string-array>
