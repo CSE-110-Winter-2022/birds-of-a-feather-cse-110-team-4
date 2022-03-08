@@ -25,6 +25,7 @@ import android.widget.ToggleButton;
 
 import com.example.birdsoffeather.model.CSVReader;
 import com.example.birdsoffeather.model.MsgListener;
+import com.example.birdsoffeather.model.MultiWayComparator;
 import com.example.birdsoffeather.model.db.AppDatabase;
 import com.example.birdsoffeather.model.db.Courses;
 import com.example.birdsoffeather.model.db.Person;
@@ -59,6 +60,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private String myInfoStr;
     private Message msg;
     private boolean accessibility = false;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             }
         });
         //initialize local database
-        AppDatabase db = AppDatabase.singleton(this);
+        db = AppDatabase.singleton(this);
         studentList = db.personsWithCoursesDao().getAll();
         studentList.remove(0);
 
@@ -103,12 +105,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         spinnerView.setOnItemSelectedListener(this);
 
         // sorting list of students in order of common classes
-        Collections.sort(studentList, new Comparator<PersonWithCourses>() {
-            @Override
-            public int compare(PersonWithCourses p1, PersonWithCourses p2) {
-                return p2.getCourses().size() - p1.getCourses().size();
-            }
-        });
+        Collections.sort(studentList, new MultiWayComparator("Default"));
 
         for(PersonWithCourses p : studentList) {
             System.out.println(p.getName());
@@ -137,94 +134,20 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         return str;
     }
 
-    public float recentPriorityScore(PersonWithCourses person) {
-        float score = 0;
-        for (int i =0; i < person.getCourses().size(); i++) {
-            String course = person.getCourses().get(i);
-            String[] courseDetails = courseDetails(course);
-
-            // Grab Relevant Class Details
-            int year = Integer.parseInt(courseDetails[0]);
-            int quarterOffset = 0;
-            if (courseDetails[1].equals("FA")) {
-                quarterOffset = -3;
-            } else if (courseDetails[1].equals("SS1") || courseDetails[1].equals("SS2") || courseDetails[1].equals("SSS")) {
-                quarterOffset = -2;
-            } else if (courseDetails[1].equals("SP")) {
-                quarterOffset = -1;
-            } else if (courseDetails[1].equals("WI")) {
-                quarterOffset = 0;
-            }
-
-            // Assuming this is for WI 2022
-            int yearDif = 2022 - year;
-            int age = yearDif * 4 + quarterOffset;
-
-            if (age == 0) {
-                score = 5;
-            } else if (age == 1) {
-                score = 4;
-            } else if (age == 2) {
-                score = 3;
-            } else if (age == 3) {
-                score = 2;
-            } else if (age >= 4) {
-                score = 1;
-            }
-        }
-        return score;
-    }
-
-    public float sizePriorityScore(PersonWithCourses person) {
-        float score = 0;
-        for (int i =0; i < person.getCourses().size(); i++) {
-            String course = person.getCourses().get(i);
-            String[] courseDetails = courseDetails(course);
-
-            // Grab Relevant Class Details
-            String size = courseDetails[4];
-
-            // Calculate weight
-            if (size.equals("Tiny")) {
-                score += 1;
-            } else if (size.equals("Small")) {
-                score += .33;
-            } else if (size.equals("Medium")) {
-                score += .18;
-            } else if (size.equals("Large")) {
-                score += .1;
-            } else if (size.equals("Huge")) {
-                size += .06;
-            } else if (size.equals("Gigantic")) {
-                score += .03;
-            }
-        }
-
-        return score;
-    }
-
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
-        System.out.println("clicked");
+        studentList = db.personsWithCoursesDao().getAll();
+        studentList.remove(0);
         if(parent.getId() == R.id.sortingSpinner) {
-            Collections.sort(studentList, new Comparator<PersonWithCourses>() {
-                @Override
-                public int compare(PersonWithCourses p1, PersonWithCourses p2) {
-                    String option = (String) parent.getItemAtPosition(pos);
-                    if (option.equals("Prioritize Recent")) {
-                        return sizePriorityScore(p1) > sizePriorityScore(p2) ? -1 : 1;
-                    } else if (option.equals("Prioritize Small Classes")) {
-                        return recentPriorityScore(p1) > recentPriorityScore(p2) ? -1 : 1;
-                    }
-                    return p2.getCourses().size() - p1.getCourses().size();
-                }
-            });
+            String option = (String) parent.getItemAtPosition(pos);
+            Collections.sort(studentList, new MultiWayComparator(option));
         }
-        AppDatabase db = AppDatabase.singleton(this);
         for(PersonWithCourses p : studentList) {
             System.out.println(p.getName());
         }
         peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
+        personRecyclerView.setAdapter(peopleViewAdapter);
+
     }
 
     @Override
@@ -246,10 +169,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         if(btnStatus) {
             btnStatus = !btnStatus;
             btn.setText("Stop");
-            AppDatabase db = AppDatabase.singleton(this);
-            List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
-            studentList.remove(0);
-            peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
+
             personRecyclerView.setAdapter(peopleViewAdapter);
 
             //Continously send myinfoStr

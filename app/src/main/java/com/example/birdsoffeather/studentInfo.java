@@ -1,5 +1,7 @@
 package com.example.birdsoffeather;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -110,15 +113,18 @@ public class studentInfo extends AppCompatActivity {
             @Override
             public void onFound(@NonNull Message message) {
                 found = new String(message.getContent());
+                Log.d(TAG, "Message found" + found);
             }
 
             @Override
             public void onLost(@NonNull Message message) {
+                Log.d(TAG, "Message lost" + found);
             }
 
         };
         String info = "wave\n" + name + "\n" + db.personsWithCoursesDao().get(0).getName();
-        this.messageListener = new FakedMessageListener(realListener, info);
+        this.messageListener = realListener;
+        Nearby.getMessagesClient(this).publish(new Message(info.getBytes()));
         Nearby.getMessagesClient(this).subscribe(messageListener);
         Button wave = findViewById(R.id.waveButton);
         wave.setText("waved");
@@ -127,20 +133,7 @@ public class studentInfo extends AppCompatActivity {
     }
 
     public void mockWaveOnClick(View view) {
-        MessageListener realListener = new MessageListener() {
-            @Override
-            public void onFound(@NonNull Message message) {
-                found = new String(message.getContent());
-            }
 
-            @Override
-            public void onLost(@NonNull Message message) {
-            }
-
-        };
-        String info = name+","+db.personsWithCoursesDao().get(0).getName();
-        this.messageListener = new FakedMessageListener(realListener, info);
-        Nearby.getMessagesClient(this).subscribe(messageListener);
         Button wave = findViewById(R.id.mockwave);
         wave.setText("mocked");
         wave.setEnabled(false);
