@@ -257,9 +257,10 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             };
             this.messageListener = realListener;
             //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
-            if(accessibility)
+            if(accessibility) {
                 Nearby.getMessagesClient(this).publish(msg);
-            Log.d(TAG, "My info published");
+                Log.d(TAG, "My info published");
+            }
             Nearby.getMessagesClient(this).subscribe(messageListener);
             Log.d(TAG, "Message listener subscribed");
         }
