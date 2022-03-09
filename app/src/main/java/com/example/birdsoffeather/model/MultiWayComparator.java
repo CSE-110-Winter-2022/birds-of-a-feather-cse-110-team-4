@@ -93,9 +93,9 @@ public class MultiWayComparator implements Comparator {
         else if( ((PersonWithCourses)p2).getWaveFrom() )
             return 1;
         if (option.equals("Prioritize Recent")) {
-            return sizePriorityScore((PersonWithCourses) p1) > sizePriorityScore((PersonWithCourses) p2) ? -1 : 1;
+            return sizePriorityScore((PersonWithCourses) p1) < sizePriorityScore((PersonWithCourses) p2) ? -1 : 1;
         } else if (option.equals("Prioritize Small Classes")) {
-            return recentPriorityScore((PersonWithCourses)p1) > recentPriorityScore((PersonWithCourses)p2) ? -1 : 1;
+            return recentPriorityScore((PersonWithCourses)p1) < recentPriorityScore((PersonWithCourses)p2) ? -1 : 1;
         }
         //Default Option
         return (((PersonWithCourses)p2).getCourses().size() - ((PersonWithCourses)p1).getCourses().size());
