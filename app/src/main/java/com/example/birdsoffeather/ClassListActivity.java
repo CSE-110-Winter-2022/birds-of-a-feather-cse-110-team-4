@@ -29,13 +29,15 @@ public class ClassListActivity extends AppCompatActivity {
         db = AppDatabase.singleton(this);
         List<Courses> courses = db.coursesDao().gerForPerson(0);
         List<Courses> currentCourses = new ArrayList<>();
+
+        //Add only the course on current quarter
         for(Courses course: courses){
-            String split[] = course.course.split(" ");
-            if((split[0].equals(currentYear) && split[1].equals(currentQuarter))){
+            if(isCurrentQuarter(course)){
                currentCourses.add(course);
             }
         }
 
+        //Add only favorite person
         List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
         studentList.remove(0);
         for(int i = studentList.size() - 1; i >= 0; i--){
@@ -43,6 +45,8 @@ public class ClassListActivity extends AppCompatActivity {
                 studentList.remove(studentList.get(i));
             }
         }
+
+        //Initialize the recyclerView
         RecyclerView Classes = findViewById(R.id.ClassesList);
         personRecyclerView = findViewById(R.id.FavoriteList);
         peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
@@ -55,6 +59,16 @@ public class ClassListActivity extends AppCompatActivity {
         personRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    //helper function for checking if the course is in current quarter
+    private boolean isCurrentQuarter(Courses course){
+        String split[] = course.course.split(" ");
+        if((split[0].equals(currentYear) && split[1].equals(currentQuarter))){
+            return true;
+        }
+        return false;
+    }
+
+    //helper function for checking if the person is favorite
     private boolean favorite(IPerson person){
         return person.getFavStatus();
     }

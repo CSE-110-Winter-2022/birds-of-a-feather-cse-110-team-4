@@ -40,6 +40,8 @@ public class ClassDetialsActivity extends AppCompatActivity {
         subject = intent.getStringExtra("subject");
         List<PersonWithCourses> classmates = new ArrayList<PersonWithCourses>();
         System.out.println(studentList.size());
+
+        //check if the student have taken the same classes with us
         for(int i = studentList.size() - 1; i >= 0; i--){
             List<Courses> courses = db.coursesDao().gerForPerson(studentList.get(i).getId());
             for(Courses course: courses){
@@ -50,6 +52,7 @@ public class ClassDetialsActivity extends AppCompatActivity {
             }
         }
 
+        //Initialize the recycler view
         TextView courseName = findViewById(R.id.Course);
         courseName.setText(year + " " + quarter + " " + subject + " " + course);
         personRecyclerView = findViewById(R.id.ClassmatesList);
@@ -59,6 +62,8 @@ public class ClassDetialsActivity extends AppCompatActivity {
         personRecyclerView.setAdapter(peopleViewAdapter);
 
     }
+
+    //helper function for checking if the student take the same class with us
     private boolean isSameCourse(Courses course){
         String[] splitCousrse = course.course.split(" ");
         if(splitCousrse[0].equals(this.year) && splitCousrse[1].equals(this.quarter) && splitCousrse[2].equals(this.subject) && splitCousrse[3].equals(this.course)){
