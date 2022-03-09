@@ -18,7 +18,7 @@ public class CSVReader {
         student.add(uuid);
         student.add(name);
         student.add(url);
-        for(int i = 2; i < lines.length; i++) {
+        for(int i = 3; i < lines.length; i++) {
             String[] c = lines[i].split(",");
             if(c[1].equals("wave")) {
                 student.add(c[0]);
