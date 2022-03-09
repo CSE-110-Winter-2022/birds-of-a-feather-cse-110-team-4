@@ -75,7 +75,7 @@ public class studentInfo extends AppCompatActivity {
         nameView.setText(name);//Set name for user
         //Adapter View
         classesRecyclerView = (RecyclerView) findViewById(R.id.studentClassList);
-        adapter = new ClassViewAdapter(false, courses, (course)-> {
+        adapter = new ClassViewAdapter(true,false,courses, (course)-> {
         });
         classesRecyclerView.setAdapter(adapter);
         classesRecyclerView.setLayoutManager(new LinearLayoutManager(this));

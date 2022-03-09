@@ -1,6 +1,9 @@
 package com.example.birdsoffeather;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +24,13 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
     private List<Courses> classes;
     private final Consumer<Courses> onClassRemoved;
     private Boolean deleteEnable;
+    private boolean hideButton;
 
-    public ClassViewAdapter(Boolean deleteEnable,List <Courses> classes, Consumer<Courses> onClassRemoved) {
+    public ClassViewAdapter(boolean hideButton, Boolean deleteEnable,List <Courses> classes, Consumer<Courses> onClassRemoved) {
         this.classes = classes;
         this.onClassRemoved = onClassRemoved;
         this.deleteEnable = deleteEnable;
+        this.hideButton = hideButton;
     }
 
     @NonNull
@@ -39,7 +44,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             viewHolder = new ViewHolder(classesView, this::removeClass, onClassRemoved);
         }
         else {
-            viewHolder = new ViewHolder(classesView);
+            viewHolder = new ViewHolder(classesView, hideButton);
         }
         return viewHolder;
     }
@@ -102,7 +107,7 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
         }
 
         //ViewHolder without delete button
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, boolean hideButton) {
             super(itemView);
             year = (TextView) itemView.findViewById(R.id.year_row_txt);
             quarter = (TextView) itemView.findViewById(R.id.quarter_row_txt);
@@ -110,11 +115,27 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
             course = (TextView) itemView.findViewById(R.id.course_row_txt);
             size    = (TextView) itemView.findViewById(R.id.size_row_txt);
             Button deleteButton = (Button)itemView.findViewById(R.id.removeClassButton);
-            deleteButton.setVisibility(itemView.INVISIBLE);
+            deleteButton.setText("->");
+            deleteButton.setOnClickListener( (view) -> {
+               goOnclick(view);
+            });;
+            if(hideButton){
+                deleteButton.setVisibility(View.INVISIBLE);
+            }
         }
 
         public void setCourses(Courses courses) {
             this.courses = courses;
+        }
+
+        public void goOnclick(View view){
+            Context context = view.getContext();
+            Intent intent = new Intent(context, ClassDetialsActivity.class);
+            intent.putExtra("year", this.year.getText().toString());
+            intent.putExtra("quarter", this.quarter.getText().toString());
+            intent.putExtra("subject", this.subject.getText().toString());
+            intent.putExtra("course", this.course.getText().toString());
+            context.startActivity(intent);
         }
     }
 }

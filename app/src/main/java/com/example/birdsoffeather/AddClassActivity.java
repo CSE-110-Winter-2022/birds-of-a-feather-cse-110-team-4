@@ -47,10 +47,6 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
         List<Courses> courses = db.coursesDao().gerForPerson(personId);
-        //List<Class> emptyClasses = new ArrayList<Class>();
-        //for(Courses temp: courses){
-        //    emptyClasses.add(toClass(temp.course));
-        //}
 
         //Set up Spinner(Dropdowns)
         Spinner yearSpinner = (Spinner) findViewById(R.id.YearDropDown);
@@ -75,7 +71,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         //Show classes
 
         RecyclerView addedClasses = findViewById(R.id.classesRecyclerView);
-        adapter = new ClassViewAdapter(true, courses, (course)-> {
+        adapter = new ClassViewAdapter(false,true, courses, (course)-> {
             db.coursesDao().delete(course);
         });
         addedClasses.setAdapter(adapter);
@@ -125,6 +121,11 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     //Go to search bof page
     public void doneonClick(View view) {
         Intent intent = new Intent(this, searchingActivity.class);
+        startActivity(intent);
+    }
+
+    public void classListOnClick(View view) {
+        Intent intent = new Intent(this, ClassListActivity.class);
         startActivity(intent);
     }
 
