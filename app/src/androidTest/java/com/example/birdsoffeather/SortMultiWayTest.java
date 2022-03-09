@@ -8,7 +8,6 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -39,13 +38,13 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SortDifferentWayTest {
+public class SortMultiWayTest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void sortDifferentWayTest() {
+    public void sortMultiWayTest() {
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.loginButton), withText("LOGIN"),
                         childAtPosition(
@@ -173,7 +172,17 @@ public class SortDifferentWayTest {
                                         0),
                                 6),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("130"), closeSoftKeyboard());
+        appCompatEditText3.perform(click());
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.editCourse),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                6),
+                        isDisplayed()));
+        appCompatEditText4.perform(replaceText("130"), closeSoftKeyboard());
 
         ViewInteraction appCompatSpinner5 = onView(
                 allOf(withId(R.id.ClassSizeDropDown),
@@ -222,7 +231,7 @@ public class SortDifferentWayTest {
                         isDisplayed()));
         materialButton6.perform(click());
 
-        ViewInteraction appCompatEditText4 = onView(
+        ViewInteraction appCompatEditText5 = onView(
                 allOf(withId(R.id.studentInfo),
                         childAtPosition(
                                 childAtPosition(
@@ -230,7 +239,27 @@ public class SortDifferentWayTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText4.perform(longClick());
+        appCompatEditText5.perform(longClick());
+
+        ViewInteraction appCompatEditText6 = onView(
+                allOf(withId(R.id.studentInfo),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatEditText6.perform(click());
+
+        ViewInteraction appCompatEditText7 = onView(
+                allOf(withId(R.id.studentInfo),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatEditText7.perform(longClick());
 
         ViewInteraction linearLayout = onView(
                 allOf(withContentDescription("Paste"),
@@ -242,7 +271,7 @@ public class SortDifferentWayTest {
                         isDisplayed()));
         linearLayout.perform(click());
 
-        ViewInteraction appCompatEditText5 = onView(
+        ViewInteraction appCompatEditText8 = onView(
                 allOf(withId(R.id.studentInfo),
                         childAtPosition(
                                 childAtPosition(
@@ -250,7 +279,7 @@ public class SortDifferentWayTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText5.perform(replaceText("Bill,,,\nhttps://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n2021,FA,CSE,101,Small (40-75)"), closeSoftKeyboard());
+        appCompatEditText8.perform(replaceText("Bill,,,\nhttps://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n2021,FA,CSE,101,Small (40-75)"), closeSoftKeyboard());
 
         ViewInteraction materialButton7 = onView(
                 allOf(withId(R.id.addStudentButton), withText("Add Student"),
@@ -262,7 +291,7 @@ public class SortDifferentWayTest {
                         isDisplayed()));
         materialButton7.perform(click());
 
-        ViewInteraction appCompatEditText6 = onView(
+        ViewInteraction appCompatEditText9 = onView(
                 allOf(withId(R.id.studentInfo),
                         childAtPosition(
                                 childAtPosition(
@@ -270,7 +299,7 @@ public class SortDifferentWayTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText6.perform(longClick());
+        appCompatEditText9.perform(longClick());
 
         ViewInteraction linearLayout2 = onView(
                 allOf(withContentDescription("Paste"),
@@ -282,7 +311,7 @@ public class SortDifferentWayTest {
                         isDisplayed()));
         linearLayout2.perform(click());
 
-        ViewInteraction appCompatEditText7 = onView(
+        ViewInteraction appCompatEditText10 = onView(
                 allOf(withId(R.id.studentInfo),
                         childAtPosition(
                                 childAtPosition(
@@ -290,7 +319,7 @@ public class SortDifferentWayTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText7.perform(replaceText("Student,,,\nhttps://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n2022,WI,CSE,130,Huge (250-400)"), closeSoftKeyboard());
+        appCompatEditText10.perform(replaceText("Student,,,\nhttps://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n2022,WI,CSE,130,Huge (250-400)"), closeSoftKeyboard());
 
         ViewInteraction materialButton8 = onView(
                 allOf(withId(R.id.addStudentButton), withText("Add Student"),
@@ -346,33 +375,10 @@ public class SortDifferentWayTest {
         textView.check(matches(withText("Bill")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.person_row_name), withText("Student"),
+                allOf(withId(R.id.person_row_name), withText("Bill"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
-        textView2.check(matches(withText("Student")));
-
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.person_row_name), withText("Student"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
-                        isDisplayed()));
-        textView3.check(matches(withText("Student")));
-
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.search_recycler_view),
-                        childAtPosition(
-                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                3)));
-        recyclerView.perform(actionOnItemAtPosition(1, click()));
-
-        ViewInteraction materialButton11 = onView(
-                allOf(withId(R.id.backToListButton), withText("BACK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton11.perform(click());
+        textView2.check(matches(withText("Bill")));
 
         ViewInteraction appCompatSpinner7 = onView(
                 allOf(withId(R.id.sortingSpinner),
@@ -391,11 +397,11 @@ public class SortDifferentWayTest {
                 .atPosition(2);
         appCompatCheckedTextView7.perform(click());
 
-        ViewInteraction textView4 = onView(
+        ViewInteraction textView3 = onView(
                 allOf(withId(R.id.person_row_name), withText("Student"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
-        textView4.check(matches(withText("Student")));
+        textView3.check(matches(withText("Student")));
     }
 
     private static Matcher<View> childAtPosition(
