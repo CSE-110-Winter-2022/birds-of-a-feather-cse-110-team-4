@@ -29,11 +29,14 @@ public class MockCSVActivity extends AppCompatActivity {
 
     private static String found;
     private MessageListener messageListener;
+    private boolean searching;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mock_csvactivity);
+        Intent intent = getIntent();
+        searching = intent.getBooleanExtra("Searching",true);
     }
 
     //Go back to search BOF page
@@ -44,6 +47,10 @@ public class MockCSVActivity extends AppCompatActivity {
 
     //When clicked button, get student information from csv, and add that student to db
     public void onAddStudentClicked(View view) {
+        if(!searching) {
+            Toast.makeText(this, "Cannot mock when not searching!",Toast.LENGTH_SHORT).show();
+            return;
+        }
         String name, url;
         List<String> courses = new ArrayList<String>();
         List<String> matches = new ArrayList<String>();
@@ -61,7 +68,7 @@ public class MockCSVActivity extends AppCompatActivity {
 
             @Override
             public void onLost(@NonNull Message message) {
-                Log.d(TAG, "Message Lost");
+                Log.d(TAG, "Message Lost"+message);
             }
 
         };

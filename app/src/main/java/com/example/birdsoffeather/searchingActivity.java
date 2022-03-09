@@ -54,13 +54,14 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
     //TODO: List to store fetch students
 
-    private static final String TAG = "Lab5-Nearby";
+    public static final String TAG = "BoF";
     private MessageListener messageListener;
     private List<PersonWithCourses> studentList;
     private String myInfoStr;
     private Message msg;
     private boolean accessibility = false;
     private AppDatabase db;
+    private boolean isSearching = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +170,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         if(btnStatus) {
             btnStatus = !btnStatus;
             btn.setText("Stop");
-
+            isSearching = !isSearching;
             personRecyclerView.setAdapter(peopleViewAdapter);
 
             //Continously send myinfoStr
@@ -259,7 +260,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
             if(accessibility) {
                 Nearby.getMessagesClient(this).publish(msg);
-                Log.d(TAG, "My info published");
+                Log.d(TAG, "My info published" + myInfoStr);
             }
             Nearby.getMessagesClient(this).subscribe(messageListener);
             Log.d(TAG, "Message listener subscribed");
@@ -270,7 +271,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             btn.setText("Start");
             //unsubscribe msg listener
             Nearby.getMessagesClient(this).unpublish(msg);
-            Log.d(TAG, "My info unpublished");
+            Log.d(TAG, "My info unpublished" + myInfoStr);
             Nearby.getMessagesClient(this).unsubscribe(messageListener);
             Log.d(TAG, "Message listener unsubscribed");
             //pop up window & save session
@@ -329,6 +330,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     //Go to the Mock
     public void goToMockOnClick(View view) {
         Intent intent = new Intent(this, MockCSVActivity.class);
+        intent.putExtra("Searching",isSearching);
         startActivity(intent);
     }
 
