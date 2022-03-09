@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BirdsOfFeather">
         <activity
+            android:name=".ClassDetialsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ClassListActivity"
             android:exported="false" />
 
