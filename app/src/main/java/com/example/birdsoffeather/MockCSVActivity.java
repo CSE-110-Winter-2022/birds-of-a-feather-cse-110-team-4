@@ -18,6 +18,7 @@ import com.example.birdsoffeather.model.FakedMessageListener;
 import com.example.birdsoffeather.model.db.AppDatabase;
 import com.example.birdsoffeather.model.db.Courses;
 import com.example.birdsoffeather.model.db.Person;
+import com.example.birdsoffeather.model.db.PersonWithCourses;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
@@ -51,9 +52,6 @@ public class MockCSVActivity extends AppCompatActivity {
             Toast.makeText(this, "Cannot mock when not searching!",Toast.LENGTH_SHORT).show();
             return;
         }
-        String name, url;
-        List<String> courses = new ArrayList<String>();
-        List<String> matches = new ArrayList<String>();
 
         //get csv input
         TextView infoView = findViewById(R.id.studentInfo);
@@ -82,38 +80,10 @@ public class MockCSVActivity extends AppCompatActivity {
             if(!TextUtils.isEmpty(found)) {
 
                 List<String> student = CSVReader.ReadCSV(found);
-                name = student.get(0);
-                url = student.get(1);
-                for (int i = 2; i < student.size(); i++) {
-                    String newCourse = student.get(i);
-                    courses.add(newCourse);
-                }
-                found = "";
-                //get user's courses for comparing
-                AppDatabase db = AppDatabase.singleton(this);
-                List<Courses> myCourses = db.coursesDao().gerForPerson(0);
-                ArrayList<String> myCoursesList = new ArrayList<String>();
-                for (Courses c : myCourses) {
-                    myCoursesList.add(c.course);
-                }
-                compareCourses(courses, myCoursesList, matches);
-                infoView.setText("");
+                if(!student.get(student.size() - 1).equals("wave")) {
+                    addStudent(student);
+                }else {
 
-                if (matches.size() > 0) {
-                    //add person to db
-                    int nextID = db.personsWithCoursesDao().getAll().size();
-                    Person newStudent = new Person(nextID, name, url, false, false, false);
-                    db.personsWithCoursesDao().insert(newStudent);
-
-                    //add matching classes to db
-                    int newCourseId = db.coursesDao().count() + 1;
-                    for (String course : matches) {
-                        Courses newCourse = new Courses(newCourseId, newStudent.personId, course);
-                        db.coursesDao().insert(newCourse);
-                        newCourseId++;
-                    }
-                } else {
-                    Toast.makeText(this, "No Matching Courses!", Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
@@ -123,11 +93,70 @@ public class MockCSVActivity extends AppCompatActivity {
 
     }
 
+    private void addStudent(List<String> student) {
+        String name, url;
+        List<String> courses = new ArrayList<String>();
+        List<String> matches = new ArrayList<String>();
+        TextView infoView = findViewById(R.id.studentInfo);
+        String info = infoView.getText().toString();
+        String uuid = student.get(0);
+        //TODO: uuid
+        name = student.get(1);
+        url = student.get(2);
+        for (int i = 3; i < student.size(); i++) {
+            String newCourse = student.get(i);
+            courses.add(newCourse);
+        }
+        found = "";
+        //get user's courses for comparing
+        AppDatabase db = AppDatabase.singleton(this);
+        List<Courses> myCourses = db.coursesDao().gerForPerson(0);
+        ArrayList<String> myCoursesList = new ArrayList<String>();
+        for (Courses c : myCourses) {
+            myCoursesList.add(c.course);
+        }
+        compareCourses(courses, myCoursesList, matches);
+        infoView.setText("");
+
+        if (matches.size() > 0) {
+            //add person to db
+            int nextID = db.personsWithCoursesDao().getAll().size();
+            Person newStudent = new Person(nextID, name, url, false, false, false);
+            db.personsWithCoursesDao().insert(newStudent);
+
+            //add matching classes to db
+            int newCourseId = db.coursesDao().count() + 1;
+            for (String course : matches) {
+                Courses newCourse = new Courses(newCourseId, newStudent.personId, course);
+                db.coursesDao().insert(newCourse);
+                newCourseId++;
+            }
+        } else {
+            Toast.makeText(this, "No Matching Courses!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void mockWave(List<String> student) {
+        TextView infoView = findViewById(R.id.studentInfo);
+        found = "";
+        infoView.setText("");
+        String uuid = student.get(0);
+        AppDatabase db = AppDatabase.singleton(this);
+        //TODO: implement myid
+        String myid = "";
+        if(student.get(student.size()-2).equals(myid)) {
+            PersonWithCourses person = db.personsWithCoursesDao().get(1);
+            //Person p = db.personsWithCoursesDao().get(student.get(0));
+            Person newPerson = new Person(person.getId(), person.getName(), person.getURL(), person.getWaveTo(), true, person.getFavStatus());
+            db.personsWithCoursesDao().update(newPerson);
+        }
+    }
+
     //Compare my course and the entered student's course, store matching course in matches
     private void compareCourses(List<String> c1, List<String> c2, List<String> matches) {
         for(String str: c2) {
-            System.out.println(str);
-            System.out.println(c1.get(0));
+            //System.out.println(str);
+            //System.out.println(c1.get(0));
             if(c1.contains(str)) {
                 matches.add(str);
             }
