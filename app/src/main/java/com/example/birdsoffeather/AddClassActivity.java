@@ -31,6 +31,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     private ClassViewAdapter adapter;
     private AppDatabase db;
     private IPerson person;
+    private String personId;
     public Class toClass(String data){
         String[] splitStr = data.split(" ");
         return new Class(splitStr[0],splitStr[1],splitStr[2],splitStr[3], splitStr[4]);
@@ -43,7 +44,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_add_class);
 
         Intent intent = getIntent();
-        int personId = intent.getIntExtra( "person_id",0);
+        personId = intent.getStringExtra( "person_id");
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
         List<Courses> courses = db.coursesDao().gerForPerson(personId);
@@ -99,7 +100,7 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     //Add class to database
     public void addClassOnClicked(View view) {
         int newNodeId = db.coursesDao().count() + 1;
-        int personId = person.getId();
+        String personId = person.getId();
         TextView subjectView = findViewById(R.id.editSubject);
         TextView courseView = findViewById(R.id.editCourse);
         if(subjectView.length() == 0 || courseView.length() == 0)
@@ -121,11 +122,13 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
     //Go to search bof page
     public void doneonClick(View view) {
         Intent intent = new Intent(this, searchingActivity.class);
+        intent.putExtra("user_id", personId);
         startActivity(intent);
     }
 
     public void classListOnClick(View view) {
         Intent intent = new Intent(this, ClassListActivity.class);
+        intent.putExtra("user_id", personId);
         startActivity(intent);
     }
 

@@ -31,6 +31,7 @@ public class MockCSVActivity extends AppCompatActivity {
     private static String found;
     private MessageListener messageListener;
     private boolean searching;
+    private String uuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class MockCSVActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mock_csvactivity);
         Intent intent = getIntent();
         searching = intent.getBooleanExtra("Searching",true);
+        uuid = intent.getStringExtra("uuid");
     }
 
     //Go back to search BOF page
@@ -57,34 +59,15 @@ public class MockCSVActivity extends AppCompatActivity {
         TextView infoView = findViewById(R.id.studentInfo);
         String info = infoView.getText().toString();
 
-        MessageListener realListener = new MessageListener() {
-            @Override
-            public void onFound(@NonNull Message message) {
-                MockCSVActivity.found = new String(message.getContent());
-                Log.d(TAG, "Message found" + message);
-            }
-
-            @Override
-            public void onLost(@NonNull Message message) {
-                Log.d(TAG, "Message Lost"+message);
-            }
-
-        };
         if(!TextUtils.isEmpty(info)) {
 
-            this.messageListener = new FakedMessageListener(realListener, info);
-            Nearby.getMessagesClient(this).subscribe(messageListener);
-            Log.d(TAG, "Message Listener subscribed");
-
             //format csv input and retrieve relevant information
-            if(!TextUtils.isEmpty(found)) {
 
-                List<String> student = CSVReader.ReadCSV(found);
-                if(!student.get(student.size() - 1).equals("wave")) {
-                    addStudent(student);
-                }else {
-
-                }
+            List<String> student = CSVReader.ReadCSV(info);
+            if(!student.get(student.size() - 1).equals("wave")) {
+                addStudent(student);
+            }else {
+                mockWave(student);
             }
         } else {
             Toast.makeText(this, "No Empty Entries!",Toast.LENGTH_SHORT).show();
@@ -99,18 +82,19 @@ public class MockCSVActivity extends AppCompatActivity {
         List<String> matches = new ArrayList<String>();
         TextView infoView = findViewById(R.id.studentInfo);
         String info = infoView.getText().toString();
-        String uuid = student.get(0);
+        String othersUUID = student.get(0);
         //TODO: uuid
         name = student.get(1);
         url = student.get(2);
         for (int i = 3; i < student.size(); i++) {
             String newCourse = student.get(i);
             courses.add(newCourse);
+            System.out.println(newCourse);
         }
-        found = "";
+        info = "";
         //get user's courses for comparing
         AppDatabase db = AppDatabase.singleton(this);
-        List<Courses> myCourses = db.coursesDao().gerForPerson(0);
+        List<Courses> myCourses = db.coursesDao().gerForPerson(uuid);
         ArrayList<String> myCoursesList = new ArrayList<String>();
         for (Courses c : myCourses) {
             myCoursesList.add(c.course);
@@ -120,8 +104,7 @@ public class MockCSVActivity extends AppCompatActivity {
 
         if (matches.size() > 0) {
             //add person to db
-            int nextID = db.personsWithCoursesDao().getAll().size();
-            Person newStudent = new Person(nextID, name, url, false, false, false);
+            Person newStudent = new Person(othersUUID, name, url, false, false, false);
             db.personsWithCoursesDao().insert(newStudent);
 
             //add matching classes to db
@@ -143,9 +126,9 @@ public class MockCSVActivity extends AppCompatActivity {
         String uuid = student.get(0);
         AppDatabase db = AppDatabase.singleton(this);
         //TODO: implement myid
-        String myid = "";
-        if(student.get(student.size()-2).equals(myid)) {
-            PersonWithCourses person = db.personsWithCoursesDao().get(1);
+        String myid = uuid;
+        if(student.get(student.size()-2).equals("4b295157-ba31-4f9f-8401-5d85d9cf659a")) {
+            PersonWithCourses person = db.personsWithCoursesDao().get(uuid);
             //Person p = db.personsWithCoursesDao().get(student.get(0));
             Person newPerson = new Person(person.getId(), person.getName(), person.getURL(), person.getWaveTo(), true, person.getFavStatus());
             db.personsWithCoursesDao().update(newPerson);
@@ -155,8 +138,6 @@ public class MockCSVActivity extends AppCompatActivity {
     //Compare my course and the entered student's course, store matching course in matches
     private void compareCourses(List<String> c1, List<String> c2, List<String> matches) {
         for(String str: c2) {
-            //System.out.println(str);
-            //System.out.println(c1.get(0));
             if(c1.contains(str)) {
                 matches.add(str);
             }

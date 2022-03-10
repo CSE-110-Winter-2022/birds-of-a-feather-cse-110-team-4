@@ -12,15 +12,23 @@ public class Courses {
     public int classId;
 
     @ColumnInfo(name = "person_id")
-    public int personId;
+    public String personId;
+
+    @ColumnInfo(name = "Tag")
+    public String Tag;
 
     @ColumnInfo(name = "course")
     public String course;
 
 
-    public Courses(int classId, int personId, String course){
+    public Courses(int classId, String personId, String course){
         this.classId = classId;
         this.personId = personId;
         this.course = course;
+        this.Tag = course;
+    }
+
+    public int getId(){
+        return this.classId;
     }
 }

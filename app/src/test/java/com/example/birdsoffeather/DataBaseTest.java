@@ -42,12 +42,12 @@ public class DataBaseTest {
 
     @Test
     public void testInsertAndRemovePerson() throws Exception {
-        Person testPerson1 = new Person(0,"Test Name 1",
+        Person testPerson1 = new Person("0","Test Name 1",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
                         "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, false);
-        Person testPerson2 = new Person(1,"Test Name 2",
+        Person testPerson2 = new Person("1","Test Name 2",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSM" +
                         "Oy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKI" +
                         "PqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGl" +
@@ -61,10 +61,10 @@ public class DataBaseTest {
     }
     @Test
     public void addCourses() throws Exception {
-        Courses testCourse1 = new Courses(0,0,"ECE 100");
-        Courses testCourse2 = new Courses(1,0,"ECE 101");
-        Courses testCourse3 = new Courses(2,0,"ECE 109");
-        Courses testCourse4 = new Courses(3,0,"ECE 111");
+        Courses testCourse1 = new Courses(0,"0","ECE 100");
+        Courses testCourse2 = new Courses(1,"0","ECE 101");
+        Courses testCourse3 = new Courses(2,"0","ECE 109");
+        Courses testCourse4 = new Courses(3,"0","ECE 111");
 
         db.coursesDao().insert(testCourse1);
         db.coursesDao().insert(testCourse2);
@@ -77,10 +77,10 @@ public class DataBaseTest {
     }
     @Test
     public void deletedAddedCourse() throws Exception {
-        Courses testCourse1 = new Courses(0,0,"ECE 100");
-        Courses testCourse2 = new Courses(1,0,"ECE 101");
-        Courses testCourse3 = new Courses(2,0,"ECE 109");
-        Courses testCourse4 = new Courses(3,0,"ECE 111");
+        Courses testCourse1 = new Courses(0,"0","ECE 100");
+        Courses testCourse2 = new Courses(1,"0","ECE 101");
+        Courses testCourse3 = new Courses(2,"0","ECE 109");
+        Courses testCourse4 = new Courses(3,"0","ECE 111");
 
         db.coursesDao().insert(testCourse1);
         db.coursesDao().insert(testCourse2);
@@ -94,38 +94,38 @@ public class DataBaseTest {
     }
     @Test
     public  void updataPerson() throws Exception{
-        Person testPerson1 = new Person(0,"Test Name 1",
+        Person testPerson1 = new Person("0","Test Name 1",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
                         "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, false);
         db.personsWithCoursesDao().insert(testPerson1);
-        Assert.assertEquals("Test Name 1",db.personsWithCoursesDao().get(0).getName());
-        Person newPerson = new Person(0,"Han",
+        Assert.assertEquals("Test Name 1",db.personsWithCoursesDao().get("0").getName());
+        Person newPerson = new Person("0","Han",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
                         "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, false);
         db.personsWithCoursesDao().update(newPerson);
-        Assert.assertEquals("Han",db.personsWithCoursesDao().get(0).getName());
+        Assert.assertEquals("Han",db.personsWithCoursesDao().get("0").getName());
     }
 
     @Test
     public  void testFavorite() throws Exception{
-        Person testPerson1 = new Person(0,"Test Name 1",
+        Person testPerson1 = new Person("0","Test Name 1",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
                         "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, false);
         db.personsWithCoursesDao().insert(testPerson1);
-        Assert.assertEquals(false, db.personsWithCoursesDao().get(0).getFavStatus());
+        Assert.assertEquals(false, db.personsWithCoursesDao().get("0").getFavStatus());
 
-        Person newPerson = new Person(0,"Han",
+        Person newPerson = new Person("0","Han",
                 "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
                         "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
                         "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
                         "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, true);
         db.personsWithCoursesDao().update(newPerson);
-        Assert.assertEquals(true,db.personsWithCoursesDao().get(0).getFavStatus());
+        Assert.assertEquals(true,db.personsWithCoursesDao().get("0").getFavStatus());
     }
 }

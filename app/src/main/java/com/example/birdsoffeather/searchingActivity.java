@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import com.example.birdsoffeather.model.FakedMessageListener;
 import com.google.android.gms.nearby.Nearby;
@@ -62,6 +63,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private boolean accessibility = false;
     private AppDatabase db;
     private boolean isSearching = false;
+    private String myUUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,12 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         //initialize local database
         db = AppDatabase.singleton(this);
         studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
+        for (int i = 0;i < studentList.size();i++){
+            if(studentList.get(i).getName().equals("Daniel Luther")){
+                myUUID = studentList.get(i).getId();
+                studentList.remove(i);
+            }
+        }
 
         personRecyclerView = findViewById(R.id.search_recycler_view);
 
@@ -120,11 +127,11 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private String createMyInfoStr() {
         AppDatabase db = AppDatabase.singleton(this);
         //get my courses
-        List<String> myCourses = db.personsWithCoursesDao().get(0).getCourses();
+        List<String> myCourses = db.personsWithCoursesDao().get(myUUID).getCourses();
         //get my name and url
-        String str = db.personsWithCoursesDao().get(0).getName();
+        String str = db.personsWithCoursesDao().get(myUUID).getName();
         str += ",,,\n";
-        str += db.personsWithCoursesDao().get(0).getURL() + ",,,\n";
+        str += db.personsWithCoursesDao().get(myUUID).getURL() + ",,,\n";
         //add all courses into string
         for(int i = 0; i < myCourses.size(); i++) {
             String[] split = myCourses.get(i).split(" ");
@@ -138,7 +145,12 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
+        for (int i = 0;i < studentList.size();i++){
+            if(studentList.get(i).getName().equals("Daniel Luther")){
+                myUUID = studentList.get(i).getId();
+                studentList.remove(i);
+            }
+        }
         if(parent.getId() == R.id.sortingSpinner) {
             String option = (String) parent.getItemAtPosition(pos);
             Collections.sort(studentList, new MultiWayComparator(option));
@@ -183,11 +195,11 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                     String[] lines = found.split("\n");
                     if(lines[0].equals("wave")) {
                         //check if wave for me
-                        if(lines[1].equals(db.personsWithCoursesDao().get(0).getName())) {
+                        if(lines[1].equals(db.personsWithCoursesDao().get(myUUID).getName())) {
                             for(PersonWithCourses p : db.personsWithCoursesDao().getAll()) {
                                 if(p.getName().equals(lines[2])) {
                                     //update that this person waved to me
-                                    Person newPerson = new Person(db.personsWithCoursesDao().getAll().size(),
+                                    Person newPerson = new Person(UUID.randomUUID().toString(),
                                             p.getName(), p.getURL(), p.getWaveTo(), true, p.getFavStatus());
                                     db.personsWithCoursesDao().update(newPerson);
                                 }
@@ -199,7 +211,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                         List<String> student = CSVReader.ReadCSV(found);
                         String name = student.get(0);
                         //check if it's my info
-                        if(name.equals(db.personsWithCoursesDao().get(0).getName())) {
+                        if(name.equals(db.personsWithCoursesDao().get(myUUID).getName())) {
                             return;
                         }
                         //check if it already existed
@@ -215,7 +227,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                             courses.add(newCourse);
                         }
                         //get user's courses for comparing
-                        List<Courses> myCourses = db.coursesDao().gerForPerson(0);
+                        List<Courses> myCourses = db.coursesDao().gerForPerson(myUUID);
                         ArrayList<String> myCoursesList = new ArrayList<String>();
                         for (Courses c : myCourses) {
                             myCoursesList.add(c.course);
@@ -224,7 +236,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                         compareCourses(courses, myCoursesList, matches);
                         if (matches.size() > 0) {
                             //add person to db
-                            int nextID = db.personsWithCoursesDao().getAll().size();
+                            String nextID = UUID.randomUUID().toString();;
                             Person newStudent = new Person(nextID, name, url, false, false, false);
                             db.personsWithCoursesDao().insert(newStudent);
 
@@ -331,6 +343,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     public void goToMockOnClick(View view) {
         Intent intent = new Intent(this, MockCSVActivity.class);
         intent.putExtra("Searching",isSearching);
+        intent.putExtra("uuid",myUUID);
         startActivity(intent);
     }
 

@@ -71,26 +71,12 @@
         android:id="@+id/waveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="60dp"
         android:onClick="waveonClick"
         android:text="Wave"
-        app:layout_constraintEnd_toStartOf="@+id/mockwave"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listOfClassTitle" />
-
-    <Button
-        android:id="@+id/mockwave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="62dp"
-        android:text="mock wave"
-        android:onClick="mockWaveOnClick"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/waveButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listOfClassTitle" />
 
 

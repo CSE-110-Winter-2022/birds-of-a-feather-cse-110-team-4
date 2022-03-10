@@ -43,8 +43,8 @@ public class ClassSizeDBTest {
     @Test
     public void addCourses() throws Exception {
         int numbOfCourses = db.coursesDao().count();
-        Courses testCourse1 = new Courses(0,0,"2020 FA ECE 100 Tiny (1-40)");
-        Courses testCourse2 = new Courses(1,0,"2021 FA ECE 101 Small (40-75)");
+        Courses testCourse1 = new Courses(0,"0","2020 FA ECE 100 Tiny (1-40)");
+        Courses testCourse2 = new Courses(1,"1","2021 FA ECE 101 Small (40-75)");
 
         db.coursesDao().insert(testCourse1);
         db.coursesDao().insert(testCourse2);
@@ -57,10 +57,10 @@ public class ClassSizeDBTest {
     }
     @Test
     public void deletedAddedCourse() throws Exception {
-        Courses testCourse1 = new Courses(0,0,"ECE 100");
-        Courses testCourse2 = new Courses(1,0,"ECE 101");
-        Courses testCourse3 = new Courses(2,0,"ECE 109");
-        Courses testCourse4 = new Courses(3,0,"ECE 111");
+        Courses testCourse1 = new Courses(0,"0","ECE 100");
+        Courses testCourse2 = new Courses(1,"0","ECE 101");
+        Courses testCourse3 = new Courses(2,"0","ECE 109");
+        Courses testCourse4 = new Courses(3,"0","ECE 111");
 
         db.coursesDao().insert(testCourse1);
         db.coursesDao().insert(testCourse2);

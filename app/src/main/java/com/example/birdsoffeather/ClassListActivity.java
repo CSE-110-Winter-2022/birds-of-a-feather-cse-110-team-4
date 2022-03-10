@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.birdsoffeather.model.IPerson;
@@ -21,13 +22,16 @@ public class ClassListActivity extends AppCompatActivity {
     protected RecyclerView personRecyclerView;
     private String currentQuarter = "WI";
     private String currentYear = "2022";
+    private String personId;
     protected PeopleViewAdapter peopleViewAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_list);
+        Intent intent = getIntent();
+        personId = intent.getStringExtra("user_id");
         db = AppDatabase.singleton(this);
-        List<Courses> courses = db.coursesDao().gerForPerson(0);
+        List<Courses> courses = db.coursesDao().gerForPerson(personId);
         List<Courses> currentCourses = new ArrayList<>();
 
         //Add only the course on current quarter
@@ -39,7 +43,12 @@ public class ClassListActivity extends AppCompatActivity {
 
         //Add only favorite person
         List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
+
+        for(int i = 0; i<studentList.size();i++) {
+            if(studentList.get(i).getId().equals(personId)) {
+                studentList.remove(i);
+            }
+        }
         for(int i = studentList.size() - 1; i >= 0; i--){
             if(!favorite(studentList.get(i))){
                 studentList.remove(studentList.get(i));

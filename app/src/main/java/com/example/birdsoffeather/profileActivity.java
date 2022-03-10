@@ -25,7 +25,7 @@ import java.net.URL;
 public class profileActivity extends AppCompatActivity {
     private AppDatabase db;
     private IPerson person;
-    private int personId = 0;
+    private String personId;
     private  String name;
     ImageView i;
     Bitmap bitmap;
@@ -33,6 +33,8 @@ public class profileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Intent intent = getIntent();
+        personId = intent.getStringExtra("user_id");
         //get local data base
         db = AppDatabase.singleton(this);
         person = db.personsWithCoursesDao().get(personId);
@@ -90,7 +92,7 @@ public class profileActivity extends AppCompatActivity {
                 }
             }
         });
-        Person newPerson = new Person(0,name,url, false, false, false);
+        Person newPerson = new Person(personId,name,url, false, false, false);
         db.personsWithCoursesDao().update(newPerson);
     }
 
