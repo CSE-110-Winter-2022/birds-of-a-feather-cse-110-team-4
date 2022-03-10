@@ -122,6 +122,7 @@ public class studentInfo extends AppCompatActivity {
         Nearby.getMessagesClient(this).publish(new Message(info.getBytes()));
         Nearby.getMessagesClient(this).subscribe(messageListener);
         Button wave = findViewById(R.id.waveButton);
+        Log.d(TAG,"waved to" + info);
         wave.setText("waved");
         wave.setEnabled(false);
         Toast.makeText(this, "Waved to"+name+"!", Toast.LENGTH_SHORT).show();
