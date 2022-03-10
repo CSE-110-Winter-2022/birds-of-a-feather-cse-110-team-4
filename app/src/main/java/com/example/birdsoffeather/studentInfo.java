@@ -42,7 +42,7 @@ public class studentInfo extends AppCompatActivity {
     private AppDatabase db;
     private IPerson person;
     private IPerson sender;
-    private int personId;
+    private String personId;
     private int ownerId;
     private  String name;
     private List<Courses> courses;
@@ -56,16 +56,15 @@ public class studentInfo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Button mockWave = findViewById(R.id.mockwave);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_info);
         Intent intent = getIntent();
-        personId = intent.getIntExtra( "person_id",1);
+        personId = intent.getStringExtra("person_id");
         //Getting data from data base (db)
         db = AppDatabase.singleton(this);
-        person = db.personsWithCoursesDao().get("personId");
+        person = db.personsWithCoursesDao().get(personId);
         name = person.getName();
-        courses = db.coursesDao().gerForPerson("personId");
+        courses = db.coursesDao().gerForPerson(personId);
         imageURL = person.getURL();
         TextView nameView = findViewById(R.id.studentName);
         nameView.setText(name);//Set name for user
@@ -128,13 +127,4 @@ public class studentInfo extends AppCompatActivity {
         Toast.makeText(this, "Waved to"+name+"!", Toast.LENGTH_SHORT).show();
     }
 
-    public void mockWaveOnClick(View view) {
-
-        Button wave = findViewById(R.id.mockwave);
-        wave.setText("mocked");
-        wave.setEnabled(false);
-        Toast.makeText(this, "Waved from "+name+"!", Toast.LENGTH_SHORT).show();
-        Person newPerson = new Person("personId", name, imageURL, person.getWaveTo(), true, person.getFavStatus());
-        db.personsWithCoursesDao().update(newPerson);
-    }
 }

@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import com.example.birdsoffeather.model.FakedMessageListener;
 import com.google.android.gms.nearby.Nearby;
@@ -54,14 +55,15 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
     //TODO: List to store fetch students
 
-    private static final String TAG = "BOF";
+    public static final String TAG = "BoF";
     private MessageListener messageListener;
     private List<PersonWithCourses> studentList;
     private String myInfoStr;
     private Message msg;
     private boolean accessibility = false;
     private AppDatabase db;
-    private String personId;
+    private boolean isSearching = false;
+    private String myUUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +71,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
         setTitle("Searching");
-        Intent intent = getIntent();
-        personId = intent.getStringExtra("user_id");
+
         //Initialize accessibility toggle
         ToggleButton toggle = (ToggleButton) findViewById(R.id.visibilityToggle);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -91,9 +92,10 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         //initialize local database
         db = AppDatabase.singleton(this);
         studentList = db.personsWithCoursesDao().getAll();
-        for(PersonWithCourses person: studentList){
-            if(person.getId().equals(personId)){
-                studentList.remove(person);
+        for (int i = 0;i < studentList.size();i++){
+            if(studentList.get(i).getName().equals("Daniel Luther")){
+                myUUID = studentList.get(i).getId();
+                studentList.remove(i);
             }
         }
 
@@ -125,11 +127,11 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private String createMyInfoStr() {
         AppDatabase db = AppDatabase.singleton(this);
         //get my courses
-        List<String> myCourses = db.personsWithCoursesDao().get(personId).getCourses();
+        List<String> myCourses = db.personsWithCoursesDao().get(myUUID).getCourses();
         //get my name and url
-        String str = db.personsWithCoursesDao().get(personId).getName();
+        String str = db.personsWithCoursesDao().get(myUUID).getName();
         str += ",,,\n";
-        str += db.personsWithCoursesDao().get(personId).getURL() + ",,,\n";
+        str += db.personsWithCoursesDao().get(myUUID).getURL() + ",,,\n";
         //add all courses into string
         for(int i = 0; i < myCourses.size(); i++) {
             String[] split = myCourses.get(i).split(" ");
@@ -143,7 +145,12 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
+        for (int i = 0;i < studentList.size();i++){
+            if(studentList.get(i).getName().equals("Daniel Luther")){
+                myUUID = studentList.get(i).getId();
+                studentList.remove(i);
+            }
+        }
         if(parent.getId() == R.id.sortingSpinner) {
             String option = (String) parent.getItemAtPosition(pos);
             Collections.sort(studentList, new MultiWayComparator(option));
@@ -161,6 +168,10 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    public String[] courseDetails(String course) {
+        String[] splitStr = course.split(" ");
+        return splitStr;
+    }
 
 
 
@@ -171,7 +182,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         if(btnStatus) {
             btnStatus = !btnStatus;
             btn.setText("Stop");
-
+            isSearching = !isSearching;
             personRecyclerView.setAdapter(peopleViewAdapter);
 
             //Continously send myinfoStr
@@ -184,11 +195,11 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                     String[] lines = found.split("\n");
                     if(lines[0].equals("wave")) {
                         //check if wave for me
-                        if(lines[1].equals(db.personsWithCoursesDao().get(personId).getName())) {
+                        if(lines[1].equals(db.personsWithCoursesDao().get(myUUID).getName())) {
                             for(PersonWithCourses p : db.personsWithCoursesDao().getAll()) {
                                 if(p.getName().equals(lines[2])) {
                                     //update that this person waved to me
-                                    Person newPerson = new Person("db.personsWithCoursesDao().getAll().size()",
+                                    Person newPerson = new Person(UUID.randomUUID().toString(),
                                             p.getName(), p.getURL(), p.getWaveTo(), true, p.getFavStatus());
                                     db.personsWithCoursesDao().update(newPerson);
                                 }
@@ -200,7 +211,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                         List<String> student = CSVReader.ReadCSV(found);
                         String name = student.get(0);
                         //check if it's my info
-                        if(name.equals(db.personsWithCoursesDao().get(personId).getName())) {
+                        if(name.equals(db.personsWithCoursesDao().get(myUUID).getName())) {
                             return;
                         }
                         //check if it already existed
@@ -216,7 +227,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                             courses.add(newCourse);
                         }
                         //get user's courses for comparing
-                        List<Courses> myCourses = db.coursesDao().gerForPerson(personId);
+                        List<Courses> myCourses = db.coursesDao().gerForPerson(myUUID);
                         ArrayList<String> myCoursesList = new ArrayList<String>();
                         for (Courses c : myCourses) {
                             myCoursesList.add(c.course);
@@ -225,8 +236,8 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                         compareCourses(courses, myCoursesList, matches);
                         if (matches.size() > 0) {
                             //add person to db
-                            int nextID = db.personsWithCoursesDao().getAll().size();
-                            Person newStudent = new Person("nextID", name, url, false, false, false);
+                            String nextID = UUID.randomUUID().toString();;
+                            Person newStudent = new Person(nextID, name, url, false, false, false);
                             db.personsWithCoursesDao().insert(newStudent);
 
                             //add matching classes to db
@@ -258,9 +269,10 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
             };
             this.messageListener = realListener;
+            //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
             if(accessibility) {
                 Nearby.getMessagesClient(this).publish(msg);
-                Log.d(TAG, "My info published");
+                Log.d(TAG, "My info published" + myInfoStr);
             }
             Nearby.getMessagesClient(this).subscribe(messageListener);
             Log.d(TAG, "Message listener subscribed");
@@ -271,7 +283,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             btn.setText("Start");
             //unsubscribe msg listener
             Nearby.getMessagesClient(this).unpublish(msg);
-            Log.d(TAG, "My info unpublished");
+            Log.d(TAG, "My info unpublished" + myInfoStr);
             Nearby.getMessagesClient(this).unsubscribe(messageListener);
             Log.d(TAG, "Message listener unsubscribed");
             //pop up window & save session
@@ -330,6 +342,8 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     //Go to the Mock
     public void goToMockOnClick(View view) {
         Intent intent = new Intent(this, MockCSVActivity.class);
+        intent.putExtra("Searching",isSearching);
+        intent.putExtra("uuid",myUUID);
         startActivity(intent);
     }
 

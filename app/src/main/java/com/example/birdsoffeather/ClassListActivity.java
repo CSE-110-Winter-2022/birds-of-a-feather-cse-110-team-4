@@ -43,9 +43,10 @@ public class ClassListActivity extends AppCompatActivity {
 
         //Add only favorite person
         List<PersonWithCourses> studentList = db.personsWithCoursesDao().getAll();
-        for(PersonWithCourses person: studentList){
-            if(person.getId().equals(personId)){
-                studentList.remove(person);
+
+        for(int i = 0; i<studentList.size();i++) {
+            if(studentList.get(i).getId().equals(personId)) {
+                studentList.remove(i);
             }
         }
         for(int i = studentList.size() - 1; i >= 0; i--){

@@ -42,11 +42,12 @@ public class ClassDetialsActivity extends AppCompatActivity {
                 userID = person.getId();
             }
         }
-        for(PersonWithCourses person: studentList){
-            if(person.getId().equals(userID)){
-                studentList.remove(person);
+        for(int i = 0;i < studentList.size();i++) {
+            if(studentList.get(i).getId().equals(userID)) {
+                studentList.remove(i);
             }
         }
+
         Intent intent = getIntent();
         year = intent.getStringExtra("year");
         quarter = intent.getStringExtra("quarter");
