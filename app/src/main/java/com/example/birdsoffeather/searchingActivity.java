@@ -54,13 +54,14 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
     //TODO: List to store fetch students
 
-    private static final String TAG = "Lab5-Nearby";
+    private static final String TAG = "BOF";
     private MessageListener messageListener;
     private List<PersonWithCourses> studentList;
     private String myInfoStr;
     private Message msg;
     private boolean accessibility = false;
     private AppDatabase db;
+    private String personId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,8 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searching);
         setTitle("Searching");
-
+        Intent intent = getIntent();
+        personId = intent.getStringExtra("user_id");
         //Initialize accessibility toggle
         ToggleButton toggle = (ToggleButton) findViewById(R.id.visibilityToggle);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -89,7 +91,11 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         //initialize local database
         db = AppDatabase.singleton(this);
         studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
+        for(PersonWithCourses person: studentList){
+            if(person.getId().equals(personId)){
+                studentList.remove(person);
+            }
+        }
 
         personRecyclerView = findViewById(R.id.search_recycler_view);
 
@@ -119,11 +125,11 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private String createMyInfoStr() {
         AppDatabase db = AppDatabase.singleton(this);
         //get my courses
-        List<String> myCourses = db.personsWithCoursesDao().get(0).getCourses();
+        List<String> myCourses = db.personsWithCoursesDao().get(personId).getCourses();
         //get my name and url
-        String str = db.personsWithCoursesDao().get(0).getName();
+        String str = db.personsWithCoursesDao().get(personId).getName();
         str += ",,,\n";
-        str += db.personsWithCoursesDao().get(0).getURL() + ",,,\n";
+        str += db.personsWithCoursesDao().get(personId).getURL() + ",,,\n";
         //add all courses into string
         for(int i = 0; i < myCourses.size(); i++) {
             String[] split = myCourses.get(i).split(" ");
@@ -155,10 +161,6 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
     }
 
-    public String[] courseDetails(String course) {
-        String[] splitStr = course.split(" ");
-        return splitStr;
-    }
 
 
 
@@ -182,11 +184,11 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                     String[] lines = found.split("\n");
                     if(lines[0].equals("wave")) {
                         //check if wave for me
-                        if(lines[1].equals(db.personsWithCoursesDao().get(0).getName())) {
+                        if(lines[1].equals(db.personsWithCoursesDao().get(personId).getName())) {
                             for(PersonWithCourses p : db.personsWithCoursesDao().getAll()) {
                                 if(p.getName().equals(lines[2])) {
                                     //update that this person waved to me
-                                    Person newPerson = new Person(db.personsWithCoursesDao().getAll().size(),
+                                    Person newPerson = new Person("db.personsWithCoursesDao().getAll().size()",
                                             p.getName(), p.getURL(), p.getWaveTo(), true, p.getFavStatus());
                                     db.personsWithCoursesDao().update(newPerson);
                                 }
@@ -198,7 +200,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                         List<String> student = CSVReader.ReadCSV(found);
                         String name = student.get(0);
                         //check if it's my info
-                        if(name.equals(db.personsWithCoursesDao().get(0).getName())) {
+                        if(name.equals(db.personsWithCoursesDao().get(personId).getName())) {
                             return;
                         }
                         //check if it already existed
@@ -214,7 +216,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                             courses.add(newCourse);
                         }
                         //get user's courses for comparing
-                        List<Courses> myCourses = db.coursesDao().gerForPerson(0);
+                        List<Courses> myCourses = db.coursesDao().gerForPerson(personId);
                         ArrayList<String> myCoursesList = new ArrayList<String>();
                         for (Courses c : myCourses) {
                             myCoursesList.add(c.course);
@@ -224,7 +226,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                         if (matches.size() > 0) {
                             //add person to db
                             int nextID = db.personsWithCoursesDao().getAll().size();
-                            Person newStudent = new Person(nextID, name, url, false, false, false);
+                            Person newStudent = new Person("nextID", name, url, false, false, false);
                             db.personsWithCoursesDao().insert(newStudent);
 
                             //add matching classes to db
@@ -256,7 +258,6 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
             };
             this.messageListener = realListener;
-            //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
             if(accessibility) {
                 Nearby.getMessagesClient(this).publish(msg);
                 Log.d(TAG, "My info published");

@@ -84,7 +84,7 @@ public class MockCSVActivity extends AppCompatActivity {
                 found = "";
                 //get user's courses for comparing
                 AppDatabase db = AppDatabase.singleton(this);
-                List<Courses> myCourses = db.coursesDao().gerForPerson(0);
+                List<Courses> myCourses = db.coursesDao().gerForPerson(" temp");
                 ArrayList<String> myCoursesList = new ArrayList<String>();
                 for (Courses c : myCourses) {
                     myCoursesList.add(c.course);
@@ -95,7 +95,7 @@ public class MockCSVActivity extends AppCompatActivity {
                 if (matches.size() > 0) {
                     //add person to db
                     int nextID = db.personsWithCoursesDao().getAll().size();
-                    Person newStudent = new Person(nextID, name, url, false, false, false);
+                    Person newStudent = new Person("nextID", name, url, false, false, false);
                     db.personsWithCoursesDao().insert(newStudent);
 
                     //add matching classes to db

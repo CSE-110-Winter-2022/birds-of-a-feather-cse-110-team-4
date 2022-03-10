@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.health.SystemHealthManager;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.birdsoffeather.model.db.AppDatabase;
@@ -23,24 +24,41 @@ public class ClassDetialsActivity extends AppCompatActivity {
     private String quarter;
     private String course;
     private String subject;
+    private String userID;
+    private  Courses thisCourse;
     protected RecyclerView personRecyclerView;
     protected RecyclerView.LayoutManager personLayoutManager;
     protected PeopleViewAdapter peopleViewAdapter;
+    private TextView courseName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_detials);
         db = AppDatabase.singleton(this);
+
         studentList = db.personsWithCoursesDao().getAll();
-        studentList.remove(0);
+        for (PersonWithCourses person: studentList){
+            if(person.getName().equals("Daniel Luther")){
+                userID = person.getId();
+            }
+        }
+        for(PersonWithCourses person: studentList){
+            if(person.getId().equals(userID)){
+                studentList.remove(person);
+            }
+        }
         Intent intent = getIntent();
         year = intent.getStringExtra("year");
         quarter = intent.getStringExtra("quarter");
         course = intent.getStringExtra("course");
         subject = intent.getStringExtra("subject");
         List<PersonWithCourses> classmates = new ArrayList<PersonWithCourses>();
-        System.out.println(studentList.size());
-
+        List<Courses> myCourses = db.coursesDao().gerForPerson(userID);
+        for(Courses course: myCourses){
+            if(isSameCourse(course)){
+                thisCourse = course;
+            }
+        }
         //check if the student have taken the same classes with us
         for(int i = studentList.size() - 1; i >= 0; i--){
             List<Courses> courses = db.coursesDao().gerForPerson(studentList.get(i).getId());
@@ -53,8 +71,8 @@ public class ClassDetialsActivity extends AppCompatActivity {
         }
 
         //Initialize the recycler view
-        TextView courseName = findViewById(R.id.Course);
-        courseName.setText(year + " " + quarter + " " + subject + " " + course);
+        courseName = findViewById(R.id.CourseName);
+        courseName.setText(thisCourse.Tag);
         personRecyclerView = findViewById(R.id.ClassmatesList);
         peopleViewAdapter = new PeopleViewAdapter(classmates, this, db);
         personLayoutManager = new LinearLayoutManager(this);
@@ -70,5 +88,12 @@ public class ClassDetialsActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void backonClick(View view) {
+        String text = courseName.getText().toString();
+        thisCourse.Tag = text;
+        db.coursesDao().update(thisCourse);
+        finish();
     }
 }

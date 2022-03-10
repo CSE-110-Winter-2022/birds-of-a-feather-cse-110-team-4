@@ -61,15 +61,11 @@ public class studentInfo extends AppCompatActivity {
         setContentView(R.layout.activity_student_info);
         Intent intent = getIntent();
         personId = intent.getIntExtra( "person_id",1);
-        ownerId = intent.getIntExtra("owner_id",0);
-        mocking = intent.getBooleanExtra("mocking", false);
-        db = AppDatabase.singleton(this);
-        sender = db.personsWithCoursesDao().get(ownerId);
         //Getting data from data base (db)
         db = AppDatabase.singleton(this);
-        person = db.personsWithCoursesDao().get(personId);
+        person = db.personsWithCoursesDao().get("personId");
         name = person.getName();
-        courses = db.coursesDao().gerForPerson(personId);
+        courses = db.coursesDao().gerForPerson("personId");
         imageURL = person.getURL();
         TextView nameView = findViewById(R.id.studentName);
         nameView.setText(name);//Set name for user
@@ -122,7 +118,7 @@ public class studentInfo extends AppCompatActivity {
             }
 
         };
-        String info = "wave\n" + name + "\n" + db.personsWithCoursesDao().get(0).getName();
+        String info = "wave\n" + name + "\n" + db.personsWithCoursesDao().get("0").getName();
         this.messageListener = realListener;
         Nearby.getMessagesClient(this).publish(new Message(info.getBytes()));
         Nearby.getMessagesClient(this).subscribe(messageListener);
@@ -138,7 +134,7 @@ public class studentInfo extends AppCompatActivity {
         wave.setText("mocked");
         wave.setEnabled(false);
         Toast.makeText(this, "Waved from "+name+"!", Toast.LENGTH_SHORT).show();
-        Person newPerson = new Person(personId, name, imageURL, person.getWaveTo(), true, person.getFavStatus());
+        Person newPerson = new Person("personId", name, imageURL, person.getWaveTo(), true, person.getFavStatus());
         db.personsWithCoursesDao().update(newPerson);
     }
 }

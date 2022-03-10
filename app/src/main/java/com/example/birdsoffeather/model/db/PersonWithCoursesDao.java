@@ -18,7 +18,7 @@ public interface PersonWithCoursesDao {
     List<PersonWithCourses> getAll();
 
     @Query("SELECT * FROM persons WHERE id = :id")
-    PersonWithCourses get(int id);
+    PersonWithCourses get(String id);
 
     @Query("SELECT COUNT(*) from persons")
     int count();
