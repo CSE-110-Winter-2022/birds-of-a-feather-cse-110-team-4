@@ -10,6 +10,7 @@ import com.example.birdsoffeather.model.IPerson;
 import com.example.birdsoffeather.model.db.AppDatabase;
 import com.example.birdsoffeather.model.db.Person;
 import com.example.birdsoffeather.model.db.PersonWithCourses;
+import com.example.birdsoffeather.model.db.UserId;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,13 +32,13 @@ public class LoginActivity extends AppCompatActivity {
             userID = UUID.randomUUID().toString();
             Person newPerson1 = new Person(userID, "Daniel Luther", "", false, false, false);
             db.personsWithCoursesDao().insert(newPerson1);
+            UserId userId = new UserId(0,userID);
+            db.userIdDao().insert(userId);
+
         }
         else{
-            for (PersonWithCourses person: persons){
-                if(person.getName().equals("Daniel Luther")){
-                    userID = person.getId();
-                }
-            }
+            userID = db.userIdDao().get(0).getUUID();
+            System.out.println(userID);
         }
     }
 

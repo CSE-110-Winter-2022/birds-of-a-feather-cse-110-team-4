@@ -91,14 +91,14 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         });
         //initialize local database
         db = AppDatabase.singleton(this);
+        myUUID = db.userIdDao().get(0).getUUID();
         studentList = db.personsWithCoursesDao().getAll();
         for (int i = 0;i < studentList.size();i++){
-            if(studentList.get(i).getName().equals("Daniel Luther")){
-                myUUID = studentList.get(i).getId();
+            if(studentList.get(i).getId().equals(myUUID)){
                 studentList.remove(i);
             }
         }
-
+        System.out.println(myUUID);
         personRecyclerView = findViewById(R.id.search_recycler_view);
 
         personLayoutManager = new LinearLayoutManager(this);
@@ -114,10 +114,6 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
         // sorting list of students in order of common classes
         Collections.sort(studentList, new MultiWayComparator("Default"));
-
-        for(PersonWithCourses p : studentList) {
-            System.out.println(p.getName());
-        }
         peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
         myInfoStr = createMyInfoStr();
         msg = new Message(myInfoStr.getBytes());
@@ -146,17 +142,13 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                                int pos, long id) {
         studentList = db.personsWithCoursesDao().getAll();
         for (int i = 0;i < studentList.size();i++){
-            if(studentList.get(i).getName().equals("Daniel Luther")){
-                myUUID = studentList.get(i).getId();
+            if(studentList.get(i).getId().equals(myUUID)){
                 studentList.remove(i);
             }
         }
         if(parent.getId() == R.id.sortingSpinner) {
             String option = (String) parent.getItemAtPosition(pos);
             Collections.sort(studentList, new MultiWayComparator(option));
-        }
-        for(PersonWithCourses p : studentList) {
-            System.out.println(p.getName());
         }
         peopleViewAdapter = new PeopleViewAdapter(studentList, this, db);
         personRecyclerView.setAdapter(peopleViewAdapter);

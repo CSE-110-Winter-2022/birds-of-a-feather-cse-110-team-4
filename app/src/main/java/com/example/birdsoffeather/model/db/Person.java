@@ -20,6 +20,9 @@ public class Person {
     @ColumnInfo(name = "headshot")
     public String imageURL;
 
+    @ColumnInfo(name = "userID")
+    public String userID;
+
     @ColumnInfo(name = "waveto")
     public boolean waveTo;
 
@@ -36,5 +39,6 @@ public class Person {
         this.waveTo =  waveTo;
         this.waveFrom = waveFrom;
         this.favorite = favorite;
+        this.userID = "";
     }
 }
