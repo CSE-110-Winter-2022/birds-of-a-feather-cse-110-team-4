@@ -41,6 +41,11 @@ import com.example.birdsoffeather.model.FakedMessageListener;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
+import com.google.android.gms.nearby.messages.PublishCallback;
+import com.google.android.gms.nearby.messages.PublishOptions;
+import com.google.android.gms.nearby.messages.Strategy;
+import com.google.android.gms.nearby.messages.SubscribeCallback;
+import com.google.android.gms.nearby.messages.SubscribeOptions;
 
 
 public class searchingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -65,6 +70,29 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
     private boolean isSearching = false;
     private String myUUID;
 
+    private static final int TTL_IN_SECONDS = 20; // Three minutes.
+
+    private static final Strategy PUB_SUB_STRATEGY = new Strategy.Builder()
+            .setTtlSeconds(TTL_IN_SECONDS).build();
+    private SubscribeOptions subOptions = new SubscribeOptions.Builder()
+            .setStrategy(PUB_SUB_STRATEGY)
+            .setCallback(new SubscribeCallback() {
+                @Override
+                public void onExpired() {
+                    super.onExpired();
+                    Log.i(TAG, "No longer subscribing");
+                }
+            }).build();
+    private PublishOptions publishOptions = new PublishOptions.Builder()
+            .setStrategy(PUB_SUB_STRATEGY)
+            .setCallback(new PublishCallback() {
+                @Override
+                public void onExpired() {
+                    super.onExpired();
+                    Log.i(TAG, "No longer publishing");
+                }
+            }).build();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //TODO: create database
@@ -81,7 +109,9 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                     Activity host = (Activity) findViewById(R.id.visibilityToggle).getContext();
                     Button b = findViewById(R.id.searchButton);
                     if(host != null && b.getText() == "Stop") {
-                        Nearby.getMessagesClient(host).publish(msg);
+                        Nearby.getMessagesClient(host).publish(msg,publishOptions).addOnFailureListener(e -> {
+                            Log.d(TAG, "failure publishing");
+                        });
                         Log.d(TAG, "My info published");
                     }
                 } else {
@@ -263,10 +293,12 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             this.messageListener = realListener;
             //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
             if(accessibility) {
-                Nearby.getMessagesClient(this).publish(msg);
+                Nearby.getMessagesClient(this).publish(msg,publishOptions).addOnFailureListener(e -> {
+                    Log.d(TAG, "failure publishing");
+                });
                 Log.d(TAG, "My info published" + myInfoStr);
             }
-            Nearby.getMessagesClient(this).subscribe(messageListener);
+            Nearby.getMessagesClient(this).subscribe(messageListener,subOptions);
             Log.d(TAG, "Message listener subscribed");
         }
         //when the btn when status is start

@@ -28,6 +28,11 @@ import com.example.birdsoffeather.model.db.Person;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
+import com.google.android.gms.nearby.messages.PublishCallback;
+import com.google.android.gms.nearby.messages.PublishOptions;
+import com.google.android.gms.nearby.messages.Strategy;
+import com.google.android.gms.nearby.messages.SubscribeCallback;
+import com.google.android.gms.nearby.messages.SubscribeOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +55,28 @@ public class studentInfo extends AppCompatActivity {
     private boolean mocking;
     private static String found;
     private MessageListener messageListener;
+    private static final int TTL_IN_SECONDS = 20; // Three minutes.
+
+    private static final Strategy PUB_SUB_STRATEGY = new Strategy.Builder()
+            .setTtlSeconds(TTL_IN_SECONDS).build();
+    private SubscribeOptions subOptions = new SubscribeOptions.Builder()
+            .setStrategy(PUB_SUB_STRATEGY)
+            .setCallback(new SubscribeCallback() {
+                @Override
+                public void onExpired() {
+                    super.onExpired();
+                    Log.i(TAG, "No longer subscribing");
+                }
+            }).build();
+    private PublishOptions publishOptions = new PublishOptions.Builder()
+            .setStrategy(PUB_SUB_STRATEGY)
+            .setCallback(new PublishCallback() {
+                @Override
+                public void onExpired() {
+                    super.onExpired();
+                    Log.i(TAG, "No longer publishing");
+                }
+            }).build();
 
     //Adapter
     private ClassViewAdapter adapter;
@@ -120,8 +147,10 @@ public class studentInfo extends AppCompatActivity {
         String UUID = db.userIdDao().get(0).getUUID();
         String info = "wave\n" + name + "\n" + db.personsWithCoursesDao().get(UUID).getName();
         this.messageListener = realListener;
-        Nearby.getMessagesClient(this).publish(new Message(info.getBytes()));
-        Nearby.getMessagesClient(this).subscribe(messageListener);
+        Nearby.getMessagesClient(this).publish(new Message(info.getBytes()),publishOptions).addOnFailureListener(e -> {
+            Log.d(TAG, "failure publishing");
+        });
+        Nearby.getMessagesClient(this).subscribe(messageListener,subOptions);
         Button wave = findViewById(R.id.waveButton);
         Log.d(TAG,"waved to" + info);
         wave.setText("waved");
