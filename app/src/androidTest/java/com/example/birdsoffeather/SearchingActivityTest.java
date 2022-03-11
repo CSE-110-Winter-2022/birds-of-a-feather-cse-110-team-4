@@ -55,7 +55,7 @@ public class SearchingActivityTest {
         materialButton2.perform(click());
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.DoneButton), withText("Done with Adding Classes"),
+                allOf(withId(R.id.DoneButton), withText("Go to Search"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -66,11 +66,6 @@ public class SearchingActivityTest {
 
         ViewInteraction materialButton4 = onView(
                 allOf(withId(R.id.searchButton), withText("search"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
                         isDisplayed()));
         materialButton4.perform(click());
     }
