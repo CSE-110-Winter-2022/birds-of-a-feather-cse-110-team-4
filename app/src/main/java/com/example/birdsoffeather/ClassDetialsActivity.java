@@ -37,11 +37,7 @@ public class ClassDetialsActivity extends AppCompatActivity {
         db = AppDatabase.singleton(this);
 
         studentList = db.personsWithCoursesDao().getAll();
-        for (PersonWithCourses person: studentList){
-            if(person.getName().equals("Daniel Luther")){
-                userID = person.getId();
-            }
-        }
+        userID = db.userIdDao().get(0).getUUID();
         for(int i = 0;i < studentList.size();i++) {
             if(studentList.get(i).getId().equals(userID)) {
                 studentList.remove(i);

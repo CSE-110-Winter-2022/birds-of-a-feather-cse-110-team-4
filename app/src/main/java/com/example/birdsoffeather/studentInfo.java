@@ -117,7 +117,8 @@ public class studentInfo extends AppCompatActivity {
             }
 
         };
-        String info = "wave\n" + name + "\n" + db.personsWithCoursesDao().get("0").getName();
+        String UUID = db.userIdDao().get(0).getUUID();
+        String info = "wave\n" + name + "\n" + db.personsWithCoursesDao().get(UUID).getName();
         this.messageListener = realListener;
         Nearby.getMessagesClient(this).publish(new Message(info.getBytes()));
         Nearby.getMessagesClient(this).subscribe(messageListener);

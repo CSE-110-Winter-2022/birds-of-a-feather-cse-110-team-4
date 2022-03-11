@@ -46,6 +46,8 @@ public class PersonWithCourses implements IPerson{
         return this.Courses;
     }
 
+    public String getUser(){return this.person.userID;}
+
     @Override
     public boolean getWaveTo(){return this.person.waveTo;}
 

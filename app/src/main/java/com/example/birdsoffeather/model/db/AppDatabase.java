@@ -7,7 +7,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Person.class, Courses.class}, version = 1)
+@Database(entities = {Person.class, Courses.class, UserId.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase singletonInstance;
 
@@ -30,4 +30,6 @@ public abstract class AppDatabase extends RoomDatabase {
         return singletonInstance;
     }
     public abstract CoursesDao coursesDao();
+
+    public abstract UserIdDao userIdDao();
 }
