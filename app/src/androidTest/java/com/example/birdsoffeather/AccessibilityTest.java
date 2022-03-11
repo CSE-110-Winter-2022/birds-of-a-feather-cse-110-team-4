@@ -57,7 +57,7 @@ public class AccessibilityTest {
         materialButton2.perform(click());
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.DoneButton), withText("Done with Adding Classes"),
+                allOf(withId(R.id.DoneButton), withText("Go to Search"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -68,11 +68,6 @@ public class AccessibilityTest {
 
         ViewInteraction appCompatToggleButton = onView(
                 allOf(withId(R.id.visibilityToggle), withText("OFF"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                5),
                         isDisplayed()));
         appCompatToggleButton.perform(click());
 

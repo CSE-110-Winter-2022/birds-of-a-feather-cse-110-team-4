@@ -57,7 +57,7 @@ public class EmptyMessageTest {
         materialButton2.perform(click());
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.DoneButton), withText("Done with Adding Classes"),
+                allOf(withId(R.id.DoneButton), withText("Go to Search"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -67,12 +67,7 @@ public class EmptyMessageTest {
         materialButton3.perform(click());
 
         ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.MockButton), withText("Mock with text"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
+                allOf(withId(R.id.MockButton), withText("Mock with students"),
                         isDisplayed()));
         materialButton4.perform(click());
 
@@ -85,12 +80,6 @@ public class EmptyMessageTest {
                                 1),
                         isDisplayed()));
         materialButton5.perform(click());
-
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.studentInfo), withText("Type or Paste Student Info:"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        //editText.check(matches(withText("")));
     }
 
     private static Matcher<View> childAtPosition(

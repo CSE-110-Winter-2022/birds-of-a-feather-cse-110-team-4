@@ -5,6 +5,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.action.ViewActions.pressBack;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
@@ -95,7 +96,7 @@ public class WavedToTest {
         materialButton3.perform(click());
 
         ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.DoneButton), withText("Done with Adding Classes"),
+                allOf(withId(R.id.DoneButton), withText("Go to Search"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -106,11 +107,6 @@ public class WavedToTest {
 
         ViewInteraction materialButton5 = onView(
                 allOf(withId(R.id.MockButton), withText("Mock with students"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
                         isDisplayed()));
         materialButton5.perform(click());
 
@@ -144,17 +140,8 @@ public class WavedToTest {
                                 1),
                         isDisplayed()));
         materialButton6.perform(click());
-
-        ViewInteraction materialButton7 = onView(
-                allOf(withId(R.id.back_btn), withText("Back To search"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton7.perform(click());
-
+        materialButton6.perform(pressBack());
+/*
         ViewInteraction materialButton8 = onView(
                 allOf(withId(R.id.searchButton), withText("search"),
                         childAtPosition(
@@ -217,6 +204,8 @@ public class WavedToTest {
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
         textView.check(matches(withText("waving")));
+
+ */
     }
 
     private static Matcher<View> childAtPosition(

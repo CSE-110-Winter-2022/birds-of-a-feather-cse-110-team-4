@@ -92,25 +92,21 @@ public class AddClassTest {
                 allOf(withId(R.id.quarter_row_txt), withText("FA"),
                         withParent(withParent(withId(R.id.classesRecyclerView))),
                         isDisplayed()));
-        //textView.check(matches(withText("FA")));
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.year_row_txt), withText("2018"),
                         withParent(withParent(withId(R.id.classesRecyclerView))),
                         isDisplayed()));
-        //textView2.check(matches(withText("2018")));
 
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.subject_row_txt), withText("CSE"),
                         withParent(withParent(withId(R.id.classesRecyclerView))),
                         isDisplayed()));
-        //textView3.check(matches(withText("CSE")));
 
         ViewInteraction textView4 = onView(
                 allOf(withId(R.id.course_row_txt), withText("11"),
                         withParent(withParent(withId(R.id.classesRecyclerView))),
                         isDisplayed()));
-        //textView4.check(matches(withText("11")));
     }
 
     private static Matcher<View> childAtPosition(
