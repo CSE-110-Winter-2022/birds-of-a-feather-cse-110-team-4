@@ -65,7 +65,6 @@ public class MultiWayComparator implements Comparator {
 
             // Grab Relevant Class Details
             String size = courseDetails[4];
-
             // Calculate weight
             if (size.equals("Tiny")) {
                 score += 1;
@@ -76,10 +75,11 @@ public class MultiWayComparator implements Comparator {
             } else if (size.equals("Large")) {
                 score += .1;
             } else if (size.equals("Huge")) {
-                size += .06;
+                score += .06;
             } else if (size.equals("Gigantic")) {
                 score += .03;
             }
+            System.out.println(person.getName() + score);
         }
 
         return score;
@@ -93,9 +93,9 @@ public class MultiWayComparator implements Comparator {
         else if( ((PersonWithCourses)p2).getWaveFrom() )
             return 1;
         if (option.equals("Prioritize Recent")) {
-            return sizePriorityScore((PersonWithCourses) p1) > sizePriorityScore((PersonWithCourses) p2) ? -1 : 1;
-        } else if (option.equals("Prioritize Small Classes")) {
             return recentPriorityScore((PersonWithCourses)p1) > recentPriorityScore((PersonWithCourses)p2) ? -1 : 1;
+        } else if (option.equals("Prioritize Small Classes")) {
+            return sizePriorityScore((PersonWithCourses) p1) > sizePriorityScore((PersonWithCourses) p2) ? -1 : 1;
         }
         //Default Option
         return (((PersonWithCourses)p2).getCourses().size() - ((PersonWithCourses)p1).getCourses().size());
