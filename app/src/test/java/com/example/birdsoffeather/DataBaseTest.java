@@ -131,26 +131,4 @@ public class DataBaseTest {
         db.personsWithCoursesDao().update(newPerson);
         Assert.assertEquals(true, db.personsWithCoursesDao().get("0").getFavStatus());
     }
-
-    @RunWith(AndroidJUnit4.class)
-    public static class FavoriteTest {
-        Context context = ApplicationProvider.getApplicationContext();
-        AppDatabase db = AppDatabase.singleton(context);
-        Person favoritePerson1 = new Person("0", "Test Name 1",
-                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
-                        "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
-                        "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
-                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, true);
-        Person favoritePerson2 = new Person("1", "Test Name 2",
-                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
-                        "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
-                        "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
-                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, true);
-        Person unFavoritePerson1 = new Person("2", "Test Name 1",
-                "https://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-P" +
-                        "zLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8" +
-                        "LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4" +
-                        "XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0", false, false, false);
-
-    }
 }
