@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
             userID = db.userIdDao().get(0).getUUID();
-            System.out.println(userID);
         }
     }
 

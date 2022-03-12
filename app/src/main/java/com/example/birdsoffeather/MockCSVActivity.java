@@ -89,7 +89,6 @@ public class MockCSVActivity extends AppCompatActivity {
         for (int i = 3; i < student.size(); i++) {
             String newCourse = student.get(i);
             courses.add(newCourse);
-            System.out.println(newCourse);
         }
         info = "";
         //get user's courses for comparing

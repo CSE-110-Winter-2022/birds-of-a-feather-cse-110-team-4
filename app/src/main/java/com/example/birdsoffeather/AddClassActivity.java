@@ -111,7 +111,6 @@ public class AddClassActivity extends AppCompatActivity implements AdapterView.O
             course = courseView.getText().toString();
             Class newClass = new Class( selectedYear, selectedQuarter, subject, course, selectedSize);
             String classInfo = newClass.toData();
-            System.out.println(classInfo);
             Courses newCourse = new Courses(newNodeId,personId, classInfo);
             db.coursesDao().insert(newCourse);
             adapter.addClass(newCourse);

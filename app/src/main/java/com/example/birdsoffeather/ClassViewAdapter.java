@@ -57,7 +57,6 @@ public class ClassViewAdapter extends RecyclerView.Adapter<ClassViewAdapter.View
 
         //set the ViewHolder according to the courses we get
         if(splitStr.length != 0) {
-            System.out.println("In setting Text");
             TextView yrTextView = holder.year;
             yrTextView.setText(splitStr[0]);
             TextView qtTextView = holder.quarter;

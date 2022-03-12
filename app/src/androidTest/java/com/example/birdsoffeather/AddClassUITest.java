@@ -1,26 +1,24 @@
 package com.example.birdsoffeather;
 
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -35,13 +33,13 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ClassSizeTest {
+public class AddClassUITest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void classSizeTest() {
+    public void addClassUITest() {
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.loginButton), withText("LOGIN"),
                         childAtPosition(
@@ -63,40 +61,6 @@ public class ClassSizeTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction appCompatSpinner = onView(
-                allOf(withId(R.id.QuarterDropDown),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatSpinner.perform(click());
-
-        DataInteraction appCompatCheckedTextView = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(1);
-        appCompatCheckedTextView.perform(click());
-
-        ViewInteraction appCompatSpinner2 = onView(
-                allOf(withId(R.id.YearDropDown),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatSpinner2.perform(click());
-
-        DataInteraction appCompatCheckedTextView2 = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(1);
-        appCompatCheckedTextView2.perform(click());
-
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.editSubject),
                         childAtPosition(
@@ -115,24 +79,7 @@ public class ClassSizeTest {
                                         0),
                                 6),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("100"), closeSoftKeyboard());
-
-        ViewInteraction appCompatSpinner3 = onView(
-                allOf(withId(R.id.ClassSizeDropDown),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                10),
-                        isDisplayed()));
-        appCompatSpinner3.perform(click());
-
-        DataInteraction appCompatCheckedTextView3 = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(1);
-        appCompatCheckedTextView3.perform(click());
+        appCompatEditText2.perform(replaceText("30"), closeSoftKeyboard());
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(R.id.AddClassButton), withText("Add Class"),
@@ -145,16 +92,17 @@ public class ClassSizeTest {
         materialButton3.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.quarter_row_txt), withText("WI"),
+                allOf(withId(R.id.quarter_row_txt), withText("FA"),
                         withParent(withParent(withId(R.id.classesRecyclerView))),
                         isDisplayed()));
-        textView.check(matches(withText("WI")));
+        textView.check(matches(withText("FA")));
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.size_row_txt), withText("S"),
-                        withParent(withParent(withId(R.id.classesRecyclerView))),
-                        isDisplayed()));
-        textView2.check(matches(withText("S")));
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.classesRecyclerView),
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
     }
 
     private static Matcher<View> childAtPosition(
