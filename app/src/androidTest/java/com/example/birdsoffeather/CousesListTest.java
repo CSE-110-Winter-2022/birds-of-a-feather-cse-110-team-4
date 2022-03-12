@@ -1,50 +1,49 @@
 package com.example.birdsoffeather;
 
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.pressBack;
-import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.swipeLeft;
-import static androidx.test.espresso.action.ViewActions.swipeRight;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+
+import static androidx.test.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static androidx.test.espresso.action.ViewActions.*;
+import static androidx.test.espresso.assertion.ViewAssertions.*;
+import static androidx.test.espresso.matcher.ViewMatchers.*;
+
+import com.example.birdsoffeather.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.is;
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FavoriteActivityTest {
+public class CousesListTest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void favoriteActivityTest() {
+    public void cousesListTest() {
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.loginButton), withText("LOGIN"),
                         childAtPosition(
@@ -66,6 +65,40 @@ public class FavoriteActivityTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.QuarterDropDown),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                1),
+                        isDisplayed()));
+        appCompatSpinner.perform(click());
+
+        DataInteraction appCompatCheckedTextView = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(1);
+        appCompatCheckedTextView.perform(click());
+
+        ViewInteraction appCompatSpinner2 = onView(
+                allOf(withId(R.id.YearDropDown),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatSpinner2.perform(click());
+
+        DataInteraction appCompatCheckedTextView2 = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(4);
+        appCompatCheckedTextView2.perform(click());
+
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.editSubject),
                         childAtPosition(
@@ -74,7 +107,7 @@ public class FavoriteActivityTest {
                                         0),
                                 5),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Cse"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("CSE"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.editCourse),
@@ -84,17 +117,24 @@ public class FavoriteActivityTest {
                                         0),
                                 6),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("30"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("110"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.editCourse), withText("30"),
+        ViewInteraction appCompatSpinner3 = onView(
+                allOf(withId(R.id.ClassSizeDropDown),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                6),
+                                10),
                         isDisplayed()));
-        appCompatEditText3.perform(pressImeActionButton());
+        appCompatSpinner3.perform(click());
+
+        DataInteraction appCompatCheckedTextView3 = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(3);
+        appCompatCheckedTextView3.perform(click());
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(R.id.AddClassButton), withText("Add Class"),
@@ -107,84 +147,43 @@ public class FavoriteActivityTest {
         materialButton3.perform(click());
 
         ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.DoneButton), withText("Go to Search"),
+                allOf(withId(R.id.ClassList), withText("Classes List"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                8),
+                                12),
                         isDisplayed()));
         materialButton4.perform(click());
 
         ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.MockButton), withText("Mock with students"),
+                allOf(withId(R.id.removeClassButton), withText("->"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.ClassesList),
+                                        0),
+                                5),
                         isDisplayed()));
         materialButton5.perform(click());
 
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.studentInfo),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatEditText4.perform(replaceText("Bill,,,\nhttps://lh3.googleusercontent.com/pw/AM-JKLXQ2ix4dg-PzLrPOSMOOy6M3PSUrijov9jCLXs4IGSTwN73B4kr-F6Nti_4KsiUU8LzDSGPSWNKnFdKIPqCQ2dFTRbARsW76pevHPBzc51nceZDZrMPmDfAYyI4XNOnPrZarGlLLUZW9wal6j-z9uA6WQ=w854-h924-no?authuser=0,,,\n2018,FA,CSE,30,Tiny (1-40)\n2021,WI,CSE,101,Small (40-75)"), closeSoftKeyboard());
-
         ViewInteraction materialButton6 = onView(
-                allOf(withId(R.id.addStudentButton), withText("Add Student"),
+                allOf(withId(R.id.Back), withText("Back"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                1),
+                                3),
                         isDisplayed()));
         materialButton6.perform(click());
 
-        materialButton6.perform(pressBack());
+        pressBack();
 
-        /*
-        ViewInteraction materialButton8 = onView(
-                allOf(withId(R.id.searchButton), withText("search"),
-                        isDisplayed()));
-        materialButton8.perform(click());
-
-        ViewInteraction appCompatImageView = onView(
-                allOf(withId(R.id.person_row_fav),
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.classesRecyclerView),
                         childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.FrameLayout")),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatImageView.perform(click());
-
-        ViewInteraction appCompatImageView2 = onView(
-                allOf(withId(R.id.person_row_fav),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.FrameLayout")),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatImageView2.perform(click());
-
-        ViewInteraction appCompatImageView3 = onView(
-                allOf(withId(R.id.person_row_fav),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.FrameLayout")),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatImageView3.perform(click());
-
-        ViewInteraction imageView = onView(
-                allOf(withId(R.id.person_row_fav),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
-                        isDisplayed()));
-        imageView.check(matches(isDisplayed()));
-         */
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
     }
 
     private static Matcher<View> childAtPosition(
