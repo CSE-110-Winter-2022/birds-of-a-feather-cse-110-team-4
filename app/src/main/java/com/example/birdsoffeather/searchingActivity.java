@@ -100,25 +100,8 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_searching);
         setTitle("Searching");
 
-        //Initialize accessibility toggle
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.visibilityToggle);
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    accessibility = true;
-                    Activity host = (Activity) findViewById(R.id.visibilityToggle).getContext();
-                    Button b = findViewById(R.id.searchButton);
-                    if(host != null && b.getText() == "Stop") {
-                        Nearby.getMessagesClient(host).publish(msg,publishOptions).addOnFailureListener(e -> {
-                            Log.d(TAG, "failure publishing");
-                        });
-                        Log.d(TAG, "My info published");
-                    }
-                } else {
-                    accessibility = false;
-                }
-            }
-        });
+        //create a message
+
         //initialize local database
         db = AppDatabase.singleton(this);
         myUUID = db.userIdDao().get(0).getUUID();
@@ -128,9 +111,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                 studentList.remove(i);
             }
         }
-        System.out.println(myUUID);
         personRecyclerView = findViewById(R.id.search_recycler_view);
-
         personLayoutManager = new LinearLayoutManager(this);
         personRecyclerView.setLayoutManager(personLayoutManager);
 
@@ -149,24 +130,6 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         msg = new Message(myInfoStr.getBytes());
     }
 
-    //Creates the string of current user's info, to be sent to other users via nearby msg
-    private String createMyInfoStr() {
-        AppDatabase db = AppDatabase.singleton(this);
-        //get my courses
-        List<String> myCourses = db.personsWithCoursesDao().get(myUUID).getCourses();
-        //get my name and url
-        String str = db.personsWithCoursesDao().get(myUUID).getName();
-        str += ",,,\n";
-        str += db.personsWithCoursesDao().get(myUUID).getURL() + ",,,\n";
-        //add all courses into string
-        for(int i = 0; i < myCourses.size(); i++) {
-            String[] split = myCourses.get(i).split(" ");
-            str += split[0] + ","+ split[1] + "," + split[2] + ","+ split[3] + ","+ split[4];
-            if(i != myCourses.size() - 1)
-                str += "\n";
-        }
-        return str;
-    }
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
@@ -190,13 +153,6 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
     }
 
-    public String[] courseDetails(String course) {
-        String[] splitStr = course.split(" ");
-        return splitStr;
-    }
-
-
-
     //search the nearby student who has taken same classes with the user
     public void searchonClick(View view) {
         Button btn = findViewById(R.id.searchButton);
@@ -207,7 +163,6 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             isSearching = !isSearching;
             personRecyclerView.setAdapter(peopleViewAdapter);
 
-            //Continously send myinfoStr
             MessageListener realListener = new MessageListener() {
                 //Onfound msg: check if msg is wave or not, if wave, store wave, if not, store student
                 @Override
@@ -273,17 +228,6 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
                     }
                 }
 
-                //Compare my course and the entered student's course, store matching course in matches
-                private void compareCourses(List<String> c1, List<String> c2, List<String> matches) {
-                    for(String str: c2) {
-                        System.out.println(str);
-                        System.out.println(c1.get(0));
-                        if(c1.contains(str)) {
-                            matches.add(str);
-                        }
-                    }
-                }
-
                 @Override
                 public void onLost(@NonNull Message message) {
                     Log.d(TAG, "lost message");
@@ -291,12 +235,8 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
 
             };
             this.messageListener = realListener;
-            //this.messageListener = new MsgListener(realListener, 5, myInfoStr);
             if(accessibility) {
-                Nearby.getMessagesClient(this).publish(msg,publishOptions).addOnFailureListener(e -> {
-                    Log.d(TAG, "failure publishing");
-                });
-                Log.d(TAG, "My info published" + myInfoStr);
+               publish();
             }
             Nearby.getMessagesClient(this).subscribe(messageListener,subOptions);
             Log.d(TAG, "Message listener subscribed");
@@ -307,7 +247,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
             btn.setText("Start");
             //unsubscribe msg listener
             Nearby.getMessagesClient(this).unpublish(msg);
-            Log.d(TAG, "My info unpublished" + myInfoStr);
+            Log.d(TAG, "My info unpublished\n" + myInfoStr);
             Nearby.getMessagesClient(this).unsubscribe(messageListener);
             Log.d(TAG, "Message listener unsubscribed");
             //pop up window & save session
@@ -356,6 +296,49 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    //Compare my course and the entered student's course, store matching course in matches
+    private void compareCourses(List<String> c1, List<String> c2, List<String> matches) {
+        for(String str: c2) {
+            System.out.println(str);
+            System.out.println(c1.get(0));
+            if(c1.contains(str)) {
+                matches.add(str);
+            }
+        }
+    }
+
+    private void publish() {
+        Log.i(TAG, "Publishing");
+        PublishOptions options = new PublishOptions.Builder()
+                .setStrategy(PUB_SUB_STRATEGY)
+                .build();
+
+
+        Nearby.getMessagesClient(this).publish(msg, options)
+                .addOnFailureListener(e -> {
+                    Log.d(TAG, "failure publishing");
+                });
+        Log.d(TAG, "my info publishing\n" + myInfoStr);
+    }
+
+    //Creates the string of current user's info, to be sent to other users via nearby msg
+    private String createMyInfoStr() {
+        AppDatabase db = AppDatabase.singleton(this);
+        //get my courses
+        List<String> myCourses = db.personsWithCoursesDao().get(myUUID).getCourses();
+        //get my name and url
+        String str = db.personsWithCoursesDao().get(myUUID).getName();
+        str += ",,,\n";
+        str += db.personsWithCoursesDao().get(myUUID).getURL() + ",,,\n";
+        //add all courses into string
+        for(int i = 0; i < myCourses.size(); i++) {
+            String[] split = myCourses.get(i).split(" ");
+            str += split[0] + ","+ split[1] + "," + split[2] + ","+ split[3] + ","+ split[4];
+            if(i != myCourses.size() - 1)
+                str += "\n";
+        }
+        return str;
+    }
 
     //Go Back
     public void backonClick(View view) {
@@ -371,4 +354,7 @@ public class searchingActivity extends AppCompatActivity implements AdapterView.
         startActivity(intent);
     }
 
+    public void toggleOnClick(View view) {
+        accessibility = !accessibility;
+    }
 }

@@ -60,7 +60,6 @@ public class ClassDetialsActivity extends AppCompatActivity {
         for(int i = studentList.size() - 1; i >= 0; i--){
             List<Courses> courses = db.coursesDao().gerForPerson(studentList.get(i).getId());
             for(Courses course: courses){
-                System.out.println(course.course);
                 if(isSameCourse(course)){
                     classmates.add(studentList.get(i));
                 }

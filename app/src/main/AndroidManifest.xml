@@ -20,7 +20,7 @@
 
         <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
-            android:value="AIzaSyCJUUOyyeQZWNKuDMyH9svH2FyQ6O0E2cM" />
+            android:value="AIzaSyDFUQcSTphq_Cq0BitQW4zLx12twjva3SY" />
 
         <activity
             android:name=".studentInfo"
