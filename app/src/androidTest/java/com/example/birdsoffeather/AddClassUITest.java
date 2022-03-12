@@ -1,26 +1,24 @@
 package com.example.birdsoffeather;
 
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -35,13 +33,13 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AddClassSavePreviousTest {
+public class AddClassUITest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void AddClassSavePreviousTest() {
+    public void addClassUITest() {
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.loginButton), withText("LOGIN"),
                         childAtPosition(
@@ -63,40 +61,6 @@ public class AddClassSavePreviousTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction appCompatSpinner = onView(
-                allOf(withId(R.id.QuarterDropDown),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatSpinner.perform(click());
-
-        DataInteraction appCompatCheckedTextView = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(1);
-        appCompatCheckedTextView.perform(click());
-
-        ViewInteraction appCompatSpinner2 = onView(
-                allOf(withId(R.id.YearDropDown),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatSpinner2.perform(click());
-
-        DataInteraction appCompatCheckedTextView2 = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(1);
-        appCompatCheckedTextView2.perform(click());
-
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.editSubject),
                         childAtPosition(
@@ -115,7 +79,7 @@ public class AddClassSavePreviousTest {
                                         0),
                                 6),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("12"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("30"), closeSoftKeyboard());
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(R.id.AddClassButton), withText("Add Class"),
@@ -127,17 +91,18 @@ public class AddClassSavePreviousTest {
                         isDisplayed()));
         materialButton3.perform(click());
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.editSubject), withText("cse"),
-                        withParent(withParent(withId(android.R.id.content))),
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.quarter_row_txt), withText("FA"),
+                        withParent(withParent(withId(R.id.classesRecyclerView))),
                         isDisplayed()));
-        editText.check(matches(withText("cse")));
+        textView.check(matches(withText("FA")));
 
-        ViewInteraction editText2 = onView(
-                allOf(withId(R.id.editCourse), withText("Number"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        //editText2.check(matches(withText("")));
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.classesRecyclerView),
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
     }
 
     private static Matcher<View> childAtPosition(

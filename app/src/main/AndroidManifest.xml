@@ -22,6 +22,7 @@
             android:name="com.google.android.nearby.messages.API_KEY"
             android:value="AIzaSyDFUQcSTphq_Cq0BitQW4zLx12twjva3SY" />
 
+
         <activity
             android:name=".studentInfo"
             android:exported="false" />
